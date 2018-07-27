@@ -16,7 +16,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var dictPlanes = [ARPlaneAnchor: Plane]()
     
     // distance label
-    @IBOutlet weak var lblMeasurementDetails : UILabel!
+//    @IBOutlet weak var lblMeasurementDetails : UILabel!
+    
+    var arrayOfVertices: [SCNVector3] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +34,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         self.sceneView.delegate = self
         
         // showing statistics (fps, timing info)
-        self.sceneView.showsStatistics = true
         self.sceneView.autoenablesDefaultLighting = true
         
         // debug points
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // create new scene
         let scene = SCNScene()
@@ -58,6 +59,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             sceneView.scene.rootNode.addChildNode(node)
             // set start node
             startNode = node
+            
+            arrayOfVertices.append((startNode?.position)!)
+            print(arrayOfVertices)
+            
             if secondNode == true{
                 guard let currentPosition = endNode,
                     let start = startPoint else {
@@ -115,9 +120,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         // create sphere geometry with radius
         let sphere = SCNSphere(radius: 0.003)
         // set color
-        sphere.firstMaterial?.diffuse.contents = UIColor(red: 255/255.0,
-                                                         green: 255/255.0,
-                                                         blue: 255/255.0,
+        sphere.firstMaterial?.diffuse.contents = UIColor(red: 255.0/255.0,
+                                                         green: 255.0/255.0,
+                                                         blue: 255.0/255.0,
                                                          alpha: 1)
         // set lighting model
         sphere.firstMaterial?.lightingModel = .constant
@@ -204,15 +209,15 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             
             
             // distance-string
-            self.desc = self.getDistanceStringBeween(pos1: currentPosition,
-                                                    pos2: start.position)
-            
-            self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
-
-            
-            DispatchQueue.main.async {
-                self.lblMeasurementDetails.text = self.desc
-            }
+//            self.desc = self.getDistanceStringBeween(pos1: currentPosition,
+//                                                    pos2: start.position)
+//            
+//            self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
+//
+//            
+//            DispatchQueue.main.async {
+//                self.lblMeasurementDetails.text = self.desc
+//            }
         }
     }
     
@@ -225,6 +230,11 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         textNode.position = position
         textNode.rotation = SCNVector4(1,0,0,Double.pi/(-2))
         textNode.scale = SCNVector3(0.002,0.002,0.002)
+        for material in (textNode.geometry?.materials)! {
+            material.lightingModel = .constant
+            material.diffuse.contents = UIColor.white
+            material.isDoubleSided = false
+        }
         
         self.sceneView.scene.rootNode.addChildNode(textNode)
     }
@@ -234,9 +244,17 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                           toPos2: SCNVector3) -> SCNNode {
         
         let line = lineFrom(vector: pos1, toVector: toPos2)
+        
+        for material in line.materials {
+            material.lightingModel = .constant
+            material.diffuse.contents = UIColor.white
+            material.isDoubleSided = false
+        }
+        
         let lineInBetween1 = SCNNode(geometry: line)
         
         return lineInBetween1
+        
     }
     
     // get line geometry between two vectors
