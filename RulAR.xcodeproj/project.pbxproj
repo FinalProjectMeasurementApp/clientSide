@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		026C43D1210AFD1500C16F6F /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 026C43D0210AFD1500C16F6F /* launchscreen.png */; };
+		026C43D3210AFD1E00C16F6F /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 026C43D2210AFD1E00C16F6F /* button2.png */; };
 		309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88B2109B08E004DB6D3 /* AppDelegate.swift */; };
 		309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88D2109B08E004DB6D3 /* ViewController.swift */; };
 		309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309CF88F2109B08E004DB6D3 /* Main.storyboard */; };
@@ -18,6 +20,8 @@
 		309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */ = {isa = PBXBuildFile; fileRef = 309CF8BB2109B296004DB6D3 /* focus_square.png */; };
 		309CF8BE2109B296004DB6D3 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 309CF8BC2109B296004DB6D3 /* add.png */; };
 		309CF8C02109B812004DB6D3 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF8BF2109B812004DB6D3 /* Plane.swift */; };
+		A56C45FA210A172100252D1F /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C45F9210A172100252D1F /* HomeController.swift */; };
+		A59E7C882109FE0C001C1D9E /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59E7C872109FE0C001C1D9E /* InputController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		026C43D0210AFD1500C16F6F /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
+		026C43D2210AFD1E00C16F6F /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		309CF8882109B08E004DB6D3 /* RulAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RulAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309CF88B2109B08E004DB6D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		309CF88D2109B08E004DB6D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +61,8 @@
 		309CF8BB2109B296004DB6D3 /* focus_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focus_square.png; sourceTree = "<group>"; };
 		309CF8BC2109B296004DB6D3 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		309CF8BF2109B812004DB6D3 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		A56C45F9210A172100252D1F /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		A59E7C872109FE0C001C1D9E /* InputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +114,12 @@
 			isa = PBXGroup;
 			children = (
 				309CF88B2109B08E004DB6D3 /* AppDelegate.swift */,
+				026C43D0210AFD1500C16F6F /* launchscreen.png */,
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
+				026C43D2210AFD1E00C16F6F /* button2.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
+				A56C45F9210A172100252D1F /* HomeController.swift */,
+				A59E7C872109FE0C001C1D9E /* InputController.swift */,
 				309CF88F2109B08E004DB6D3 /* Main.storyboard */,
 				309CF8BC2109B296004DB6D3 /* add.png */,
 				309CF8BB2109B296004DB6D3 /* focus_square.png */,
@@ -243,10 +255,12 @@
 			files = (
 				309CF8962109B08F004DB6D3 /* LaunchScreen.storyboard in Resources */,
 				309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */,
+				026C43D3210AFD1E00C16F6F /* button2.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
+				026C43D1210AFD1500C16F6F /* launchscreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,9 +285,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A59E7C882109FE0C001C1D9E /* InputController.swift in Sources */,
 				309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */,
 				309CF8C02109B812004DB6D3 /* Plane.swift in Sources */,
 				309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */,
+				A56C45FA210A172100252D1F /* HomeController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,13 +463,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 76S5M4U4NF;
+				DEVELOPMENT_TEAM = 5A6FMYBMJ4;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
+				PRODUCT_BUNDLE_IDENTIFIER = justin.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -465,13 +481,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 76S5M4U4NF;
+				DEVELOPMENT_TEAM = 5A6FMYBMJ4;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
+				PRODUCT_BUNDLE_IDENTIFIER = justin.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
