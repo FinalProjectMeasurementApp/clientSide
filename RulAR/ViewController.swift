@@ -16,7 +16,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var dictPlanes = [ARPlaneAnchor: Plane]()
     
     // distance label
-    @IBOutlet weak var lblMeasurementDetails : UILabel!
+//    @IBOutlet weak var lblMeasurementDetails : UILabel!
+    
+    var arrayOfVertices: [SCNVector3] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +34,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         self.sceneView.delegate = self
         
         // showing statistics (fps, timing info)
-        self.sceneView.showsStatistics = true
         self.sceneView.autoenablesDefaultLighting = true
         
         // debug points
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // create new scene
         let scene = SCNScene()
@@ -46,17 +47,51 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     // start node
     var startNode: SCNNode?
-    
+    var secondNode: Bool = false
+    var endNode: SCNVector3?
+    var beginningPoint: SCNVector3?
     //MARK: - Action
     @IBAction func onAddButtonClick(_ sender: UIButton) {
-        
+        let startPoint = startNode
         if let position = self.doHitTestOnExistingPlanes() {
             // add node at hit-position
             let node = self.nodeWithPosition(position)
             sceneView.scene.rootNode.addChildNode(node)
-            
             // set start node
             startNode = node
+            
+            arrayOfVertices.append((startNode?.position)!)
+            print(arrayOfVertices)
+            
+            if secondNode == true{
+                guard let currentPosition = endNode,
+                    let start = startPoint else {
+                        return
+                }
+                // line-node
+                //            self.line_node?.removeFromParentNode()
+                self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+                                                       toPos2: start.position)
+                
+                sceneView.scene.rootNode.addChildNode(self.line_node!)
+                
+                let firstPointToPrev = start.position
+                let toBeMadePoint = currentPosition
+                
+                let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
+                
+                let result = sqrt(position.x*position.x + position.z*position.z)
+                
+                let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+                
+                self.display(distance: result, position: centerPoint)
+                
+            } else {
+                beginningPoint = startNode?.position
+            }
+        }
+        if secondNode == false {
+            secondNode = true
         }
     }
     
@@ -85,9 +120,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         // create sphere geometry with radius
         let sphere = SCNSphere(radius: 0.003)
         // set color
-        sphere.firstMaterial?.diffuse.contents = UIColor(red: 0/255.0,
-                                                         green: 0/255.0,
-                                                         blue: 0/255.0,
+        sphere.firstMaterial?.diffuse.contents = UIColor(red: 255.0/255.0,
+                                                         green: 255.0/255.0,
+                                                         blue: 255.0/255.0,
                                                          alpha: 1)
         // set lighting model
         sphere.firstMaterial?.lightingModel = .constant
@@ -95,6 +130,21 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         // create node with 'sphere' geometry
         let node = SCNNode(geometry: sphere)
         node.position = position
+        
+        return node
+    }
+    
+    func saveLine () -> SCNNode {
+        let wideLine = SCNBox(width: 0.02, height: 0.02, length: 0.1, chamferRadius: 0.01)
+        
+        wideLine.firstMaterial?.diffuse.contents = UIColor(red: 255/255.0,
+                                                         green: 255/255.0,
+                                                         blue: 255/255.0,
+                                                         alpha: 1)
+        
+        wideLine.firstMaterial?.lightingModel = .constant
+        wideLine.firstMaterial?.isDoubleSided = true
+        let node = SCNNode(geometry: wideLine)
         
         return node
     }
@@ -128,6 +178,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     // line-node
     var line_node: SCNNode?
+    var desc: String?
+    var centimeterVal: Float?
+    var lineToEnd: SCNNode?
     
     // renderer callback method
     func renderer(_ renderer: SCNSceneRenderer,
@@ -137,23 +190,53 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             // get current hit position
             // and check if start-node is available
             guard let currentPosition = self.doHitTestOnExistingPlanes(),
-                let start = self.startNode else {
+                let start = self.startNode,
+                let beginningNode = self.beginningPoint else {
                     return
             }
             
+            self.endNode = currentPosition
+            
             // line-node
+            self.lineToEnd?.removeFromParentNode()
             self.line_node?.removeFromParentNode()
+            self.lineToEnd = self.getDrawnLineFrom(pos1: currentPosition, toPos2: beginningNode)
             self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                    toPos2: start.position)
+            
             self.sceneView.scene.rootNode.addChildNode(self.line_node!)
+            self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
+            
             
             // distance-string
-            let desc = self.getDistanceStringBeween(pos1: currentPosition,
-                                                    pos2: start.position)
-            DispatchQueue.main.async {
-                self.lblMeasurementDetails.text = desc
-            }
+//            self.desc = self.getDistanceStringBeween(pos1: currentPosition,
+//                                                    pos2: start.position)
+//            
+//            self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
+//
+//            
+//            DispatchQueue.main.async {
+//                self.lblMeasurementDetails.text = self.desc
+//            }
         }
+    }
+    
+    private func display(distance: Float,position :SCNVector3) {
+        
+        let textGeo = SCNText(string: "\(distance) m", extrusionDepth: 1.0)
+        textGeo.firstMaterial?.diffuse.contents = UIColor.black
+        
+        let textNode = SCNNode(geometry: textGeo)
+        textNode.position = position
+        textNode.rotation = SCNVector4(1,0,0,Double.pi/(-2))
+        textNode.scale = SCNVector3(0.002,0.002,0.002)
+        for material in (textNode.geometry?.materials)! {
+            material.lightingModel = .constant
+            material.diffuse.contents = UIColor.white
+            material.isDoubleSided = false
+        }
+        
+        self.sceneView.scene.rootNode.addChildNode(textNode)
     }
     
     // draw line-node between two vectors
@@ -161,8 +244,17 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                           toPos2: SCNVector3) -> SCNNode {
         
         let line = lineFrom(vector: pos1, toVector: toPos2)
+        
+        for material in line.materials {
+            material.lightingModel = .constant
+            material.diffuse.contents = UIColor.white
+            material.isDoubleSided = false
+        }
+        
         let lineInBetween1 = SCNNode(geometry: line)
+        
         return lineInBetween1
+        
     }
     
     // get line geometry between two vectors

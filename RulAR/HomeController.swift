@@ -46,7 +46,7 @@ class HomeController : UIViewController{
                 let shape = try
                     JSONDecoder().decode([Shape].self, from: data)
                 print("shape nameeeeee ",shape)
-
+                
             }catch let jsonErr {
                 print("Erroor",jsonErr)
                 print("response", response!)
