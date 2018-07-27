@@ -18,7 +18,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     // distance label
 //    @IBOutlet weak var lblMeasurementDetails : UILabel!
     
-    var arrayOfVertices: [SCNVector3] = []
+    var coordinates: [SCNVector3] = []
+    var areaValue: Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,16 +61,15 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             // set start node
             startNode = node
             
-            arrayOfVertices.append((startNode?.position)!)
-            print(arrayOfVertices)
+            coordinates.append((startNode?.position)!)
+            print(coordinates)
             
-            if secondNode == true{
+            if secondNode == true {
                 guard let currentPosition = endNode,
                     let start = startPoint else {
                         return
                 }
-                // line-node
-                //            self.line_node?.removeFromParentNode()
+                
                 self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                        toPos2: start.position)
                 
@@ -86,6 +86,11 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 
                 self.display(distance: result, position: centerPoint)
                 
+                areaValue = calculateArea(coordinates)
+                
+                print("area value")
+                print("\(areaValue) cm2")
+                
             } else {
                 beginningPoint = startNode?.position
             }
@@ -93,6 +98,19 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         if secondNode == false {
             secondNode = true
         }
+    }
+    
+    func calculateArea(_ coordinates: [SCNVector3]) -> Float {
+        var area: Float = 0
+        var coordinateTwo: SCNVector3 = coordinates.last!
+        
+        for coordinate in coordinates {
+            area += (coordinate.x * coordinateTwo.z)
+            area -= (coordinate.z * coordinateTwo.x)
+            coordinateTwo = coordinate
+        }
+        
+        return abs(area * 10000 / 2)
     }
     
     func doHitTestOnExistingPlanes() -> SCNVector3? {
@@ -207,17 +225,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             self.sceneView.scene.rootNode.addChildNode(self.line_node!)
             self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
             
-            
-            // distance-string
-//            self.desc = self.getDistanceStringBeween(pos1: currentPosition,
-//                                                    pos2: start.position)
-//            
-//            self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
-//
-//            
-//            DispatchQueue.main.async {
-//                self.lblMeasurementDetails.text = self.desc
-//            }
         }
     }
     
