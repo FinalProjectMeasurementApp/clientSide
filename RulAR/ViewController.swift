@@ -18,6 +18,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     // distance label
     @IBOutlet weak var lblMeasurementDetails : UILabel!
     
+    var arrayOfVertices: [SCNVector3] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,17 +48,43 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     // start node
     var startNode: SCNNode?
-    
+    var secondNode: Bool = false
+    var endNode: SCNVector3?
+    var beginningPoint: SCNVector3?
     //MARK: - Action
     @IBAction func onAddButtonClick(_ sender: UIButton) {
-        
+        let startPoint = startNode
         if let position = self.doHitTestOnExistingPlanes() {
             // add node at hit-position
             let node = self.nodeWithPosition(position)
             sceneView.scene.rootNode.addChildNode(node)
-            
             // set start node
             startNode = node
+            
+            arrayOfVertices.append((startNode?.position)!)
+            print(arrayOfVertices)
+            
+            if secondNode == true{
+                guard let currentPosition = endNode,
+                    let start = startPoint else {
+                        return
+                }
+                // line-node
+                //            self.line_node?.removeFromParentNode()
+                self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+                                                       toPos2: start.position)
+                
+//                print(startNode?.position)
+                
+                sceneView.scene.rootNode.addChildNode(self.line_node!)
+                
+            } else {
+                print("from here")
+                beginningPoint = startNode?.position
+            }
+        }
+        if secondNode == false {
+            secondNode = true
         }
     }
     
@@ -99,6 +127,21 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         return node
     }
     
+    func saveLine () -> SCNNode {
+        let wideLine = SCNBox(width: 0.02, height: 0.02, length: 0.1, chamferRadius: 0.01)
+        
+        wideLine.firstMaterial?.diffuse.contents = UIColor(red: 255/255.0,
+                                                         green: 255/255.0,
+                                                         blue: 255/255.0,
+                                                         alpha: 1)
+        
+        wideLine.firstMaterial?.lightingModel = .constant
+        wideLine.firstMaterial?.isDoubleSided = true
+        let node = SCNNode(geometry: wideLine)
+        
+        return node
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // set up session
@@ -128,6 +171,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     // line-node
     var line_node: SCNNode?
+    var desc: String?
+    var centimeterVal: Float?
     
     // renderer callback method
     func renderer(_ renderer: SCNSceneRenderer,
@@ -141,20 +186,24 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     return
             }
             
+            self.endNode = currentPosition
+            
             // line-node
             self.line_node?.removeFromParentNode()
             self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                    toPos2: start.position)
+            
             self.sceneView.scene.rootNode.addChildNode(self.line_node!)
             
+            
             // distance-string
-            let desc = self.getDistanceStringBeween(pos1: currentPosition,
+            self.desc = self.getDistanceStringBeween(pos1: currentPosition,
                                                     pos2: start.position)
             
-            glLineWidth(20)
+            self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
             
             DispatchQueue.main.async {
-                self.lblMeasurementDetails.text = desc
+                self.lblMeasurementDetails.text = self.desc
             }
         }
     }
@@ -172,7 +221,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         }
         
         let lineInBetween1 = SCNNode(geometry: line)
-        
         
         return lineInBetween1
         
