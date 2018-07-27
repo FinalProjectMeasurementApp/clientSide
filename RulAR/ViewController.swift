@@ -85,9 +85,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         // create sphere geometry with radius
         let sphere = SCNSphere(radius: 0.003)
         // set color
-        sphere.firstMaterial?.diffuse.contents = UIColor(red: 0/255.0,
-                                                         green: 0/255.0,
-                                                         blue: 0/255.0,
+        sphere.firstMaterial?.diffuse.contents = UIColor(red: 255.0/255.0,
+                                                         green: 255.0/255.0,
+                                                         blue: 255.0/255.0,
                                                          alpha: 1)
         // set lighting model
         sphere.firstMaterial?.lightingModel = .constant
@@ -150,6 +150,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             // distance-string
             let desc = self.getDistanceStringBeween(pos1: currentPosition,
                                                     pos2: start.position)
+            
+            glLineWidth(20)
+            
             DispatchQueue.main.async {
                 self.lblMeasurementDetails.text = desc
             }
@@ -161,8 +164,18 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                           toPos2: SCNVector3) -> SCNNode {
         
         let line = lineFrom(vector: pos1, toVector: toPos2)
+        
+        for material in line.materials {
+            material.lightingModel = .constant
+            material.diffuse.contents = UIColor.white
+            material.isDoubleSided = false
+        }
+        
         let lineInBetween1 = SCNNode(geometry: line)
+        
+        
         return lineInBetween1
+        
     }
     
     // get line geometry between two vectors
