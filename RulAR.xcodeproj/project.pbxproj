@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02349CBD210AC3A100008212 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02349CBC210AC3A100008212 /* Assets.xcassets */; };
 		309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88B2109B08E004DB6D3 /* AppDelegate.swift */; };
 		309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88D2109B08E004DB6D3 /* ViewController.swift */; };
 		309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309CF88F2109B08E004DB6D3 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02349CBC210AC3A100008212 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		309CF8882109B08E004DB6D3 /* RulAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RulAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309CF88B2109B08E004DB6D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		309CF88D2109B08E004DB6D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
 				309CF88F2109B08E004DB6D3 /* Main.storyboard */,
+				02349CBC210AC3A100008212 /* Assets.xcassets */,
 				309CF8BC2109B296004DB6D3 /* add.png */,
 				309CF8BB2109B296004DB6D3 /* focus_square.png */,
 				309CF8B92109B287004DB6D3 /* grid.png */,
@@ -242,6 +245,7 @@
 				309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
+				02349CBD210AC3A100008212 /* Assets.xcassets in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -58,7 +58,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             sceneView.scene.rootNode.addChildNode(node)
             // set start node
             startNode = node
-            print(startNode?.position)
             if secondNode == true{
                 guard let currentPosition = endNode,
                     let start = startPoint else {
@@ -69,12 +68,20 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                        toPos2: start.position)
                 
-//                print(startNode?.position)
-                
                 sceneView.scene.rootNode.addChildNode(self.line_node!)
                 
+                let firstPointToPrev = start.position
+                let toBeMadePoint = currentPosition
+                
+                let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
+                
+                let result = sqrt(position.x*position.x + position.z*position.z)
+                
+                let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+                
+                self.display(distance: result, position: centerPoint)
+                
             } else {
-                print("from here")
                 beginningPoint = startNode?.position
             }
         }
@@ -168,6 +175,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var line_node: SCNNode?
     var desc: String?
     var centimeterVal: Float?
+    var lineToEnd: SCNNode?
     
     // renderer callback method
     func renderer(_ renderer: SCNSceneRenderer,
@@ -177,18 +185,22 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             // get current hit position
             // and check if start-node is available
             guard let currentPosition = self.doHitTestOnExistingPlanes(),
-                let start = self.startNode else {
+                let start = self.startNode,
+                let beginningNode = self.beginningPoint else {
                     return
             }
             
             self.endNode = currentPosition
             
             // line-node
+            self.lineToEnd?.removeFromParentNode()
             self.line_node?.removeFromParentNode()
+            self.lineToEnd = self.getDrawnLineFrom(pos1: currentPosition, toPos2: beginningNode)
             self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                    toPos2: start.position)
             
             self.sceneView.scene.rootNode.addChildNode(self.line_node!)
+            self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
             
             
             // distance-string
@@ -196,11 +208,25 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                                                     pos2: start.position)
             
             self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
+
             
             DispatchQueue.main.async {
                 self.lblMeasurementDetails.text = self.desc
             }
         }
+    }
+    
+    private func display(distance: Float,position :SCNVector3) {
+        
+        let textGeo = SCNText(string: "\(distance) m", extrusionDepth: 1.0)
+        textGeo.firstMaterial?.diffuse.contents = UIColor.black
+        
+        let textNode = SCNNode(geometry: textGeo)
+        textNode.position = position
+        textNode.rotation = SCNVector4(1,0,0,Double.pi/(-2))
+        textNode.scale = SCNVector3(0.002,0.002,0.002)
+        
+        self.sceneView.scene.rootNode.addChildNode(textNode)
     }
     
     // draw line-node between two vectors
