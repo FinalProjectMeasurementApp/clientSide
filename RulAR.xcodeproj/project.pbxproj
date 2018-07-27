@@ -258,6 +258,7 @@
 				026C43D3210AFD1E00C16F6F /* button2.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
+				3014E3C3210AFEB6002FBC60 /* button2.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
 				026C43D1210AFD1500C16F6F /* launchscreen.png in Resources */,

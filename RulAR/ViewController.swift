@@ -18,7 +18,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     // distance label
 //    @IBOutlet weak var lblMeasurementDetails : UILabel!
     
-    var arrayOfVertices: [SCNVector3] = []
+    var coordinates: [SCNVector3] = []
+    var areaValue: Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,13 +53,13 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var beginningPoint: SCNVector3?
     var measuringMode: Bool = true
     //MARK: - Action
+    @IBOutlet weak var areaText: UILabel!
     @IBAction func resetMeasure(_ sender: UIButton) {
         startNode = nil
         endNode = nil
         beginningPoint = nil
         secondNode = false
         sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
-            print(node)
             node.removeFromParentNode() }
         measuringMode = true
     }
@@ -74,9 +75,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 sceneView.scene.rootNode.addChildNode(node)
                 // set start node
                 startNode = node
-                
-                arrayOfVertices.append((startNode?.position)!)
-                print(arrayOfVertices)
+
+                coordinates.append((startNode?.position)!)
+                print(coordinates)
                 
                 if secondNode == true{
                     guard let currentPosition = endNode,
@@ -99,6 +100,12 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
                     
                     self.display(distance: result, position: centerPoint)
+
+
+                    areaValue = calculateArea(coordinates)
+                    
+                    areaText.text = "Area: \(((areaValue*100).rounded())/100)m2"
+                    
                     
                 } else {
                     beginningPoint = startNode?.position
@@ -108,6 +115,19 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 secondNode = true
             }
         }
+    }
+    
+    func calculateArea(_ coordinates: [SCNVector3]) -> Float {
+        var area: Float = 0
+        var coordinateTwo: SCNVector3 = coordinates.last!
+        
+        for coordinate in coordinates {
+            area += (coordinate.x * coordinateTwo.z)
+            area -= (coordinate.z * coordinateTwo.x)
+            coordinateTwo = coordinate
+        }
+        
+        return abs(area * 100 / 2)
     }
     
     func doHitTestOnExistingPlanes() -> SCNVector3? {
