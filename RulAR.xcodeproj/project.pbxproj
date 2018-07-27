@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3014E3C1210AFE58002FBC60 /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 3014E3BF210AFE58002FBC60 /* launchscreen.png */; };
+		3014E3C3210AFEB6002FBC60 /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3014E3C2210AFEB6002FBC60 /* button2.png */; };
 		309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88B2109B08E004DB6D3 /* AppDelegate.swift */; };
 		309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88D2109B08E004DB6D3 /* ViewController.swift */; };
 		309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309CF88F2109B08E004DB6D3 /* Main.storyboard */; };
@@ -19,8 +21,6 @@
 		309CF8BE2109B296004DB6D3 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 309CF8BC2109B296004DB6D3 /* add.png */; };
 		309CF8C02109B812004DB6D3 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF8BF2109B812004DB6D3 /* Plane.swift */; };
 		A56C45FA210A172100252D1F /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C45F9210A172100252D1F /* HomeController.swift */; };
-		A56C45FC210AC99900252D1F /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = A56C45FB210AC99900252D1F /* launchscreen.png */; };
-		A59E7C862109FB7E001C1D9E /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = A59E7C852109FB7E001C1D9E /* button2.png */; };
 		A59E7C882109FE0C001C1D9E /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59E7C872109FE0C001C1D9E /* InputController.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3014E3BF210AFE58002FBC60 /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
+		3014E3C2210AFEB6002FBC60 /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		309CF8882109B08E004DB6D3 /* RulAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RulAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309CF88B2109B08E004DB6D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		309CF88D2109B08E004DB6D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,8 +62,6 @@
 		309CF8BC2109B296004DB6D3 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		309CF8BF2109B812004DB6D3 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		A56C45F9210A172100252D1F /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
-		A56C45FB210AC99900252D1F /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchscreen.png; path = ../../../../launchscreen.png; sourceTree = "<group>"; };
-		A59E7C852109FB7E001C1D9E /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button2.png; path = ../../../../button2.png; sourceTree = "<group>"; };
 		A59E7C872109FE0C001C1D9E /* InputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,10 +121,10 @@
 				309CF88F2109B08E004DB6D3 /* Main.storyboard */,
 				309CF8BC2109B296004DB6D3 /* add.png */,
 				309CF8BB2109B296004DB6D3 /* focus_square.png */,
-				A56C45FB210AC99900252D1F /* launchscreen.png */,
+				3014E3C2210AFEB6002FBC60 /* button2.png */,
+				3014E3BF210AFE58002FBC60 /* launchscreen.png */,
 				309CF8B92109B287004DB6D3 /* grid.png */,
 				309CF8922109B08F004DB6D3 /* Assets.xcassets */,
-				A59E7C852109FB7E001C1D9E /* button2.png */,
 				309CF8942109B08F004DB6D3 /* LaunchScreen.storyboard */,
 				309CF8972109B08F004DB6D3 /* Info.plist */,
 			);
@@ -257,10 +257,10 @@
 				309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
+				3014E3C3210AFEB6002FBC60 /* button2.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
-				A56C45FC210AC99900252D1F /* launchscreen.png in Resources */,
-				A59E7C862109FB7E001C1D9E /* button2.png in Resources */,
+				3014E3C1210AFE58002FBC60 /* launchscreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,13 +463,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AXCF9X4Q67;
+				DEVELOPMENT_TEAM = 76S5M4U4NF;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testingarm;
+				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -481,13 +481,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AXCF9X4Q67;
+				DEVELOPMENT_TEAM = 76S5M4U4NF;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testingarm;
+				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
