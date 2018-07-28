@@ -17,12 +17,14 @@ import SceneKit
 //    let number_of_lessons: Int
 //}
 
+
+
 struct Shape: Decodable{
     let _id: String
     let name: String
     let area: Int
     let perimeter: Int
-    let coordinates:[String]
+    let coordinates:[SCNVector3]
     let createdAt: String
     let updatedAt: String
 }

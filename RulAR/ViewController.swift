@@ -22,6 +22,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var coordinates: [SCNVector3] = []
     var areaValue: Float = 0
     
+    var testCoordinate: [SCNVector3] = [SCNVector3(x: -0.252867877, y: 0.0111992061, z: -0.186102509), SCNVector3(x: -0.186894715, y: 0.0132495388, z: -0.122510508), SCNVector3(x: -0.182980567, y: -0.0396186635, z: -0.113561183), SCNVector3(x: -0.25373733, y: -0.0535521731, z: -0.180975109)]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,6 +67,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         measuringMode = true
     }
     @IBAction func FinishedMeasuring(_ sender: UIButton) {
+        print("coordinates: \(testCoordinate)")
+        print("area: \(areaValue)")
         measuringMode = false
     }
     @IBAction func onAddButtonClick(_ sender: UIButton) {
@@ -78,7 +82,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 startNode = node
 
                 coordinates.append((startNode?.position)!)
-                print(coordinates)
                 
                 if secondNode == true{
                     guard let currentPosition = endNode,
@@ -107,7 +110,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
                     
                     for coordinate in coordinates {
-                        print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
                         path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
                         
                     }

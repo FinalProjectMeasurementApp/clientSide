@@ -8,18 +8,37 @@
 
 import Foundation
 import UIKit
-
+import SceneKit
 
 //let session = URLSession(configuration: .ephemeral)
 //let task = session.dataTask(with: URL(string: "http://localhost:8000/user/add")!)
 //
 //var request = URLRequest(url: task)
 
+
+
+extension SCNVector3: Codable {
+    public init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        self.x = try container.decode(Float.self)
+        self.y = try container.decode(Float.self)
+        self.z = try container.decode(Float.self)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(self.x)
+        try container.encode(self.y)
+        try container.encode(self.z)
+    }
+}
+
 class UserInputController : UIViewController{
     
     
     var usernameTextValue : String!
-    
+    var testCoordinate: [SCNVector3] = [SCNVector3(x: -0.252867877, y: 0.0111992061, z: -0.186102509), SCNVector3(x: -0.186894715, y: 0.0132495388, z: -0.122510508), SCNVector3(x: -0.182980567, y: -0.0396186635, z: -0.113561183), SCNVector3(x: -0.25373733, y: -0.0535521731, z: -0.180975109)]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,12 +62,20 @@ class UserInputController : UIViewController{
         let username: String
     }
     
+    struct Model: Codable{
+        let username: String
+        let coordinates: [SCNVector3]
+        let name: String
+        let area: Int
+        let perimeter: Int
+    }
     
-
+  
     
-    func submitPost(post: User,completion:((Error?) -> Void)?) {
+    
+    func submitPost(post: Model,completion:((Error?) -> Void)?) {
 
-        guard let url = URL(string: "http://localhost:8000/user/add") else { fatalError("Could not create URL from components") }
+        guard let url = URL(string: "http://localhost:8000/shape/add") else { fatalError("Could not create URL from components") }
         print(url)
         
         var request = URLRequest(url: url)
@@ -95,10 +122,11 @@ class UserInputController : UIViewController{
     @IBAction func submitUsername(_ sender: UIButton) {
         print("MASUK DISINI BUTTON")
         
-        let myPost = User(username: usernameTextValue)
+//        let myPost = User(username: usernameTextValue)
+        let myModel = Model(username:"sdsdds", coordinates:testCoordinate, name:"dasda", area:23, perimeter:23)
+      
         
-        
-        submitPost(post: myPost) { (error) in
+        submitPost(post: myModel) { (error) in
 
             if let error = error {
                 fatalError(error.localizedDescription)
