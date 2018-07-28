@@ -1,10 +1,3 @@
-//
-//  HomeController.swift
-//  RulAR
-//
-//  Created by Violerine on 26/07/18.
-//  Copyright © 2018 Michael Cangcianno. All rights reserved.
-//
 
 import Foundation
 import UIKit
@@ -17,7 +10,7 @@ import SceneKit
 //    let number_of_lessons: Int
 //}
 
-struct Shape: Decodable{
+struct Collection: Decodable{
     let _id: String
     let name: String
     let area: Int
@@ -27,7 +20,7 @@ struct Shape: Decodable{
     let updatedAt: String
 }
 
-class HomeController : UIViewController{
+class CollectionController : UIViewController{
     override func viewDidLoad() {
         print("MUNCUL GA DISINI")
         super.viewDidLoad()
@@ -44,15 +37,16 @@ class HomeController : UIViewController{
             do{
                 print("masuk do ga")
                 let shape = try
-                    JSONDecoder().decode([Shape].self, from: data)
+                    JSONDecoder().decode([
+                        Collection].self, from: data)
                 print("shape nameeeeee ",shape)
                 
             }catch let jsonErr {
                 print("Erroor",jsonErr)
                 print("response", response!)
             }
-
-        }.resume()
+            
+            }.resume()
     }
     
     @IBAction func triggerNavigate(_ sender: Any) {
