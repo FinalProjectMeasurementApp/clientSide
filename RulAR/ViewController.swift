@@ -118,18 +118,23 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                         }
                     }
                     
-//                    var fractionX = (Int(((maxX+abs(minX)+1)*100).rounded()))/138
-//                    var fractionY = (Int(((maxY+abs(minY)+1)*100).rounded()))/128
+                    let fractionX: Float = abs(((maxX+abs(minX))*100)/138)
+                    let fractionY: Float = abs(((maxY+abs(minY))*100)/128)
                     
-//                    print ("minX: \(minX), minY: \(minY), maxX: \(maxX), maxY: \(maxY)")
+                    print ("minX: \(minX), minY: \(minY), maxX: \(maxX), maxY: \(maxY)")
 //                    print("rangeX: \(maxX-minX), rangeY: \(maxY-minY)")
+                    print("fractionX",fractionY)
+                    print("fractionY",fractionX)
+                    print("X", abs(((maxX+abs(minX))*100)/138))
+                    print("Y", abs(((maxY+abs(minY))*100)/128))
                     
                     let path = UIBezierPath()
-                    path.move(to: CGPoint(x: (Int(((coordinates[0].x+abs(minX)+1)*100).rounded())), y: (Int(((coordinates[0].z+abs(minY)+1)*100).rounded()))))
+                    
+                    path.move(to: CGPoint(x: (Int(((coordinates[0].x+abs(minX)) / fractionX * 100).rounded())), y: (Int(((coordinates[0].z+abs(minY)) / fractionY*100).rounded()))))
                     
                     for coordinate in coordinates {
-                        print("x: \((Int(((coordinate.x+abs(minX)+1)*100).rounded()))), y: \((Int(((coordinate.z+abs(minY)+1)*100).rounded()))))")
-                        path.addLine(to: CGPoint(x: (Int(((coordinate.x+abs(minX)+1)*100).rounded())), y: (Int(((coordinate.z+abs(minY)+1)*100).rounded()))))
+                        print("x: \((Int(((coordinate.x+abs(minX)) / fractionX * 100).rounded()))), y: \((Int(((coordinate.z+abs(minY)) / fractionY * 100).rounded())))")
+                        path.addLine(to: CGPoint(x: (Int(((coordinate.x+abs(minX)) / fractionX * 100).rounded())), y: (Int(((coordinate.z+abs(minY)) / fractionY * 100).rounded()))))
                     }
                     path.close()
                     shape.path = path.cgPath
