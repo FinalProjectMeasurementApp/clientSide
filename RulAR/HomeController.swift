@@ -30,6 +30,7 @@ struct Shape: Decodable{
 
 class HomeController : UIViewController{
     override func viewDidLoad() {
+        
         print("MUNCUL GA DISINI")
         super .viewDidLoad()
         let jsonUrl = "http://localhost:8000/shape/"

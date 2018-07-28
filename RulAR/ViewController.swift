@@ -11,6 +11,7 @@ import ARKit
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     
+    @IBOutlet weak var PreviewImage: UIImageView!
     @IBOutlet weak var sceneView: ARSCNView!
     // planes
     var dictPlanes = [ARPlaneAnchor: Plane]()
@@ -84,6 +85,36 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                         let start = startPoint else {
                             return
                     }
+                    
+                    //trying to make preview
+                    let minX = coordinates.min { a, b in a.x < b.x }?.x
+                    let minY = coordinates.min { a, b in a.z < b.z }?.z
+                    let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+                    let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
+                    
+                    PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+                    
+                    let shape = CAShapeLayer()
+                    PreviewImage.layer.addSublayer(shape)
+                    shape.opacity = 0.5
+                    shape.lineWidth = 2
+                    shape.lineJoin = kCALineJoinMiter
+                    shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
+                    shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
+                    
+                    let path = UIBezierPath()
+                    
+                    path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
+                    
+                    for coordinate in coordinates {
+                        print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
+                        path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
+                        
+                    }
+                    path.close()
+                    shape.path = path.cgPath
+
+                    
                     // line-node
                     self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                            toPos2: start.position)
@@ -101,11 +132,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     
                     self.display(distance: result, position: centerPoint)
 
-
                     areaValue = calculateArea(coordinates)
                     
-                    areaText.text = "Area: \(((areaValue*100).rounded())/100)m2"
-                    
+                    areaText.text = "Area: \(((areaValue*10000).rounded())/10000)m2"
                     
                 } else {
                     beginningPoint = startNode?.position
