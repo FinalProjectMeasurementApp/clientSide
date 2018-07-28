@@ -87,10 +87,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     }
                     
                     //trying to make preview
-                    var minX = coordinates[0].x
-                    var minY = coordinates[0].z
-                    var maxX = coordinates[0].x
-                    var maxY = coordinates[0].z
+                    let minX = coordinates.min { a, b in a.x < b.x }?.x
+                    let minY = coordinates.min { a, b in a.z < b.z }?.z
+                    let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+                    let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
                     
                     PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
                     
@@ -102,39 +102,14 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
                     shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
                     
-                    for coordinate in coordinates {
-                        if minX > coordinate.x {
-                            minX = coordinate.x
-                        }
-                        if maxX < coordinate.x {
-                            maxX = coordinate.x
-                        }
-                        
-                        if minY > coordinate.z {
-                            minY = coordinate.z
-                        }
-                        if maxY < coordinate.z {
-                            maxY = coordinate.z
-                        }
-                    }
-                    
-                    let fractionX: Float = abs(((maxX+abs(minX))*100)/138)
-                    let fractionY: Float = abs(((maxY+abs(minY))*100)/128)
-                    
-                    print ("minX: \(minX), minY: \(minY), maxX: \(maxX), maxY: \(maxY)")
-//                    print("rangeX: \(maxX-minX), rangeY: \(maxY-minY)")
-                    print("fractionX",fractionY)
-                    print("fractionY",fractionX)
-                    print("X", abs(((maxX+abs(minX))*100)/138))
-                    print("Y", abs(((maxY+abs(minY))*100)/128))
-                    
                     let path = UIBezierPath()
                     
-                    path.move(to: CGPoint(x: (Int(((coordinates[0].x+abs(minX)) / fractionX * 100).rounded())), y: (Int(((coordinates[0].z+abs(minY)) / fractionY*100).rounded()))))
+                    path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
                     
                     for coordinate in coordinates {
-                        print("x: \((Int(((coordinate.x+abs(minX)) / fractionX * 100).rounded()))), y: \((Int(((coordinate.z+abs(minY)) / fractionY * 100).rounded())))")
-                        path.addLine(to: CGPoint(x: (Int(((coordinate.x+abs(minX)) / fractionX * 100).rounded())), y: (Int(((coordinate.z+abs(minY)) / fractionY * 100).rounded()))))
+                        print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
+                        path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
+                        
                     }
                     path.close()
                     shape.path = path.cgPath
@@ -157,11 +132,9 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     
                     self.display(distance: result, position: centerPoint)
 
-
                     areaValue = calculateArea(coordinates)
                     
-                    areaText.text = "Area: \(((areaValue*100).rounded())/100)m2"
-                    
+                    areaText.text = "Area: \(((areaValue*10000).rounded())/10000)m2"
                     
                 } else {
                     beginningPoint = startNode?.position
