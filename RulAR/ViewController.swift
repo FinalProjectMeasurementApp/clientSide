@@ -11,6 +11,7 @@ import ARKit
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     
+    @IBOutlet weak var PreviewImage: UIImageView!
     @IBOutlet weak var sceneView: ARSCNView!
     // planes
     var dictPlanes = [ARPlaneAnchor: Plane]()
@@ -84,6 +85,56 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                         let start = startPoint else {
                             return
                     }
+                    
+                    //trying to make preview
+                    var minX = coordinates[0].x
+                    var minY = coordinates[0].z
+                    var maxX = coordinates[0].x
+                    var maxY = coordinates[0].z
+                    
+                    PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+                    
+                    let shape = CAShapeLayer()
+                    PreviewImage.layer.addSublayer(shape)
+                    shape.opacity = 0.5
+                    shape.lineWidth = 2
+                    shape.lineJoin = kCALineJoinMiter
+                    shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
+                    shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
+                    
+                    for coordinate in coordinates {
+                        if minX > coordinate.x {
+                            minX = coordinate.x
+                        }
+                        if maxX < coordinate.x {
+                            maxX = coordinate.x
+                        }
+                        
+                        if minY > coordinate.z {
+                            minY = coordinate.z
+                        }
+                        if maxY < coordinate.z {
+                            maxY = coordinate.z
+                        }
+                    }
+                    
+//                    var fractionX = (Int(((maxX+abs(minX)+1)*100).rounded()))/138
+//                    var fractionY = (Int(((maxY+abs(minY)+1)*100).rounded()))/128
+                    
+//                    print ("minX: \(minX), minY: \(minY), maxX: \(maxX), maxY: \(maxY)")
+//                    print("rangeX: \(maxX-minX), rangeY: \(maxY-minY)")
+                    
+                    let path = UIBezierPath()
+                    path.move(to: CGPoint(x: (Int(((coordinates[0].x+abs(minX)+1)*100).rounded())), y: (Int(((coordinates[0].z+abs(minY)+1)*100).rounded()))))
+                    
+                    for coordinate in coordinates {
+                        print("x: \((Int(((coordinate.x+abs(minX)+1)*100).rounded()))), y: \((Int(((coordinate.z+abs(minY)+1)*100).rounded()))))")
+                        path.addLine(to: CGPoint(x: (Int(((coordinate.x+abs(minX)+1)*100).rounded())), y: (Int(((coordinate.z+abs(minY)+1)*100).rounded()))))
+                    }
+                    path.close()
+                    shape.path = path.cgPath
+
+                    
                     // line-node
                     self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
                                                            toPos2: start.position)

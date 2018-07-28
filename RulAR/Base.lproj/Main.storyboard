@@ -20,6 +20,7 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" id="afN-AE-IvJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <gestureRecognizers/>
                             </arscnView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="focus_square.png" id="vfu-jO-4Ns">
                                 <rect key="frame" x="162" y="305" width="50" height="50"/>
@@ -91,11 +92,16 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="grid.png" id="jCO-NK-nEl">
+                                <rect key="frame" x="0.0" y="71" width="138" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="E7D-se-6qV"/>
                     <connections>
+                        <outlet property="PreviewImage" destination="jCO-NK-nEl" id="fG7-cb-cLX"/>
                         <outlet property="areaText" destination="NhX-Wa-cRf" id="tFf-4f-fot"/>
                         <outlet property="sceneView" destination="afN-AE-IvJ" id="C9I-fa-f5Q"/>
                     </connections>
@@ -205,5 +211,6 @@
         <image name="add.png" width="1684" height="1685"/>
         <image name="button2.png" width="600" height="161"/>
         <image name="focus_square.png" width="1070" height="1952"/>
+        <image name="grid.png" width="4176" height="4176"/>
     </resources>
 </document>
