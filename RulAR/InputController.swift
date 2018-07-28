@@ -9,7 +9,13 @@
 import Foundation
 import UIKit
 
+struct User: Codable {
+    let username: String
+}
+
 class InputController : UIViewController{
+    
+    let postUser = User(username: "testing")
     
     var textValue : String!
     
@@ -18,12 +24,12 @@ class InputController : UIViewController{
     @IBAction func inputChanged(_ sender: UITextField) {
         print(sender.text!)
         textValue = sender.text!
+        print("TEXT VALUE INPUT",textValue)
     }
-    
-    
-    @IBAction func submitButton(_ sender: Any) {
-        print(textValue)
-        print("button di pencet")
 
+    @IBAction func submitButton(_ sender: Any) {
+        
+        print("DAPET TEXT VALUENYA GA",textValue)
+        print("button di pencet")
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import SceneKit
 //struct Course{
 //    let id: Int
 //    let name: String
@@ -18,20 +18,20 @@ import UIKit
 //}
 
 struct Shape: Decodable{
-    let sides: [Int]
     let _id: String
     let name: String
     let area: Int
     let perimeter: Int
+    let coordinates:[String]
     let createdAt: String
     let updatedAt: String
-    
 }
 
 class HomeController : UIViewController{
     override func viewDidLoad() {
         print("MUNCUL GA DISINI")
-        super .viewDidLoad()
+        super.viewDidLoad()
+        
         let jsonUrl = "http://localhost:8000/shape/"
         guard let url = URL(string: jsonUrl) else {
             return
@@ -53,8 +53,8 @@ class HomeController : UIViewController{
             }
 
         }.resume()
-        
-        
     }
+    
+    
 }
 
