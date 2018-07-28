@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		026C43D1210AFD1500C16F6F /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 026C43D0210AFD1500C16F6F /* launchscreen.png */; };
+		026C43D3210AFD1E00C16F6F /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 026C43D2210AFD1E00C16F6F /* button2.png */; };
 		309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88B2109B08E004DB6D3 /* AppDelegate.swift */; };
 		309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88D2109B08E004DB6D3 /* ViewController.swift */; };
 		309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309CF88F2109B08E004DB6D3 /* Main.storyboard */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		026C43D0210AFD1500C16F6F /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
+		026C43D2210AFD1E00C16F6F /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		309CF8882109B08E004DB6D3 /* RulAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RulAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309CF88B2109B08E004DB6D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		309CF88D2109B08E004DB6D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +126,9 @@
 				A56C4605210C706200252D1F /* FloorPlanController.swift */,
 				A56C4603210C5FD400252D1F /* CollectionController.swift */,
 				309CF88B2109B08E004DB6D3 /* AppDelegate.swift */,
+				026C43D0210AFD1500C16F6F /* launchscreen.png */,
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
+				026C43D2210AFD1E00C16F6F /* button2.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
 				A56C45F9210A172100252D1F /* HomeController.swift */,
 				A56C4601210B125A00252D1F /* UserInputController.swift */,
@@ -475,13 +481,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AXCF9X4Q67;
+				DEVELOPMENT_TEAM = 76S5M4U4NF;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testingarm;
+				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -493,13 +499,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AXCF9X4Q67;
+				DEVELOPMENT_TEAM = 76S5M4U4NF;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testingarm;
+				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -18,6 +18,7 @@ class Plane: SCNNode {
     init(anchor: ARPlaneAnchor) {
         super.init()
         
+
         // dimensions
         let width = CGFloat(anchor.extent.x)
         let length = CGFloat(anchor.extent.z)

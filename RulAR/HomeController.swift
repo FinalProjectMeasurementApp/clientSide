@@ -29,6 +29,7 @@ struct Shape: Decodable{
 
 class HomeController : UIViewController{
     override func viewDidLoad() {
+        
         print("MUNCUL GA DISINI")
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: false)

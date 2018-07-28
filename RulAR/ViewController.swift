@@ -11,6 +11,7 @@ import ARKit
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     
+    @IBOutlet weak var PreviewImage: UIImageView!
     @IBOutlet weak var sceneView: ARSCNView!
     // planes
     var dictPlanes = [ARPlaneAnchor: Plane]()
@@ -18,7 +19,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     // distance label
 //    @IBOutlet weak var lblMeasurementDetails : UILabel!
     
-    var arrayOfVertices: [SCNVector3] = []
+    var coordinates: [SCNVector3] = []
+    var areaValue: Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,49 +52,111 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var secondNode: Bool = false
     var endNode: SCNVector3?
     var beginningPoint: SCNVector3?
+    var measuringMode: Bool = true
     //MARK: - Action
+    @IBOutlet weak var areaText: UILabel!
+    @IBAction func resetMeasure(_ sender: UIButton) {
+        startNode = nil
+        endNode = nil
+        beginningPoint = nil
+        secondNode = false
+        sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+            node.removeFromParentNode() }
+        measuringMode = true
+    }
+    @IBAction func FinishedMeasuring(_ sender: UIButton) {
+        measuringMode = false
+    }
     @IBAction func onAddButtonClick(_ sender: UIButton) {
         let startPoint = startNode
-        if let position = self.doHitTestOnExistingPlanes() {
-            // add node at hit-position
-            let node = self.nodeWithPosition(position)
-            sceneView.scene.rootNode.addChildNode(node)
-            // set start node
-            startNode = node
-            
-            arrayOfVertices.append((startNode?.position)!)
-            print(arrayOfVertices)
-            
-            if secondNode == true{
-                guard let currentPosition = endNode,
-                    let start = startPoint else {
-                        return
+        if measuringMode == true {
+            if let position = self.doHitTestOnExistingPlanes() {
+                // add node at hit-position
+                let node = self.nodeWithPosition(position)
+                sceneView.scene.rootNode.addChildNode(node)
+                // set start node
+                startNode = node
+
+                coordinates.append((startNode?.position)!)
+                print(coordinates)
+                
+                if secondNode == true{
+                    guard let currentPosition = endNode,
+                        let start = startPoint else {
+                            return
+                    }
+                    
+                    //trying to make preview
+                    let minX = coordinates.min { a, b in a.x < b.x }?.x
+                    let minY = coordinates.min { a, b in a.z < b.z }?.z
+                    let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+                    let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
+                    
+                    PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+                    
+                    let shape = CAShapeLayer()
+                    PreviewImage.layer.addSublayer(shape)
+                    shape.opacity = 0.5
+                    shape.lineWidth = 2
+                    shape.lineJoin = kCALineJoinMiter
+                    shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
+                    shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
+                    
+                    let path = UIBezierPath()
+                    
+                    path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
+                    
+                    for coordinate in coordinates {
+                        print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
+                        path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
+                        
+                    }
+                    path.close()
+                    shape.path = path.cgPath
+
+                    
+                    // line-node
+                    self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+                                                           toPos2: start.position)
+                    
+                    sceneView.scene.rootNode.addChildNode(self.line_node!)
+                    
+                    let firstPointToPrev = start.position
+                    let toBeMadePoint = currentPosition
+                    
+                    let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
+                    
+                    let result = sqrt(position.x*position.x + position.z*position.z)
+                    
+                    let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+                    
+                    self.display(distance: result, position: centerPoint)
+
+                    areaValue = calculateArea(coordinates)
+                    
+                    areaText.text = "Area: \(((areaValue*10000).rounded())/10000)m2"
+                    
+                } else {
+                    beginningPoint = startNode?.position
                 }
-                // line-node
-                //            self.line_node?.removeFromParentNode()
-                self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
-                                                       toPos2: start.position)
-                
-                sceneView.scene.rootNode.addChildNode(self.line_node!)
-                
-                let firstPointToPrev = start.position
-                let toBeMadePoint = currentPosition
-                
-                let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
-                
-                let result = sqrt(position.x*position.x + position.z*position.z)
-                
-                let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
-                
-                self.display(distance: result, position: centerPoint)
-                
-            } else {
-                beginningPoint = startNode?.position
+            }
+            if secondNode == false {
+                secondNode = true
             }
         }
-        if secondNode == false {
-            secondNode = true
+    }
+    
+    func calculateArea(_ coordinates: [SCNVector3]) -> Float {
+        var area: Float = 0
+        var coordinateTwo: SCNVector3 = coordinates.last!
+        
+        for coordinate in coordinates {
+            area += (coordinate.x * coordinateTwo.z)
+            area -= (coordinate.z * coordinateTwo.x)
+            coordinateTwo = coordinate
         }
+        
+        return abs(area * 100 / 2)
     }
     
     func doHitTestOnExistingPlanes() -> SCNVector3? {
@@ -168,7 +232,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         let configuration = ARWorldTrackingConfiguration()
         
         // set to detect horizontal planes
-        configuration.planeDetection = .horizontal
+        configuration.planeDetection = [.vertical, .horizontal]
         
         // run the configuration
         self.sceneView.session.run(configuration)
@@ -186,44 +250,59 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer,
                   updateAtTime time: TimeInterval) {
         
-        DispatchQueue.main.async {
-            // get current hit position
-            // and check if start-node is available
-            guard let currentPosition = self.doHitTestOnExistingPlanes(),
-                let start = self.startNode,
-                let beginningNode = self.beginningPoint else {
+        if self.measuringMode == true{
+            DispatchQueue.main.async {
+                // get current hit position
+                // and check if start-node is available
+                guard let currentPosition = self.doHitTestOnExistingPlanes(),
+                    let start = self.startNode,
+                    let beginningNode = self.beginningPoint else {
+                        return
+                }
+                
+                self.endNode = currentPosition
+                
+                // line-node
+                self.lineToEnd?.removeFromParentNode()
+                self.line_node?.removeFromParentNode()
+                self.lineToEnd = self.getDrawnLineFrom(pos1: currentPosition, toPos2: beginningNode)
+                self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+                                                       toPos2: start.position)
+                
+                self.sceneView.scene.rootNode.addChildNode(self.line_node!)
+                self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
+                
+            }
+        } else {
+            self.lineToEnd?.removeFromParentNode()
+            self.line_node?.removeFromParentNode()
+            guard let start = self.startNode,
+                let endingNode = self.beginningPoint else {
                     return
             }
             
-            self.endNode = currentPosition
-            
-            // line-node
-            self.lineToEnd?.removeFromParentNode()
-            self.line_node?.removeFromParentNode()
-            self.lineToEnd = self.getDrawnLineFrom(pos1: currentPosition, toPos2: beginningNode)
-            self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+            self.line_node = self.getDrawnLineFrom(pos1: endingNode,
                                                    toPos2: start.position)
-            
             self.sceneView.scene.rootNode.addChildNode(self.line_node!)
-            self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
+            let firstPointToPrev = start.position
+            let toBeMadePoint = endingNode
             
+            let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
             
-            // distance-string
-//            self.desc = self.getDistanceStringBeween(pos1: currentPosition,
-//                                                    pos2: start.position)
-//            
-//            self.centimeterVal = self.CM_fromMeter(m: Float(self.distanceBetweenPoints(A: currentPosition, B: start.position)))
-//
-//            
-//            DispatchQueue.main.async {
-//                self.lblMeasurementDetails.text = self.desc
-//            }
+            let result = sqrt(position.x*position.x + position.z*position.z)
+            
+            let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+            
+            self.display(distance: result, position: centerPoint)
+
         }
     }
     
     private func display(distance: Float,position :SCNVector3) {
         
-        let textGeo = SCNText(string: "\(distance) m", extrusionDepth: 1.0)
+        let roundedDist = ((distance*100).rounded())/100
+        
+        let textGeo = SCNText(string: "\(roundedDist) m", extrusionDepth: 1.0)
         textGeo.firstMaterial?.diffuse.contents = UIColor.black
         
         let textNode = SCNNode(geometry: textGeo)

@@ -14,6 +14,7 @@ struct User: Codable {
 }
 
 class InputController : UIViewController{
+
     
     let postUser = User(username: "testing")
     
