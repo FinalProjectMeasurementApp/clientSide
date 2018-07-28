@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class InputController : UIViewController{
+
     
     var textValue : String!
     
