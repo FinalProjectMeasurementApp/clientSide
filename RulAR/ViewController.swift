@@ -203,7 +203,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         let configuration = ARWorldTrackingConfiguration()
         
         // set to detect horizontal planes
-        configuration.planeDetection = .horizontal
+        configuration.planeDetection = [.vertical, .horizontal]
         
         // run the configuration
         self.sceneView.session.run(configuration)

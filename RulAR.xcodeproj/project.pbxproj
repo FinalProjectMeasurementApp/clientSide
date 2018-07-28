@@ -258,7 +258,6 @@
 				026C43D3210AFD1E00C16F6F /* button2.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
-				3014E3C3210AFEB6002FBC60 /* button2.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
 				026C43D1210AFD1500C16F6F /* launchscreen.png in Resources */,
@@ -464,13 +463,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5A6FMYBMJ4;
+				DEVELOPMENT_TEAM = 76S5M4U4NF;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = justin.RulAR;
+				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -482,13 +481,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5A6FMYBMJ4;
+				DEVELOPMENT_TEAM = 76S5M4U4NF;
 				INFOPLIST_FILE = RulAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = justin.RulAR;
+				PRODUCT_BUNDLE_IDENTIFIER = mcang.RulAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
