@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		026C43D1210AFD1500C16F6F /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 026C43D0210AFD1500C16F6F /* launchscreen.png */; };
-		026C43D3210AFD1E00C16F6F /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = 026C43D2210AFD1E00C16F6F /* button2.png */; };
 		309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88B2109B08E004DB6D3 /* AppDelegate.swift */; };
 		309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF88D2109B08E004DB6D3 /* ViewController.swift */; };
 		309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309CF88F2109B08E004DB6D3 /* Main.storyboard */; };
@@ -20,6 +18,12 @@
 		309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */ = {isa = PBXBuildFile; fileRef = 309CF8BB2109B296004DB6D3 /* focus_square.png */; };
 		309CF8BE2109B296004DB6D3 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 309CF8BC2109B296004DB6D3 /* add.png */; };
 		309CF8C02109B812004DB6D3 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF8BF2109B812004DB6D3 /* Plane.swift */; };
+		A544EF75210CD19C007E3C92 /* tile.png in Resources */ = {isa = PBXBuildFile; fileRef = A544EF74210CD199007E3C92 /* tile.png */; };
+		A544EF77210CD1A2007E3C92 /* wood.png in Resources */ = {isa = PBXBuildFile; fileRef = A544EF76210CD1A1007E3C92 /* wood.png */; };
+		A544EF79210CD226007E3C92 /* stone.png in Resources */ = {isa = PBXBuildFile; fileRef = A544EF78210CD224007E3C92 /* stone.png */; };
+		A544EF7D210CD489007E3C92 /* brick.png in Resources */ = {isa = PBXBuildFile; fileRef = A544EF7A210CD483007E3C92 /* brick.png */; };
+		A544EF7E210CD489007E3C92 /* paint.png in Resources */ = {isa = PBXBuildFile; fileRef = A544EF7B210CD486007E3C92 /* paint.png */; };
+		A544EF7F210CD489007E3C92 /* wallpaper.png in Resources */ = {isa = PBXBuildFile; fileRef = A544EF7C210CD488007E3C92 /* wallpaper.png */; };
 		A56C45FA210A172100252D1F /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C45F9210A172100252D1F /* HomeController.swift */; };
 		A56C45FE210AFAC400252D1F /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = A56C45FD210AFAC300252D1F /* button2.png */; };
 		A56C4600210AFAC900252D1F /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = A56C45FF210AFAC800252D1F /* launchscreen.png */; };
@@ -66,6 +70,12 @@
 		309CF8BB2109B296004DB6D3 /* focus_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focus_square.png; sourceTree = "<group>"; };
 		309CF8BC2109B296004DB6D3 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		309CF8BF2109B812004DB6D3 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		A544EF74210CD199007E3C92 /* tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tile.png; path = ../../../../tile.png; sourceTree = "<group>"; };
+		A544EF76210CD1A1007E3C92 /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wood.png; path = ../../../../wood.png; sourceTree = "<group>"; };
+		A544EF78210CD224007E3C92 /* stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stone.png; path = ../../../../stone.png; sourceTree = "<group>"; };
+		A544EF7A210CD483007E3C92 /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brick.png; path = ../../../../brick.png; sourceTree = "<group>"; };
+		A544EF7B210CD486007E3C92 /* paint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paint.png; path = ../../../../paint.png; sourceTree = "<group>"; };
+		A544EF7C210CD488007E3C92 /* wallpaper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wallpaper.png; path = ../../../../wallpaper.png; sourceTree = "<group>"; };
 		A56C45F9210A172100252D1F /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		A56C45FD210AFAC300252D1F /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		A56C45FF210AFAC800252D1F /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
@@ -128,6 +138,12 @@
 				309CF88B2109B08E004DB6D3 /* AppDelegate.swift */,
 				026C43D0210AFD1500C16F6F /* launchscreen.png */,
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
+				A544EF74210CD199007E3C92 /* tile.png */,
+				A544EF7A210CD483007E3C92 /* brick.png */,
+				A544EF7B210CD486007E3C92 /* paint.png */,
+				A544EF7C210CD488007E3C92 /* wallpaper.png */,
+				A544EF76210CD1A1007E3C92 /* wood.png */,
+				A544EF78210CD224007E3C92 /* stone.png */,
 				026C43D2210AFD1E00C16F6F /* button2.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
 				A56C45F9210A172100252D1F /* HomeController.swift */,
@@ -268,14 +284,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A544EF7F210CD489007E3C92 /* wallpaper.png in Resources */,
 				A56C4600210AFAC900252D1F /* launchscreen.png in Resources */,
 				309CF8962109B08F004DB6D3 /* LaunchScreen.storyboard in Resources */,
+				A544EF75210CD19C007E3C92 /* tile.png in Resources */,
+				A544EF79210CD226007E3C92 /* stone.png in Resources */,
 				309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */,
+				A544EF7E210CD489007E3C92 /* paint.png in Resources */,
 				A56C45FE210AFAC400252D1F /* button2.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
+				A544EF77210CD1A2007E3C92 /* wood.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
+				A544EF7D210CD489007E3C92 /* brick.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

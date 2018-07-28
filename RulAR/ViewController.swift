@@ -11,6 +11,57 @@ import ARKit
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     
+    struct Model: Codable{
+        let username: String
+        let coordinates: [SCNVector3]
+        let name: String
+        let area: Int
+        let perimeter: Int
+    }
+    
+    func submitModel(post: Model,completion:((Error?)-> Void)?){
+        guard let url = URL(string: "http://localhost:8000/shape/add") else{
+            fatalError("Couldn't create URL from components")
+        }
+        print("URL",url)
+        
+        var request = URLRequest(url:url)
+        
+        request.httpMethod="POST"
+        
+        var headers = request.allHTTPHeaderFields ?? [:]
+        headers["Content-Type"] = "application/json"
+        request.allHTTPHeaderFields = headers
+        
+        let encoder = JSONEncoder()
+        do{
+            let jsonData = try encoder.encode(post)
+            request.httpBody = jsonData
+             print("Ini data stringnya", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+            
+        } catch{
+            completion?(error)
+        }
+        
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        let task = session.dataTask(with: request) { (responseData, response, responseError) in
+            guard responseError == nil else {
+                completion?(responseError!)
+                return
+            }
+            
+            if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
+                print("PRINT RESPONSE ", utf8Representation)
+                
+            } else {
+                print("no readable data received in response")
+            }
+        }
+        task.resume()
+    }
+    
     @IBOutlet weak var PreviewImage: UIImageView!
     @IBOutlet weak var sceneView: ARSCNView!
     // planes
@@ -67,6 +118,16 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         measuringMode = true
     }
     @IBAction func FinishedMeasuring(_ sender: UIButton) {
+        let usernameFromUserDefaults = UserDefaults.standard.string(forKey: "username")
+        let myModel = Model(username: usernameFromUserDefaults!, coordinates: testCoordinate, name: "dasda", area: 23, perimeter: 23)
+        
+        submitModel(post: myModel){ (error) in
+            if let error = error{
+                fatalError(error.localizedDescription)
+            }
+            
+        }
+        print("masih coding buta, belom di test")
         print("coordinates: \(testCoordinate)")
         print("area: \(areaValue)")
         measuringMode = false

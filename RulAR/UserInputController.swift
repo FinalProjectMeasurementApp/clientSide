@@ -62,20 +62,20 @@ class UserInputController : UIViewController{
         let username: String
     }
     
-    struct Model: Codable{
-        let username: String
-        let coordinates: [SCNVector3]
-        let name: String
-        let area: Int
-        let perimeter: Int
-    }
-    
+//    struct Model: Codable{
+//        let username: String
+//        let coordinates: [SCNVector3]
+//        let name: String
+//        let area: Int
+//        let perimeter: Int
+//    }
+//
   
     
     
-    func submitPost(post: Model,completion:((Error?) -> Void)?) {
+    func submitPost(post: User,completion:((Error?) -> Void)?) {
 
-        guard let url = URL(string: "http://localhost:8000/shape/add") else { fatalError("Could not create URL from components") }
+        guard let url = URL(string: "http://localhost:8000/user/add") else { fatalError("Could not create URL from components") }
         print(url)
         
         var request = URLRequest(url: url)
@@ -122,11 +122,10 @@ class UserInputController : UIViewController{
     @IBAction func submitUsername(_ sender: UIButton) {
         print("MASUK DISINI BUTTON")
         
-//        let myPost = User(username: usernameTextValue)
-        let myModel = Model(username:"sdsdds", coordinates:testCoordinate, name:"dasda", area:23, perimeter:23)
+        let myPost = User(username: usernameTextValue)
+//        let myModel = Model(username:"sdsdds", coordinates:testCoordinate, name:"dasda", area:23, perimeter:23)
       
-        
-        submitPost(post: myModel) { (error) in
+        submitPost(post: myPost) { (error) in
 
             if let error = error {
                 fatalError(error.localizedDescription)
