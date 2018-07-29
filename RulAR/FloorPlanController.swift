@@ -10,25 +10,67 @@ import Foundation
 import UIKit
 
 class FloorPlanController : UIViewController{
+    let button = UIButton()
+    let label = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
     
     @IBAction func woodButton(_ sender: Any) {
-        let button = UIButton()
-        print("BUTTON",button)
-        print("BUTTON SEBELOM",button.isSelected)
         button.isSelected = true
         
         if button.isSelected == true {
-            button.layer.cornerRadius = 5
-            button.layer.borderWidth = 2
-            button.layer.borderColor = UIColor.black.cgColor
-            print("MASUK SINI Ga")
+            label.frame = CGRect(x: 22, y: 140, width: 100, height: 140)
+            label.text = ""
+            label.textAlignment = .center
+            label.textColor = UIColor.black
+            label.backgroundColor = UIColor.clear
+            label.layer.borderWidth = 1
+            label.layer.borderColor = UIColor.black.cgColor
+            label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            self.view.addSubview(label)
         }
         print(button.isSelected)
     }
+    
+    
+    @IBAction func tileButton(_ sender: Any) {
+        
+        button.isSelected = true
+        if button.isSelected == true{
+            label.frame = CGRect(x: 253, y: 140, width: 100, height: 140)
+            label.text = ""
+            label.textAlignment = .center
+            label.textColor = UIColor.black
+            label.backgroundColor = UIColor.clear
+            label.layer.borderWidth = 1
+            label.layer.borderColor = UIColor.black.cgColor
+            label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            self.view.addSubview(label)
+            print("SELECTED tile button")
+        }
+    }
+    
+    
+    
+    @IBAction func stoneButton(_ sender: Any) {
+        button.isSelected = true
+        if button.isSelected == true{
+                label.frame = CGRect(x: 137, y: 140, width: 100, height: 140)
+                label.text = ""
+                label.textAlignment = .center
+                label.textColor = UIColor.black
+                label.backgroundColor = UIColor.clear
+                label.layer.borderWidth = 1
+                label.layer.borderColor = UIColor.black.cgColor
+                label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+                self.view.addSubview(label)
+            print("STONE BUTTON IS SELECTED")
+        }
+    }
+    
+
     
     
 }

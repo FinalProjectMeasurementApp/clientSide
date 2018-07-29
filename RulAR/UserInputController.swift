@@ -33,15 +33,16 @@ extension SCNVector3: Codable {
     }
 }
 
+var labelStatus = false
 class UserInputController : UIViewController{
     
     
     var usernameTextValue : String!
     var testCoordinate: [SCNVector3] = [SCNVector3(x: -0.252867877, y: 0.0111992061, z: -0.186102509), SCNVector3(x: -0.186894715, y: 0.0132495388, z: -0.122510508), SCNVector3(x: -0.182980567, y: -0.0396186635, z: -0.113561183), SCNVector3(x: -0.25373733, y: -0.0535521731, z: -0.180975109)]
-
+    var label = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         print("USERNAME in localstorage : ",UserDefaults.standard.string(forKey: "username") ?? "ga ada")
         print("STATUS USER", UserDefaults.standard.bool(forKey: "userLogged"))
     
@@ -121,23 +122,32 @@ class UserInputController : UIViewController{
     
     @IBAction func submitUsername(_ sender: UIButton) {
         print("MASUK DISINI BUTTON")
-        
-        let myPost = User(username: usernameTextValue)
-//        let myModel = Model(username:"sdsdds", coordinates:testCoordinate, name:"dasda", area:23, perimeter:23)
-      
-        submitPost(post: myPost) { (error) in
-
-            if let error = error {
-                fatalError(error.localizedDescription)
+        if usernameTextValue == nil{
+            label.frame = CGRect(x: 0, y: 300, width: self.view.frame.width, height: 120)
+            label.text = "Username can not be empty "
+            label.textAlignment = .center
+            label.textColor = UIColor.black
+//            label.backgroundColor = UIColor.darkGray
+            label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            self.view.addSubview(label)
+            
+        }else{
+            let myPost = User(username: usernameTextValue)
+            
+            submitPost(post: myPost) { (error) in
+                
+                if let error = error {
+                    fatalError(error.localizedDescription)
+                }
+                
+                print("kalo ini berhasil")
             }
-
-            print("kalo ini berhasil")
+            let homeVc = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
+            self.navigationController?.pushViewController(homeVc, animated: true)
+            
+            UserDefaults.standard.set(usernameTextValue, forKey: "username")
+            UserDefaults.standard.set(true, forKey: "userLogged")
         }
-        let homeVc = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
-        self.navigationController?.pushViewController(homeVc, animated: true)
-        
-        UserDefaults.standard.set(usernameTextValue, forKey: "username")
-        UserDefaults.standard.set(true, forKey: "userLogged")
         
         print("button Triggered",usernameTextValue )
         
