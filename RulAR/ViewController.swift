@@ -10,57 +10,18 @@ import UIKit
 import ARKit
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
+    var isVertical = false
     
-    var isVertical = true
-    struct Model: Codable{
-        let username: String
-        let coordinates: [SCNVector3]
-        let name: String
-        let area: Int
-        let perimeter: Int
-    }
+    @IBOutlet weak var PreviewBoard: UIView!
     
-    func submitModel(post: Model,completion:((Error?)-> Void)?){
-        guard let url = URL(string: "http://localhost:8000/shape/add") else{
-            fatalError("Couldn't create URL from components")
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is ImagePreviewController
+        {
+            let vc = segue.destination as? ImagePreviewController
+            vc?.coordinates = coordinates
+            vc?.lengths = lengths
         }
-        print("URL",url)
-        
-        var request = URLRequest(url:url)
-        
-        request.httpMethod="POST"
-        
-        var headers = request.allHTTPHeaderFields ?? [:]
-        headers["Content-Type"] = "application/json"
-        request.allHTTPHeaderFields = headers
-        
-        let encoder = JSONEncoder()
-        do{
-            let jsonData = try encoder.encode(post)
-            request.httpBody = jsonData
-             print("Ini data stringnya", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
-            
-        } catch{
-            completion?(error)
-        }
-        
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        let task = session.dataTask(with: request) { (responseData, response, responseError) in
-            guard responseError == nil else {
-                completion?(responseError!)
-                return
-            }
-            
-            if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
-                print("PRINT RESPONSE ", utf8Representation)
-                
-            } else {
-                print("no readable data received in response")
-            }
-        }
-        task.resume()
     }
     
     @IBOutlet weak var PreviewImage: UIImageView!
@@ -75,8 +36,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var areaValue: Float = 0
     var lengths: [Float] = []
     
-    var testCoordinate: [SCNVector3] = [SCNVector3(x: -0.252867877, y: 0.0111992061, z: -0.186102509), SCNVector3(x: -0.186894715, y: 0.0132495388, z: -0.122510508), SCNVector3(x: -0.182980567, y: -0.0396186635, z: -0.113561183), SCNVector3(x: -0.25373733, y: -0.0535521731, z: -0.180975109)]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -124,18 +83,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     @IBAction func FinishedMeasuring(_ sender: UIButton) {
-        let usernameFromUserDefaults = UserDefaults.standard.string(forKey: "username")
-        let myModel = Model(username: usernameFromUserDefaults!, coordinates: testCoordinate, name: "dasda", area: 23, perimeter: 23)
-        
-        submitModel(post: myModel){ (error) in
-            if let error = error{
-                fatalError(error.localizedDescription)
-            }
-            
-        }
-        print("masih coding buta, belom di test")
-        print("coordinates: \(testCoordinate)")
-        print("area: \(areaValue)")
         measuringMode = false
         self.lineToEnd?.removeFromParentNode()
         self.line_node?.removeFromParentNode()
@@ -158,7 +105,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         
         self.displayText(distance: result, position: centerPoint)
         self.lengths.append(result)
-        print("here!", self.lengths)
+//        print("here!", self.lengths)
         // self.drawPreview()
     }
     @IBAction func onAddButtonClick(_ sender: UIButton) {
@@ -205,10 +152,11 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     let centerPoint = SCNVector3((firstPointToPrev.x + toBeMadePoint.x)/2,(firstPointToPrev.y + toBeMadePoint.y)/2,(firstPointToPrev.z + toBeMadePoint.z)/2)
                     
                     self.displayText(distance: length, position: centerPoint)
+                    self.lengths.append(length)
                     
                     
                     //trying to make preview
-                    // self.drawPreview()
+//                     self.drawPreview()
 
                     
                     // line-node
@@ -470,10 +418,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
         let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
         
-        PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        PreviewBoard.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         
         let shape = CAShapeLayer()
-        PreviewImage.layer.addSublayer(shape)
+        PreviewBoard.layer.addSublayer(shape)
         shape.opacity = 0.5
         shape.lineWidth = 2
         shape.lineJoin = kCALineJoinMiter
@@ -502,7 +450,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         print(myTextLayer.frame)
         myTextLayer.fontSize = 10.0
         print(myTextLayer.position)
-        PreviewImage.layer.addSublayer(myTextLayer)
+        PreviewBoard.layer.addSublayer(myTextLayer)
         
         for (index, coordinate) in coordinates.enumerated() {
             print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
@@ -523,7 +471,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
                 myTextLayer.position = centerCoor
                 myTextLayer.fontSize = 10.0
-                PreviewImage.layer.addSublayer(myTextLayer)
+                PreviewBoard.layer.addSublayer(myTextLayer)
             }
             
             if index == coordinates.count-1 && measuringMode == false {
@@ -538,7 +486,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
                 myTextLayer.position = centerCoor
                 myTextLayer.fontSize = 10.0
-                PreviewImage.layer.addSublayer(myTextLayer)
+                PreviewBoard.layer.addSublayer(myTextLayer)
             }
             
             
@@ -701,4 +649,15 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             self.dictPlanes.removeValue(forKey: planeAnchor)
         }
     }
+
+    
+//    @IBAction func forPreviewButton(_ sender: Any) {
+//        let goToPreview = self.storyboard?.instantiateViewController(withIdentifier: "previewModel") as! ImagePreviewController
+//        let previewSecene = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "previewModel") as! ImagePreviewController;
+//        print("toPreview",goToPreview)
+//        print("toPreview2", previewSecene)
+//        
+//        self.navigationController?.pushViewController(previewSecene, animated: false)
+//        self.dismiss(animated: true, completion: nil)
+//    }
 }

@@ -35,7 +35,7 @@ class HomeController : UIViewController{
         print("MUNCUL GA DISINI")
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: false)
-        let jsonUrl = "http://localhost:8000/shape/"
+        let jsonUrl = "https://rular-server.mcang.ml/shape/"
         guard let url = URL(string: jsonUrl) else {
             return
         }
@@ -60,6 +60,7 @@ class HomeController : UIViewController{
     
     @IBAction func triggerNavigate(_ sender: Any) {
         let inputVc = self.storyboard?.instantiateViewController(withIdentifier: "inputModel") as! InputController
+        print("inputVc",inputVc)
         self.navigationController?.pushViewController(inputVc, animated: true)
     }
     

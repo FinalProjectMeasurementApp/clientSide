@@ -25,7 +25,7 @@ class CollectionController : UIViewController{
         print("MUNCUL GA DISINI")
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: false)
-        let jsonUrl = "http://localhost:8000/shape/"
+        let jsonUrl = "https://rular-server.mcang.ml/shape/"
         guard let url = URL(string: jsonUrl) else {
             return
         }
