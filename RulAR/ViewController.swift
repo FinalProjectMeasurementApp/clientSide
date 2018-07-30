@@ -9,6 +9,25 @@
 import UIKit
 import ARKit
 
+extension CGPoint : Codable {
+    enum CodingKeys: String, CodingKey {
+        case x
+        case y
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(x,forKey:.x)
+        try container.encode(y,forKey:.y)
+    }
+    
+    public init(from decoder:Decoder) throws {
+        let values =  try decoder.container(keyedBy: CodingKeys.self)
+        x = try values.decode(CGFloat.self, forKey: .x)
+        y = try values.decode(CGFloat.self, forKey: .y)
+    }
+}
+
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     var isVertical = true
@@ -23,6 +42,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     var coordinates: [SCNVector3] = []
     var areaValue: Float = 0
+    var lengths: [Float] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +86,35 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
             node.removeFromParentNode() }
         measuringMode = true
+        coordinates = []
+        lengths = []
+        PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     @IBAction func FinishedMeasuring(_ sender: UIButton) {
         measuringMode = false
+        self.lineToEnd?.removeFromParentNode()
+        self.line_node?.removeFromParentNode()
+        guard let start = self.startNode,
+            let endingNode = self.beginningPoint else {
+                return
+        }
+        
+        self.line_node = self.getDrawnLineFrom(pos1: endingNode,
+                                               toPos2: start.position)
+        self.sceneView.scene.rootNode.addChildNode(self.line_node!)
+        let firstPointToPrev = start.position
+        let toBeMadePoint = endingNode
+        
+        let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
+        
+        let result = sqrt(position.x*position.x + position.z*position.z)
+        
+        let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+        
+        self.display(distance: result, position: centerPoint)
+        self.lengths.append(result)
+        print("here!", self.lengths)
+        // self.drawPreview()
     }
     @IBAction func onAddButtonClick(_ sender: UIButton) {
         let startPoint = startNode
@@ -116,6 +162,16 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     
                     self.displayText(distance: length, position: centerPoint)
                     
+                    
+                    //trying to make preview
+                    // self.drawPreview()
+
+                    
+                    // line-node
+                    self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+                                                           toPos2: start.position)
+                    
+                    sceneView.scene.rootNode.addChildNode(self.line_node!)
                     
                 } else {
                     beginningPoint = startNode?.position
@@ -332,28 +388,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
                 
             }
-        } else {
-            self.lineToEnd?.removeFromParentNode()
-            self.line_node?.removeFromParentNode()
-            guard let start = self.startNode,
-                let endingNode = self.beginningPoint else {
-                    return
-            }
-            
-            self.line_node = self.getDrawnLineFrom(pos1: endingNode,
-                                                   toPos2: start.position)
-            self.sceneView.scene.rootNode.addChildNode(self.line_node!)
-            let firstPointToPrev = start.position
-            let toBeMadePoint = endingNode
-            
-            let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
-            
-            let result = sqrt(position.x*position.x + position.z*position.z)
-            
-            let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
-            
-            self.displayText(distance: result, position: centerPoint)
-
         }
     }
     
@@ -385,6 +419,91 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         self.sceneView.scene.rootNode.addChildNode(textNode)
     }
     
+    //creating preview
+    func drawPreview() {
+        let minX = coordinates.min { a, b in a.x < b.x }?.x
+        let minY = coordinates.min { a, b in a.z < b.z }?.z
+        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+        let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
+        
+        PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        let shape = CAShapeLayer()
+        PreviewImage.layer.addSublayer(shape)
+        shape.opacity = 0.5
+        shape.lineWidth = 2
+        shape.lineJoin = kCALineJoinMiter
+        shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
+        shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
+        
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
+        
+        var centerCoor: CGPoint
+        var centerXText: Float
+        var centerYText: Float
+        
+        centerXText = (((coordinates[0].x - minX!) + (coordinates[1].x - minX!))) * 128
+        centerYText = (((coordinates[0].z - minY!) + (coordinates[1].z - minY!))) * 138
+        
+        centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+5)/2)
+
+        
+        let myTextLayer = CATextLayer()
+        myTextLayer.string = "\((lengths[0]*100).rounded()/100)m"
+        myTextLayer.foregroundColor = UIColor.cyan.cgColor
+        myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
+        myTextLayer.position = centerCoor
+        print(myTextLayer.frame)
+        myTextLayer.fontSize = 10.0
+        print(myTextLayer.position)
+        PreviewImage.layer.addSublayer(myTextLayer)
+        
+        for (index, coordinate) in coordinates.enumerated() {
+            print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
+            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
+            
+            if coordinates.count > 2 && index > 1 {
+                
+                centerXText = (((coordinate.x - minX!) + (coordinates[index-1].x - minX!))) * 138
+                centerYText = (((coordinate.z - minY!) + (coordinates[index-1].z - minY!))) * 128
+                
+                centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+5)/2)
+                
+                print("center", centerCoor)
+                
+                let myTextLayer = CATextLayer()
+                myTextLayer.string = "\((lengths[index-1]*100).rounded()/100)m"
+                myTextLayer.foregroundColor = UIColor.cyan.cgColor
+                myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
+                myTextLayer.position = centerCoor
+                myTextLayer.fontSize = 10.0
+                PreviewImage.layer.addSublayer(myTextLayer)
+            }
+            
+            if index == coordinates.count-1 && measuringMode == false {
+                centerXText = (((coordinates[0].x - minX!) + (coordinates[coordinates.count-1].x - minX!))) * 138
+                centerYText = (((coordinates[0].z - minY!) + (coordinates[coordinates.count-1].z - minY!))) * 128
+                    
+                centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+5)/2)
+                print("center",centerCoor)
+                let myTextLayer = CATextLayer()
+                myTextLayer.string = "\((lengths[index]*100).rounded()/100)m"
+                myTextLayer.foregroundColor = UIColor.cyan.cgColor
+                myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
+                myTextLayer.position = centerCoor
+                myTextLayer.fontSize = 10.0
+                PreviewImage.layer.addSublayer(myTextLayer)
+            }
+            
+            
+        }
+        path.close()
+        shape.path = path.cgPath
+
+    }
+    
     // draw line-node between two vectors
     func getDrawnLineFrom(pos1: SCNVector3,
                           toPos2: SCNVector3) -> SCNNode {
@@ -398,7 +517,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         }
         
         let lineInBetween1 = SCNNode(geometry: line)
-        
         return lineInBetween1
         
     }
