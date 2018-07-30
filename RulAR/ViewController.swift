@@ -111,7 +111,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         
         let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
         
-        self.display(distance: result, position: centerPoint)
+        self.displayText(distance: result, position: centerPoint)
         self.lengths.append(result)
         print("here!", self.lengths)
         // self.drawPreview()
