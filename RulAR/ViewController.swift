@@ -649,4 +649,15 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             self.dictPlanes.removeValue(forKey: planeAnchor)
         }
     }
+
+    
+//    @IBAction func forPreviewButton(_ sender: Any) {
+//        let goToPreview = self.storyboard?.instantiateViewController(withIdentifier: "previewModel") as! ImagePreviewController
+//        let previewSecene = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "previewModel") as! ImagePreviewController;
+//        print("toPreview",goToPreview)
+//        print("toPreview2", previewSecene)
+//        
+//        self.navigationController?.pushViewController(previewSecene, animated: false)
+//        self.dismiss(animated: true, completion: nil)
+//    }
 }

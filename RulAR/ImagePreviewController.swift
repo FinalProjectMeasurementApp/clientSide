@@ -11,8 +11,9 @@ import UIKit
 import ARKit
 
 
-class ImagePreviewController : UIViewController{
+class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var PreviewBoard: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     var coordinates : [SCNVector3] = []
     var lengths : [Float] = []
 
@@ -27,7 +28,14 @@ class ImagePreviewController : UIViewController{
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 10.0
         drawPreview()
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return PreviewBoard
     }
     
     @IBAction func saveData(_ sender: UIButton) {

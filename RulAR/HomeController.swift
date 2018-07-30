@@ -60,6 +60,7 @@ class HomeController : UIViewController{
     
     @IBAction func triggerNavigate(_ sender: Any) {
         let inputVc = self.storyboard?.instantiateViewController(withIdentifier: "inputModel") as! InputController
+        print("inputVc",inputVc)
         self.navigationController?.pushViewController(inputVc, animated: true)
     }
     
