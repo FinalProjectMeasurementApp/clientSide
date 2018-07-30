@@ -63,5 +63,16 @@ class HomeController : UIViewController{
         self.navigationController?.pushViewController(inputVc, animated: true)
     }
     
+    @IBAction func floorButton(_ sender: Any) {
+        let toFloor = self.storyboard?.instantiateViewController(withIdentifier: "floorplan") as! FloorPlanController
+        self.navigationController?.pushViewController(toFloor, animated: true)
+        
+    }
+    @IBAction func wallButton(_ sender: Any) {
+        let toWall = self.storyboard?.instantiateViewController(withIdentifier: "wallplan") as! WallPlanController
+        self.navigationController?.pushViewController(toWall, animated: true)
+    }
+    
+    
 }
 
