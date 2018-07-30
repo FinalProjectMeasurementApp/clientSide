@@ -12,7 +12,9 @@ import ARKit
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     var isVertical = false
     
+    @IBOutlet weak var previewButton: UIButton!
     @IBOutlet weak var PreviewBoard: UIView!
+    @IBOutlet weak var previewButtonLabel: UILabel!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -21,6 +23,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             let vc = segue.destination as? ImagePreviewController
             vc?.coordinates = coordinates
             vc?.lengths = lengths
+            vc?.area = areaValue
         }
     }
     
@@ -38,7 +41,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        previewButton.isHidden = true
+        previewButtonLabel.isHidden = true
         // setup scene
         self.setupScene()
     }
@@ -83,6 +87,8 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     @IBAction func FinishedMeasuring(_ sender: UIButton) {
+        previewButton.isHidden = false
+        previewButtonLabel.isHidden = false
         measuringMode = false
         self.lineToEnd?.removeFromParentNode()
         self.line_node?.removeFromParentNode()

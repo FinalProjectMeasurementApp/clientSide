@@ -122,6 +122,8 @@
                     <connections>
                         <outlet property="PreviewImage" destination="jCO-NK-nEl" id="fG7-cb-cLX"/>
                         <outlet property="areaText" destination="NhX-Wa-cRf" id="tFf-4f-fot"/>
+                        <outlet property="previewButton" destination="DeM-cd-oAE" id="jqa-7h-fn0"/>
+                        <outlet property="previewButtonLabel" destination="6pD-Aj-A9C" id="aYw-7D-dx3"/>
                         <outlet property="sceneView" destination="afN-AE-IvJ" id="C9I-fa-f5Q"/>
                     </connections>
                 </viewController>
@@ -156,12 +158,20 @@
                                     </view>
                                 </subviews>
                             </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8K-1E-Vqa">
+                                <rect key="frame" x="0.0" y="503" width="375" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" id="yul-qb-e3U"/>
                     <connections>
                         <outlet property="PreviewBoard" destination="RFe-TX-7aC" id="ztR-lq-AwE"/>
+                        <outlet property="areaLabel" destination="d8K-1E-Vqa" id="X0x-4D-d7t"/>
                         <outlet property="scrollView" destination="tJX-y8-osg" id="nGM-BE-0Yh"/>
                     </connections>
                 </viewController>

@@ -14,20 +14,24 @@ import ARKit
 class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var areaLabel: UILabel!
+    
     var coordinates : [SCNVector3] = []
     var lengths : [Float] = []
+    var area : Float = 0
 
     struct Model: Codable{
         let username: String
         let coordinates: [SCNVector3]
         let name: String
-        let area: Int
+        let area: Float
         let perimeter: Int
         let lengths: [Float]
     }
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        areaLabel.text = "Area: \((area*10000).rounded()/10000)m2"
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 10.0
@@ -40,7 +44,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     
     @IBAction func saveData(_ sender: UIButton) {
         let usernameFromUserDefaults = UserDefaults.standard.string(forKey: "username")
-        let myModel = Model(username: "5b5e92473d3d555ef0a4a320", coordinates: coordinates, name: "dasda", area: 23, perimeter: 23, lengths: [19])
+        let myModel = Model(username: "5b5e92473d3d555ef0a4a320", coordinates: coordinates, name: "dasda", area: area, perimeter: 23, lengths: lengths)
         
         submitModel(post: myModel){ (error) in
             if let error = error{
