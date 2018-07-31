@@ -22,7 +22,7 @@ class WallPlanController : UIViewController{
         button.isSelected = true
         
         if button.isSelected == true {
-            label.frame = CGRect(x: 22, y: 140, width: 100, height: 140)
+            label.frame = CGRect(x: 22, y: 263, width: 100, height: 140)
             label.text = ""
             label.textAlignment = .center
             label.textColor = UIColor.black
@@ -39,7 +39,7 @@ class WallPlanController : UIViewController{
     @IBAction func paintButton(_ sender: Any) {
         button.isSelected = true
         if button.isSelected == true{
-            label.frame = CGRect(x: 137, y: 140, width: 100, height: 140)
+            label.frame = CGRect(x: 137, y: 263, width: 100, height: 140)
             label.text = ""
             label.textAlignment = .center
             label.textColor = UIColor.black
@@ -55,7 +55,7 @@ class WallPlanController : UIViewController{
     @IBAction func brickButton(_ sender: Any) {
         button.isSelected = true
         if button.isSelected == true{
-            label.frame = CGRect(x: 253, y: 140, width: 100, height: 140)
+            label.frame = CGRect(x: 253, y: 263, width: 100, height: 140)
             label.text = ""
             label.textAlignment = .center
             label.textColor = UIColor.black
