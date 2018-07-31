@@ -107,8 +107,8 @@
                                     <segue destination="mJm-av-yfl" kind="modal" id="xNw-tY-CbM"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6pD-Aj-A9C">
-                                <rect key="frame" x="157" y="638" width="61" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Close Camera and Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6pD-Aj-A9C">
+                                <rect key="frame" x="85" y="641" width="205" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -170,25 +170,20 @@
                                     <segue destination="BYZ-38-t0r" kind="modal" id="mmA-a6-BPQ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d8K-1E-Vqa">
-                                <rect key="frame" x="0.0" y="503" width="375" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Cc-9d-lJ6">
+                                <rect key="frame" x="0.0" y="519" width="375" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="yei-GV-Y7K">
-                                <rect key="frame" x="135" y="20" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" id="yul-qb-e3U"/>
                     <connections>
-                        <outlet property="ImageView" destination="yei-GV-Y7K" id="7Ob-iB-8xC"/>
                         <outlet property="PreviewBoard" destination="RFe-TX-7aC" id="ztR-lq-AwE"/>
-                        <outlet property="areaLabel" destination="d8K-1E-Vqa" id="X0x-4D-d7t"/>
+                        <outlet property="areaLabel" destination="3Cc-9d-lJ6" id="z7W-3k-IVj"/>
                         <outlet property="scrollView" destination="tJX-y8-osg" id="nGM-BE-0Yh"/>
                     </connections>
                 </viewController>
@@ -613,6 +608,6 @@
         <image name="wood.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xNw-tY-CbM"/>
+        <segue reference="mmA-a6-BPQ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,13 +10,12 @@ import Foundation
 import UIKit
 import ARKit
 
+typealias Parameters = [String: String]
 
 class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var areaLabel: UILabel!
-    @IBOutlet weak var ImageView: UIImageView!
-    
     var coordinates : [SCNVector3] = []
     var lengths : [Float] = []
     var area : Float = 0
@@ -30,9 +29,10 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         let lengths: [Float]
         let image: Data
         let type: String
-        
     }
-    var image:UIImage!
+    
+    var image: UIImage!
+    
     override func viewDidLoad(){
         super.viewDidLoad()
         drawPreview()
@@ -47,8 +47,6 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         self.view.drawHierarchy(in: CGRect(5,-107,view.bounds.size.width,view.bounds.size.height), afterScreenUpdates: true)
         image = UIGraphicsGetImageFromCurrentImageContext()!;
         UIGraphicsEndImageContext();
-        ImageView.image = image
-//        print("dgsdshs",UIImagePNGRepresentation(image))
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -56,24 +54,13 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func saveData(_ sender: UIButton) {
-        self.callPost(url: URL(string: "https://rular-server.mcang.ml/shape/add")!, params: [
-            "username": "5b5e92473d3d555ef0a4a320", "coordinates": coordinates, "name": "dasda", "area": area, "perimeter": 23, "lengths": lengths, "image": UIImagePNGRepresentation(image)!, "type": "Floor"
-            ], finish: finishPost)
-    }
-    
-    func finishPost (message:String, data:Data?) -> Void
-    {
-        do
-        {
-            if let jsonData = data
-            {
-                let parsedData = try JSONDecoder().decode(Model.self, from: jsonData)
-                print(parsedData)
+        _ = UserDefaults.standard.string(forKey: "username")
+        let myModel = Model(username: "5b5e92473d3d555ef0a4a320", coordinates: coordinates, name: "dasda", area: area, perimeter: 23, lengths: lengths, image: UIImagePNGRepresentation(image)!, type: "Floor")
+        
+        submitModel(post: myModel){ (error) in
+            if let error = error{
+                fatalError(error.localizedDescription)
             }
-        }
-        catch
-        {
-            print("Parse Error: \(error)")
         }
     }
     
@@ -195,48 +182,143 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         task.resume()
     }
     func submitModel(post: Model,completion:((Error?)-> Void)?){
-        guard let url = URL(string: "https://rular-server.mcang.ml/shape/add") else{
-            fatalError("Couldn't create URL from components")
-        }
-        print("URL",url)
         
-        var request = URLRequest(url:url)
+        var parameters = [
+            "username": "5b5e92473d3d555ef0a4a320",
+            "name": "dasda",
+            "area": "\(area)",
+            "perimeter": "23",
+            "type": "floor"
+            ]
         
-        request.httpMethod="POST"
         
-        var headers = request.allHTTPHeaderFields ?? [:]
-        headers["Content-Type"] = "application/json"
-        request.allHTTPHeaderFields = headers
+
+        print(parameters)
         
-        let encoder = JSONEncoder()
-        do{
-            let jsonData = try encoder.encode(post)
-            request.httpBody = jsonData
+        let boundary = generateBoundary()
+        
+        guard let mediaImage = Media(withImage: image, forKey: "image") else { return }
+        
+        guard let url = URL(string: "https://rular-server.mcang.ml/shape/add") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue("Client-ID f65203f7020dddc", forHTTPHeaderField: "Authorization")
+        
+        let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
+        request.httpBody = dataBody
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+            }.resume()
+
+//        guard let url = URL(string: "https://rular-server.mcang.ml/shape/add") else{
+//            fatalError("Couldn't create URL from components")
+//        }
+//        print("URL",url)
+//
+//        var request = URLRequest(url:url)
+//
+//        request.httpMethod="POST"
+//
+//        var headers = request.allHTTPHeaderFields ?? [:]
+//        headers["Content-Type"] = "application/json"
+//        request.allHTTPHeaderFields = headers
+//
+//        let encoder = JSONEncoder()
+//        do{
+//            let jsonData = try encoder.encode(post)
+//            request.httpBody = jsonData
 //            print("Ini data stringnya", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
-            
-        } catch{
-            completion?(error)
+//
+//        } catch{
+//            completion?(error)
+//        }
+//
+//        let config = URLSessionConfiguration.default
+//        let session = URLSession(configuration: config)
+//
+//        let task = session.dataTask(with: request) { (responseData, response, responseError) in
+//            guard responseError == nil else {
+//                completion?(responseError!)
+//                return
+//            }
+//
+//            if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
+//                print("PRINT RESPONSE ", utf8Representation)
+//
+//            } else {
+//                print("no readable data received in response")
+//            }
+//        }
+//        task.resume()
+    }
+    
+    func generateBoundary () -> String {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+    
+    func createDataBody(withParameters params: Parameters?, media: [Media]?, boundary: String) -> Data {
+        
+        let lineBreak = "\r\n"
+        var body = Data()
+        
+        if let parameters = params {
+            for (key, value) in parameters {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+                body.append("\(value + lineBreak)")
+            }
         }
         
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        let task = session.dataTask(with: request) { (responseData, response, responseError) in
-            guard responseError == nil else {
-                completion?(responseError!)
-                return
-            }
-            
-            if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
-                print("PRINT RESPONSE ", utf8Representation)
-                
-            } else {
-                print("no readable data received in response")
+        if let media = media {
+            for photo in media {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
+                body.append("Content-Type: \(photo.mimeType + lineBreak + lineBreak)")
+                body.append(photo.data)
+                body.append(lineBreak)
             }
         }
-        task.resume()
+        
+        for (index, coordinate) in coordinates.enumerated() {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"coordinates[\(index)]\"\(lineBreak + lineBreak)")
+            body.append("\("\(coordinate.x)" + lineBreak)")
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"coordinates[\(index)]\"\(lineBreak + lineBreak)")
+            body.append("\("\(coordinate.y)" + lineBreak)")
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"coordinates[\(index)]\"\(lineBreak + lineBreak)")
+            body.append("\("\(coordinate.z)" + lineBreak)")
+        }
+        
+        for length in lengths {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"lengths\"\(lineBreak + lineBreak)")
+            body.append("\("\(length)" + lineBreak)")
+        }
+        
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        print(body)
+        return body
     }
 }
+
 
 extension CGRect{
     init(_ x:CGFloat,_ y:CGFloat,_ width:CGFloat,_ height:CGFloat) {
@@ -252,5 +334,13 @@ extension CGSize{
 extension CGPoint{
     init(_ x:CGFloat,_ y:CGFloat) {
         self.init(x:x,y:y)
+    }
+}
+
+extension Data {
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            append(data)
+        }
     }
 }
