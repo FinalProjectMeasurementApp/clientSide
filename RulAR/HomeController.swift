@@ -21,36 +21,20 @@ struct Shape: Decodable{
     let type: String
 }
 
-struct labelProps{
-    let position: Int
-    let word: String
+
+class subclassedUIButton: UIButton {
+    var shapeArea: Float?
+    var shapeName: String?
+    var shapeUrl : String?
+    var shapeType : String?
 }
 
-var word1 = labelProps(position: 30, word: "meong")
-var word2 = labelProps(position: 130, word: "booozzzz")
-var word3 = labelProps(position: 230, word: "woof")
-
-
-var button = UIButton()
+var button = subclassedUIButton()
 var label = UILabel()
-var count = 0
 var area = 0
-var typeData = ""
-var areaData : Float!
 
 class HomeController : UIViewController, UIScrollViewDelegate{
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if segue.destination is ImagePreviewController
-        {
-            let vc = segue.destination as? ImagePreviewController
-//            vc?.coordinates = coordinates
-//            vc?.lengths = lengths
-//            vc?.area = areaValue
-        }
-    }
-    
+
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var homeView: UIView!
@@ -73,7 +57,6 @@ class HomeController : UIViewController, UIScrollViewDelegate{
             }
             
             do{
-                print("masuk do ga")
                 let shape = try JSONDecoder().decode([Shape].self, from: data)
                 self.shapeData = shape
                 semaphore.signal()
@@ -103,12 +86,10 @@ class HomeController : UIViewController, UIScrollViewDelegate{
         self.navigationItem.setHidesBackButton(true, animated: false)
         scrollView.contentSize = CGSize(width: 200, height: 1000)
         for (index, data) in shapeData.enumerated(){
-            count += 1
-            print(count)
             if index % 2 == 0{
-                button = UIButton()
+                button = subclassedUIButton()
                 label = UILabel()
-                button.frame = CGRect(x: 200, y: 0+90*index, width: 150, height: 150)
+                button.frame = CGRect(x: 200, y: 0+85*index, width: 150, height: 140)
                 button.setTitle("KALO GENAP", for: .normal)
                 button.titleLabel?.text = "kalo genap"
                 button.titleLabel?.textAlignment = .center
@@ -116,6 +97,10 @@ class HomeController : UIViewController, UIScrollViewDelegate{
                 button.backgroundColor = UIColor.darkGray
                 button.isUserInteractionEnabled = true
                 button.tag = index
+                button.shapeName = data.name
+                button.shapeArea = data.area
+                button.shapeType = data.type
+                button.shapeUrl = data.image
                 button.layer.cornerRadius = 7
                 button.layer.borderWidth = 2
                 button.layer.borderColor = UIColor.black.cgColor
@@ -124,7 +109,7 @@ class HomeController : UIViewController, UIScrollViewDelegate{
                 let imagePreview = UIImage(data: imageData!)
                 button.setImage(imagePreview , for: UIControlState.normal)
                 button.addTarget(self, action: #selector(previewShape(_:)), for: .touchUpInside)
-                label.frame = CGRect(x: 200, y: 120+90*index, width: 150, height: 40)
+                label.frame = CGRect(x: 200, y: 110+85*index, width: 150, height: 40)
                 label.text = data.name + "\ntype: " + data.type
                 label.lineBreakMode = .byWordWrapping
                 label.numberOfLines = 2
@@ -135,14 +120,12 @@ class HomeController : UIViewController, UIScrollViewDelegate{
                 label.textAlignment = .center
                 self.scrollView.addSubview(button)
                 self.scrollView.addSubview(label)
-                typeData = data.type
-                areaData = data.area
             }
             //kalo ganjil
             else{
-                button = UIButton()
+                button = subclassedUIButton()
                 label = UILabel()
-                button.frame = CGRect(x: 25, y: 0+90*(index-1), width: 150, height: 150)
+                button.frame = CGRect(x: 25, y: 0+85*(index-1), width: 150, height: 140)
                 button.setTitle("KALO Ganjil", for: .normal)
                 button.titleLabel?.text = "kalo ganjil"
                 button.titleLabel?.textAlignment = .center
@@ -150,6 +133,10 @@ class HomeController : UIViewController, UIScrollViewDelegate{
                 button.backgroundColor = UIColor.red
                 button.isUserInteractionEnabled = true
                 button.tag = index
+                button.shapeName = data.name
+                button.shapeArea = data.area
+                button.shapeType = data.type
+                button.shapeUrl = data.image
                 button.layer.cornerRadius = 7
                 button.layer.borderWidth = 2
                 button.layer.borderColor = UIColor.black.cgColor
@@ -158,7 +145,7 @@ class HomeController : UIViewController, UIScrollViewDelegate{
                 let imagePreview = UIImage(data: imageData!)
                 button.setImage(imagePreview , for: UIControlState.normal)
                 button.addTarget(self, action: #selector(previewShape(_:)), for: .touchUpInside)
-                label.frame = CGRect(x: 25, y: 120+90*(index-1), width: 150, height: 40)
+                label.frame = CGRect(x: 25, y: 110+85*(index-1), width: 150, height: 40)
                 label.text = data.name + "  type: " + data.type
                 label.text = data.name + "\ntype: " + data.type
                 label.lineBreakMode = .byWordWrapping
@@ -170,34 +157,28 @@ class HomeController : UIViewController, UIScrollViewDelegate{
                 label.textAlignment = .center
                 self.scrollView.addSubview(button)
                 self.scrollView.addSubview(label)
-                typeData = data.type
-                areaData = data.area
+
             }
             
             self.homeView.frame.size.height += 80
             scrollView.contentSize = homeView.frame.size
 
-//            self.getPreview(button: button, coordinates: data.coordinates)
         }
         
     }
 
-    @IBAction func previewShape(_ sender:UIButton!) {
-        if(typeData == "floor"){
-            let toFloor = self.storyboard?.instantiateViewController(withIdentifier: "floorplan") as! FloorPlanController
-            self.navigationController?.pushViewController(toFloor, animated: true)
-        }else{
-            let toWall = self.storyboard?.instantiateViewController(withIdentifier: "wallplan") as! WallPlanController
-            self.navigationController?.pushViewController(toWall, animated: true)
-        }
+    @IBAction func previewShape(_ sender:subclassedUIButton!) {
+        UserDefaults.standard.set(sender.shapeArea,forKey:"shapeArea")
+        UserDefaults.standard.set(sender.shapeType, forKey:"shapeType")
+        UserDefaults.standard.set(sender.shapeName, forKey:"shapeName")
+        UserDefaults.standard.set(sender.shapeUrl, forKey:"shapeUrl")
+
+        let toDetail = self.storyboard?.instantiateViewController(withIdentifier: "imageDetail") as! imageDetailController
+        
+        self.navigationController?.pushViewController(toDetail, animated: true)
+
     }
     
-
-//    @IBAction func triggerNavigate(_ sender: Any) {
-//        let inputVc = self.storyboard?.instantiateViewController(withIdentifier: "inputModel") as! InputController
-//        print("inputVc",inputVc)
-//        self.navigationController?.pushViewController(inputVc, animated: true)
-//    }
     
     @IBAction func floorButton(_ sender: Any) {
         UserDefaults.standard.set("floor",forKey:"cameraType")

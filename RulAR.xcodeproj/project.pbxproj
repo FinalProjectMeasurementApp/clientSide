@@ -37,6 +37,13 @@
 		A5C4BD7821106928006C4413 /* orangeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD7721106924006C4413 /* orangeButton.png */; };
 		A5C4BD85211089CF006C4413 /* addWallPlan.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD83211089CB006C4413 /* addWallPlan.png */; };
 		A5C4BD86211089CF006C4413 /* addFloorPlan.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD84211089CD006C4413 /* addFloorPlan.png */; };
+		A5FD78842110DC5B0099B9AE /* imageDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD78832110DC5B0099B9AE /* imageDetailController.swift */; };
+		A5FD78872110F1BC0099B9AE /* floorPlanner.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FD78852110F1B80099B9AE /* floorPlanner.png */; };
+		A5FD78882110F1BC0099B9AE /* wallPlanner.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FD78862110F1BA0099B9AE /* wallPlanner.png */; };
+		A5FD788A2110F8200099B9AE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FD78892110F81D0099B9AE /* background.png */; };
+		A5FD788C2110F92A0099B9AE /* saveModel.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FD788B2110F9270099B9AE /* saveModel.png */; };
+		A5FD788E2110FACE0099B9AE /* inputBg.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FD788D2110FACB0099B9AE /* inputBg.png */; };
+		A5FD78902110FBB70099B9AE /* logotext.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FD788F2110FBB50099B9AE /* logotext.png */; };
 		CCE3D442210F004300014C43 /* WallPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE3D441210F004300014C43 /* WallPlanController.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +103,13 @@
 		A5C4BD7721106924006C4413 /* orangeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeButton.png; sourceTree = "<group>"; };
 		A5C4BD83211089CB006C4413 /* addWallPlan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addWallPlan.png; sourceTree = "<group>"; };
 		A5C4BD84211089CD006C4413 /* addFloorPlan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFloorPlan.png; sourceTree = "<group>"; };
+		A5FD78832110DC5B0099B9AE /* imageDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageDetailController.swift; sourceTree = "<group>"; };
+		A5FD78852110F1B80099B9AE /* floorPlanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = floorPlanner.png; sourceTree = "<group>"; };
+		A5FD78862110F1BA0099B9AE /* wallPlanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wallPlanner.png; sourceTree = "<group>"; };
+		A5FD78892110F81D0099B9AE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		A5FD788B2110F9270099B9AE /* saveModel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saveModel.png; sourceTree = "<group>"; };
+		A5FD788D2110FACB0099B9AE /* inputBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inputBg.png; sourceTree = "<group>"; };
+		A5FD788F2110FBB50099B9AE /* logotext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logotext.png; sourceTree = "<group>"; };
 		CCE3D441210F004300014C43 /* WallPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallPlanController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,11 +166,18 @@
 				309CF88B2109B08E004DB6D3 /* AppDelegate.swift */,
 				A546763B210E0237004622EF /* ImagePreviewController.swift */,
 				026C43D0210AFD1500C16F6F /* launchscreen.png */,
+				A5FD78832110DC5B0099B9AE /* imageDetailController.swift */,
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
+				A5FD788F2110FBB50099B9AE /* logotext.png */,
 				026C43D2210AFD1E00C16F6F /* button2.png */,
+				A5FD788D2110FACB0099B9AE /* inputBg.png */,
 				A5C4BD7521106796006C4413 /* inputUsername.png */,
 				A5C4BD84211089CD006C4413 /* addFloorPlan.png */,
+				A5FD78852110F1B80099B9AE /* floorPlanner.png */,
+				A5FD78862110F1BA0099B9AE /* wallPlanner.png */,
+				A5FD78892110F81D0099B9AE /* background.png */,
 				A5C4BD83211089CB006C4413 /* addWallPlan.png */,
+				A5FD788B2110F9270099B9AE /* saveModel.png */,
 				A5C4BD7721106924006C4413 /* orangeButton.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
 				A5C4BD732110627D006C4413 /* enterUsername.png */,
@@ -308,16 +329,22 @@
 				A56C4600210AFAC900252D1F /* launchscreen.png in Resources */,
 				A5C4BD85211089CF006C4413 /* addWallPlan.png in Resources */,
 				309CF8962109B08F004DB6D3 /* LaunchScreen.storyboard in Resources */,
+				A5FD788C2110F92A0099B9AE /* saveModel.png in Resources */,
 				A5C4BD742110627F006C4413 /* enterUsername.png in Resources */,
 				309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */,
 				A5C4BD7621106798006C4413 /* inputUsername.png in Resources */,
+				A5FD788E2110FACE0099B9AE /* inputBg.png in Resources */,
+				A5FD78902110FBB70099B9AE /* logotext.png in Resources */,
 				30483318210EB878009F0221 /* brick.png in Resources */,
 				30483316210EB878009F0221 /* tile.png in Resources */,
 				A56C45FE210AFAC400252D1F /* button2.png in Resources */,
+				A5FD788A2110F8200099B9AE /* background.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
 				30483314210EB878009F0221 /* wallpaper.png in Resources */,
 				A5C4BD86211089CF006C4413 /* addFloorPlan.png in Resources */,
+				A5FD78872110F1BC0099B9AE /* floorPlanner.png in Resources */,
+				A5FD78882110F1BC0099B9AE /* wallPlanner.png in Resources */,
 				30483317210EB878009F0221 /* wood.png in Resources */,
 				A5C4BD7821106928006C4413 /* orangeButton.png in Resources */,
 				30483315210EB878009F0221 /* stone.png in Resources */,
@@ -356,6 +383,7 @@
 				028924232110648A00B2E506 /* Media.swift in Sources */,
 				A56C4606210C706200252D1F /* FloorPlanController.swift in Sources */,
 				309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */,
+				A5FD78842110DC5B0099B9AE /* imageDetailController.swift in Sources */,
 				A56C45FA210A172100252D1F /* HomeController.swift in Sources */,
 				A546763C210E0237004622EF /* ImagePreviewController.swift in Sources */,
 			);

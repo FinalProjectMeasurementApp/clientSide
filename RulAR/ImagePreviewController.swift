@@ -68,6 +68,9 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
             if let error = error{
                 fatalError(error.localizedDescription)
             }
+            
+            let toHome = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
+            self.navigationController?.pushViewController(toHome, animated: true)
         }
     }
     
