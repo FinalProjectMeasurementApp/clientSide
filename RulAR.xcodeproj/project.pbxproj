@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		028924232110648A00B2E506 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028924222110648A00B2E506 /* Media.swift */; };
 		30483314210EB878009F0221 /* wallpaper.png in Resources */ = {isa = PBXBuildFile; fileRef = 3048330E210EB871009F0221 /* wallpaper.png */; };
 		30483315210EB878009F0221 /* stone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3048330F210EB872009F0221 /* stone.png */; };
 		30483316210EB878009F0221 /* tile.png in Resources */ = {isa = PBXBuildFile; fileRef = 30483310210EB873009F0221 /* tile.png */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		026C43D0210AFD1500C16F6F /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
 		026C43D2210AFD1E00C16F6F /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
+		028924222110648A00B2E506 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		3048330E210EB871009F0221 /* wallpaper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wallpaper.png; sourceTree = "<group>"; };
 		3048330F210EB872009F0221 /* stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stone.png; sourceTree = "<group>"; };
 		30483310210EB873009F0221 /* tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.png; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
 				026C43D2210AFD1E00C16F6F /* button2.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
+				028924222110648A00B2E506 /* Media.swift */,
 				A56C45F9210A172100252D1F /* HomeController.swift */,
 				30483312210EB875009F0221 /* brick.png */,
 				30483313210EB876009F0221 /* paint.png */,
@@ -329,6 +332,7 @@
 				A56C4602210B125A00252D1F /* UserInputController.swift in Sources */,
 				309CF88E2109B08E004DB6D3 /* ViewController.swift in Sources */,
 				309CF8C02109B812004DB6D3 /* Plane.swift in Sources */,
+				028924232110648A00B2E506 /* Media.swift in Sources */,
 				A56C4604210C5FD400252D1F /* CollectionController.swift in Sources */,
 				A56C4606210C706200252D1F /* FloorPlanController.swift in Sources */,
 				309CF88C2109B08E004DB6D3 /* AppDelegate.swift in Sources */,
