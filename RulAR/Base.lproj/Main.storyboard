@@ -203,40 +203,6 @@
             </objects>
             <point key="canvasLocation" x="-532" y="339"/>
         </scene>
-        <!--Collection View Controller-->
-        <scene sceneID="Z7c-cb-c5v">
-            <objects>
-                <collectionViewController id="gek-FD-08O" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="8xl-cj-7VL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DIf-nb-doG">
-                            <size key="itemSize" width="81" height="86"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" id="SoZ-XU-hwK">
-                                <rect key="frame" x="0.0" y="0.0" width="81" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="81" height="86"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="gek-FD-08O" id="5w4-oc-WOZ"/>
-                            <outlet property="delegate" destination="gek-FD-08O" id="Gt9-05-xPg"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OuG-nC-AuW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-562.5" y="-514.5"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="6uK-e8-JLk">
             <objects>
@@ -329,6 +295,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPk-kG-pEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="415.5" y="-479.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Srr-AF-F9E">
+            <objects>
+                <viewController id="1uO-fz-tEk" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wVr-zk-Oss">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tCN-ai-7Q7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="909" y="-579"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="sFa-T6-adN">
@@ -428,7 +408,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="c5a-c6-ped">
-                                <rect key="frame" x="116" y="278" width="143" height="54"/>
+                                <rect key="frame" x="26" y="210" width="143" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Wall Planner"/>
                                 <connections>
@@ -436,7 +416,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ugn-a6-QHG">
-                                <rect key="frame" x="130" y="355" width="114" height="48"/>
+                                <rect key="frame" x="214" y="213" width="114" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Floor Planner"/>
                                 <connections>

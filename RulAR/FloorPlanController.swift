@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class FloorPlanController : UIViewController{
+    var area = 0
     let button = UIButton()
     let label = UILabel()
     override func viewDidLoad() {
@@ -33,7 +34,7 @@ class FloorPlanController : UIViewController{
         }
         print(button.isSelected)
     }
-    
+
     
     @IBAction func tileButton(_ sender: Any) {
         
