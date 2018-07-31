@@ -16,6 +16,9 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var areaLabel: UILabel!
+    
+    var isVertical = true
+    
     var coordinates : [SCNVector3] = []
     var lengths : [Float] = []
     var area : Float = 0
@@ -35,7 +38,11 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        drawPreview()
+        if (isVertical) {
+            drawPreviewVertical()
+        } else {
+            drawPreviewHorizontal()
+        }
         areaLabel.text = "Area: \((area*10000).rounded()/10000)m2"
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1.0
@@ -64,7 +71,88 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func drawPreview() {
+    func drawPreviewVertical() {
+        let minX = coordinates.min { a, b in a.x < b.x }?.x
+        let minY = coordinates.min { a, b in a.y < b.y }?.y
+        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+        let maxY = (coordinates.max { a, b in a.y < b.y }?.y)! - minY!
+        
+        PreviewBoard.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        let shape = CAShapeLayer()
+        PreviewBoard.layer.addSublayer(shape)
+        shape.opacity = 0.5
+        shape.lineWidth = 4
+        shape.lineJoin = kCALineJoinMiter
+        shape.strokeColor = UIColor.gray.cgColor
+        shape.fillColor = UIColor(hue: 0, saturation: 0, brightness: 0.7, alpha: 1).cgColor
+        
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 320 / maxX).rounded())), y: Int(((coordinates[0].y - minY!) * 320 / maxY).rounded())))
+        
+        var centerCoor: CGPoint
+        var centerXText: Float
+        var centerYText: Float
+        
+        centerXText = (((coordinates[0].x - minX!) + (coordinates[1].x - minX!))) * 320
+        centerYText = (((coordinates[0].y - minY!) + (coordinates[1].y - minY!))) * 320
+        
+        centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+8)/2)
+        
+        
+        let myTextLayer = CATextLayer()
+        myTextLayer.string = "\((lengths[0]*100).rounded()/100)m"
+        myTextLayer.foregroundColor = UIColor.black.cgColor
+        myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:16)
+        myTextLayer.position = centerCoor
+        print(myTextLayer.frame)
+        myTextLayer.fontSize = 16.0
+        print(myTextLayer.position)
+        PreviewBoard.layer.addSublayer(myTextLayer)
+        
+        for (index, coordinate) in coordinates.enumerated() {
+            print("x: \((Int(((coordinate.x - minX!) * 320 / maxX).rounded()))), y: \((Int(((coordinate.y - minY!) * 320 / maxY).rounded())))")
+            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 320 / maxX).rounded())), y: (Int(((coordinate.y - minY!) * 320 / maxY).rounded()))))
+            
+            if coordinates.count > 2 && index > 1 {
+                
+                centerXText = (((coordinate.x - minX!) + (coordinates[index-1].x - minX!))) * 320
+                centerYText = (((coordinate.y - minY!) + (coordinates[index-1].y - minY!))) * 320
+                
+                centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+8)/2)
+                
+                let myTextLayer = CATextLayer()
+                myTextLayer.string = "\((lengths[index-1]*100).rounded()/100)m"
+                myTextLayer.foregroundColor = UIColor.black.cgColor
+                myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:16)
+                myTextLayer.position = centerCoor
+                myTextLayer.fontSize = 16.0
+                PreviewBoard.layer.addSublayer(myTextLayer)
+            }
+            
+            if index == coordinates.count-1 {
+                centerXText = (((coordinates[0].x - minX!) + (coordinates[coordinates.count-1].x - minX!))) * 320
+                centerYText = (((coordinates[0].y - minY!) + (coordinates[coordinates.count-1].y - minY!))) * 320
+                
+                centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+8)/2)
+                let myTextLayer = CATextLayer()
+                myTextLayer.string = "\((lengths[index]*100).rounded()/100)m"
+                myTextLayer.foregroundColor = UIColor.black.cgColor
+                myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:16)
+                myTextLayer.position = centerCoor
+                myTextLayer.fontSize = 16.0
+                PreviewBoard.layer.addSublayer(myTextLayer)
+            }
+            
+            
+        }
+        path.close()
+        shape.path = path.cgPath
+        
+    }
+    
+    func drawPreviewHorizontal() {
         let minX = coordinates.min { a, b in a.x < b.x }?.x
         let minY = coordinates.min { a, b in a.z < b.z }?.z
         let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
@@ -182,17 +270,21 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         task.resume()
     }
     func submitModel(post: Model,completion:((Error?)-> Void)?){
+        let modelName = UserDefaults.standard.string(forKey:"modelName")
+        let cameraType = UserDefaults.standard.string(forKey: "cameraType")
+        let currentUser = UserDefaults.standard.string(forKey : "currentUserId")
+        print(modelName)
+        
         
         var parameters = [
-            "username": "5b5e92473d3d555ef0a4a320",
-            "name": "dasda",
+            "username": currentUser,
+            "name": modelName,
             "area": "\(area)",
             "perimeter": "23",
-            "type": "floor"
+            "type": cameraType
             ]
         
         
-
         print(parameters)
         
         let boundary = generateBoundary()
@@ -206,7 +298,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("Client-ID f65203f7020dddc", forHTTPHeaderField: "Authorization")
         
-        let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
+        let dataBody = createDataBody(withParameters: parameters as! Parameters, media: [mediaImage], boundary: boundary)
         request.httpBody = dataBody
         
         let session = URLSession.shared

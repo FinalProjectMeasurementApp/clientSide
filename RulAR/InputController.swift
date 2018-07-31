@@ -20,6 +20,7 @@ class InputController : UIViewController{
      @IBOutlet weak var buttonEnterName: UIButton!
 
     override func viewDidLoad() {
+        print("USERDEFAULT", UserDefaults.standard.string(forKey: "cameraType" ))
         buttonEnterName.isHidden = true
     }
     
@@ -44,6 +45,7 @@ class InputController : UIViewController{
     
     @IBAction func submitName(_ sender: Any) {
         print("JANGAN ERROR")
+        UserDefaults.standard.set(textValue,forKey:"modelName")
         let toCamera = self.storyboard?.instantiateViewController(withIdentifier: "Camera") as! MyARCamera
         self.navigationController?.pushViewController(toCamera, animated: true)
         UserDefaults.standard.set(textValue,forKey: "modelName")

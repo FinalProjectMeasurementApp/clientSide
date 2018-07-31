@@ -16,6 +16,10 @@ import SceneKit
 //var request = URLRequest(url: task)
 
 
+struct UserIn: Decodable{
+    let _id: String
+    let username : String
+}
 
 extension SCNVector3: Codable {
     public init(from decoder: Decoder) throws {
@@ -35,6 +39,9 @@ extension SCNVector3: Codable {
 }
 
 var labelStatus = false
+
+var stringData = ""
+
 class UserInputController : UIViewController{
     
     
@@ -61,7 +68,6 @@ class UserInputController : UIViewController{
     @IBOutlet weak var inputUsername: UITextField!
     
     @IBAction func userInputChange(_ sender: UITextField) {
-        print("masih masuk sini ga")
         usernameTextValue = sender.text!
     }
     
@@ -69,17 +75,7 @@ class UserInputController : UIViewController{
         let username: String
     }
     
-//    struct Model: Codable{
-//        let username: String
-//        let coordinates: [SCNVector3]
-//        let name: String
-//        let area: Int
-//        let perimeter: Int
-//    }
-//
-  
-    
-    
+ 
     func submitPost(post: User,completion:((Error?) -> Void)?) {
 
         guard let url = URL(string: "https://rular-server.mcang.ml/user/add") else { fatalError("Could not create URL from components") }
@@ -110,14 +106,24 @@ class UserInputController : UIViewController{
                 completion?(responseError!)
                 return
             }
-
-            // APIs usually respond with the data you just sent in your POST request
-            if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
-                print("PRINT RESPONSE ", utf8Representation)
-
-            } else {
-                print("no readable data received in response")
+            let data = responseData
+            
+            do{
+                let currentUser = try JSONDecoder().decode(UserIn.self, from: data!)
+                print("DAPET GAA INI",currentUser._id)
+                UserDefaults.standard.set(currentUser._id,forKey:"currentUserId")
+            }catch let jsonErr {
+                print("Erroor",jsonErr)
+                print("response", response!)
             }
+
+//            if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
+//
+//                print("PRINT RESPONSE ", utf8Representation)
+//
+//            } else {
+//                print("no readable data received in response")
+//            }
         }
         task.resume()
     }
@@ -125,9 +131,10 @@ class UserInputController : UIViewController{
     
     
     @IBAction func submitUsername(_ sender: UIButton) {
-        print("MASUK DISINI BUTTON")
+    
+
+        
         if usernameTextValue == nil{
-            print("username textvalue nill")
             label.frame = CGRect(x: 0, y: 550, width: self.view.frame.width, height: 120)
             label.text = "Username can not be empty "
             label.textAlignment = .center
@@ -144,8 +151,6 @@ class UserInputController : UIViewController{
                 if let error = error {
                     fatalError(error.localizedDescription)
                 }
-                
-                print("kalo ini berhasil")
             }
             let homeVc = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
             self.navigationController?.pushViewController(homeVc, animated: true)
@@ -154,7 +159,6 @@ class UserInputController : UIViewController{
             UserDefaults.standard.set(true, forKey: "userLogged")
         }
         
-        print("button Triggered",usernameTextValue )
         
     }
     

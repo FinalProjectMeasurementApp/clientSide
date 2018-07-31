@@ -11,7 +11,8 @@ import ARKit
 import Foundation
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
-    var isVertical = false
+    
+    var isVertical = true
     
     @IBOutlet weak var finishLabel: UILabel!
     @IBOutlet weak var DuringMeasuringLabel: UILabel!
@@ -46,6 +47,15 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("USERDEFAULT FOR MODEL NAME",UserDefaults.standard.string(forKey: "modelName"))
+        if UserDefaults.standard.string(forKey: "cameraType") == "floor"{
+            isVertical = false
+        }else if UserDefaults.standard.string(forKey: "cameraType") == "wall" {
+            isVertical = true
+        }
+        
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
         previewButton.isHidden = true
         previewButtonLabel.isHidden = true
         DuringMeasuringLabel.isHidden = true
@@ -170,7 +180,13 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     
                     let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
                     
-                    let length = sqrt(powf(position.x, 2.0) + powf(position.z, 2.0))
+                    let length: Float
+                    
+                    if (isVertical) {
+                        length = sqrt(powf(position.x, 2.0) + powf(position.y, 2.0))
+                    } else {
+                        length = sqrt(powf(position.x, 2.0) + powf(position.z, 2.0))
+                    }
                     
                     let centerPoint = SCNVector3((firstPointToPrev.x + toBeMadePoint.x)/2,(firstPointToPrev.y + toBeMadePoint.y)/2,(firstPointToPrev.z + toBeMadePoint.z)/2)
                     
