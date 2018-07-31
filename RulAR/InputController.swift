@@ -43,8 +43,11 @@ class InputController : UIViewController{
     
     
     @IBAction func submitName(_ sender: Any) {
-        print("JANGAN ERROR"
-        )
+        print("JANGAN ERROR")
+        let toCamera = self.storyboard?.instantiateViewController(withIdentifier: "Camera") as! MyARCamera
+        self.navigationController?.pushViewController(toCamera, animated: true)
+        UserDefaults.standard.set(textValue,forKey: "modelName")
+        
     }
     
        

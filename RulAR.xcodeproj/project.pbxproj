@@ -25,18 +25,17 @@
 		309CF8BE2109B296004DB6D3 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 309CF8BC2109B296004DB6D3 /* add.png */; };
 		309CF8C02109B812004DB6D3 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309CF8BF2109B812004DB6D3 /* Plane.swift */; };
 		A546763C210E0237004622EF /* ImagePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A546763B210E0237004622EF /* ImagePreviewController.swift */; };
-		A55B1CB5210EBF5D00E5BAD3 /* wallpaper.png in Resources */ = {isa = PBXBuildFile; fileRef = A55B1CAF210EBF5D00E5BAD3 /* wallpaper.png */; };
-		A55B1CB6210EBF5D00E5BAD3 /* stone.png in Resources */ = {isa = PBXBuildFile; fileRef = A55B1CB0210EBF5D00E5BAD3 /* stone.png */; };
-		A55B1CB7210EBF5D00E5BAD3 /* wood.png in Resources */ = {isa = PBXBuildFile; fileRef = A55B1CB1210EBF5D00E5BAD3 /* wood.png */; };
-		A55B1CB8210EBF5D00E5BAD3 /* brick.png in Resources */ = {isa = PBXBuildFile; fileRef = A55B1CB2210EBF5D00E5BAD3 /* brick.png */; };
-		A55B1CB9210EBF5D00E5BAD3 /* paint.png in Resources */ = {isa = PBXBuildFile; fileRef = A55B1CB3210EBF5D00E5BAD3 /* paint.png */; };
-		A55B1CBA210EBF5D00E5BAD3 /* tile.png in Resources */ = {isa = PBXBuildFile; fileRef = A55B1CB4210EBF5D00E5BAD3 /* tile.png */; };
 		A56C45FA210A172100252D1F /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C45F9210A172100252D1F /* HomeController.swift */; };
 		A56C45FE210AFAC400252D1F /* button2.png in Resources */ = {isa = PBXBuildFile; fileRef = A56C45FD210AFAC300252D1F /* button2.png */; };
 		A56C4600210AFAC900252D1F /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = A56C45FF210AFAC800252D1F /* launchscreen.png */; };
 		A56C4602210B125A00252D1F /* UserInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C4601210B125A00252D1F /* UserInputController.swift */; };
 		A56C4606210C706200252D1F /* FloorPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C4605210C706200252D1F /* FloorPlanController.swift */; };
 		A59E7C882109FE0C001C1D9E /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59E7C872109FE0C001C1D9E /* InputController.swift */; };
+		A5C4BD742110627F006C4413 /* enterUsername.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD732110627D006C4413 /* enterUsername.png */; };
+		A5C4BD7621106798006C4413 /* inputUsername.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD7521106796006C4413 /* inputUsername.png */; };
+		A5C4BD7821106928006C4413 /* orangeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD7721106924006C4413 /* orangeButton.png */; };
+		A5C4BD85211089CF006C4413 /* addWallPlan.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD83211089CB006C4413 /* addWallPlan.png */; };
+		A5C4BD86211089CF006C4413 /* addFloorPlan.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD84211089CD006C4413 /* addFloorPlan.png */; };
 		CCE3D442210F004300014C43 /* WallPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE3D441210F004300014C43 /* WallPlanController.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,18 +83,17 @@
 		309CF8BC2109B296004DB6D3 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		309CF8BF2109B812004DB6D3 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		A546763B210E0237004622EF /* ImagePreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewController.swift; sourceTree = "<group>"; };
-		A55B1CAF210EBF5D00E5BAD3 /* wallpaper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wallpaper.png; sourceTree = "<group>"; };
-		A55B1CB0210EBF5D00E5BAD3 /* stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stone.png; sourceTree = "<group>"; };
-		A55B1CB1210EBF5D00E5BAD3 /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood.png; sourceTree = "<group>"; };
-		A55B1CB2210EBF5D00E5BAD3 /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick.png; sourceTree = "<group>"; };
-		A55B1CB3210EBF5D00E5BAD3 /* paint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paint.png; sourceTree = "<group>"; };
-		A55B1CB4210EBF5D00E5BAD3 /* tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile.png; sourceTree = "<group>"; };
 		A56C45F9210A172100252D1F /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		A56C45FD210AFAC300252D1F /* button2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button2.png; sourceTree = "<group>"; };
 		A56C45FF210AFAC800252D1F /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
 		A56C4601210B125A00252D1F /* UserInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputController.swift; sourceTree = "<group>"; };
 		A56C4605210C706200252D1F /* FloorPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlanController.swift; sourceTree = "<group>"; };
 		A59E7C872109FE0C001C1D9E /* InputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
+		A5C4BD732110627D006C4413 /* enterUsername.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enterUsername.png; sourceTree = "<group>"; };
+		A5C4BD7521106796006C4413 /* inputUsername.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inputUsername.png; sourceTree = "<group>"; };
+		A5C4BD7721106924006C4413 /* orangeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeButton.png; sourceTree = "<group>"; };
+		A5C4BD83211089CB006C4413 /* addWallPlan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addWallPlan.png; sourceTree = "<group>"; };
+		A5C4BD84211089CD006C4413 /* addFloorPlan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFloorPlan.png; sourceTree = "<group>"; };
 		CCE3D441210F004300014C43 /* WallPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallPlanController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,7 +152,12 @@
 				026C43D0210AFD1500C16F6F /* launchscreen.png */,
 				309CF8BF2109B812004DB6D3 /* Plane.swift */,
 				026C43D2210AFD1E00C16F6F /* button2.png */,
+				A5C4BD7521106796006C4413 /* inputUsername.png */,
+				A5C4BD84211089CD006C4413 /* addFloorPlan.png */,
+				A5C4BD83211089CB006C4413 /* addWallPlan.png */,
+				A5C4BD7721106924006C4413 /* orangeButton.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
+				A5C4BD732110627D006C4413 /* enterUsername.png */,
 				A56C45F9210A172100252D1F /* HomeController.swift */,
 				30483312210EB875009F0221 /* brick.png */,
 				30483313210EB876009F0221 /* paint.png */,
@@ -300,15 +303,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				A56C4600210AFAC900252D1F /* launchscreen.png in Resources */,
+				A5C4BD85211089CF006C4413 /* addWallPlan.png in Resources */,
 				309CF8962109B08F004DB6D3 /* LaunchScreen.storyboard in Resources */,
+				A5C4BD742110627F006C4413 /* enterUsername.png in Resources */,
 				309CF8BD2109B296004DB6D3 /* focus_square.png in Resources */,
+				A5C4BD7621106798006C4413 /* inputUsername.png in Resources */,
 				30483318210EB878009F0221 /* brick.png in Resources */,
 				30483316210EB878009F0221 /* tile.png in Resources */,
 				A56C45FE210AFAC400252D1F /* button2.png in Resources */,
 				309CF8BA2109B287004DB6D3 /* grid.png in Resources */,
 				309CF8BE2109B296004DB6D3 /* add.png in Resources */,
 				30483314210EB878009F0221 /* wallpaper.png in Resources */,
+				A5C4BD86211089CF006C4413 /* addFloorPlan.png in Resources */,
 				30483317210EB878009F0221 /* wood.png in Resources */,
+				A5C4BD7821106928006C4413 /* orangeButton.png in Resources */,
 				30483315210EB878009F0221 /* stone.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				30483319210EB878009F0221 /* paint.png in Resources */,

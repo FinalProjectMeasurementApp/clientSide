@@ -20,6 +20,7 @@ import SceneKit
 extension SCNVector3: Codable {
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
+        self.init()
         self.x = try container.decode(Float.self)
         self.y = try container.decode(Float.self)
         self.z = try container.decode(Float.self)
@@ -38,11 +39,15 @@ class UserInputController : UIViewController{
     
     
     var usernameTextValue : String!
-    var testCoordinate: [SCNVector3] = [SCNVector3(x: -0.252867877, y: 0.0111992061, z: -0.186102509), SCNVector3(x: -0.186894715, y: 0.0132495388, z: -0.122510508), SCNVector3(x: -0.182980567, y: -0.0396186635, z: -0.113561183), SCNVector3(x: -0.25373733, y: -0.0535521731, z: -0.180975109)]
     var label = UILabel()
+
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
+    
+        
         print("USERNAME in localstorage : ",UserDefaults.standard.string(forKey: "username") ?? "ga ada")
         print("STATUS USER", UserDefaults.standard.bool(forKey: "userLogged"))
     
@@ -56,6 +61,7 @@ class UserInputController : UIViewController{
     @IBOutlet weak var inputUsername: UITextField!
     
     @IBAction func userInputChange(_ sender: UITextField) {
+        print("masih masuk sini ga")
         usernameTextValue = sender.text!
     }
     
@@ -82,8 +88,6 @@ class UserInputController : UIViewController{
         var request = URLRequest(url: url)
 
         request.httpMethod = "POST"
-        // Make sure that we include headers specifying that our request's HTTP body
-        // will be JSON encoded
         var headers = request.allHTTPHeaderFields ?? [:]
         headers["Content-Type"] = "application/json"
         request.allHTTPHeaderFields = headers
@@ -123,7 +127,8 @@ class UserInputController : UIViewController{
     @IBAction func submitUsername(_ sender: UIButton) {
         print("MASUK DISINI BUTTON")
         if usernameTextValue == nil{
-            label.frame = CGRect(x: 0, y: 300, width: self.view.frame.width, height: 120)
+            print("username textvalue nill")
+            label.frame = CGRect(x: 0, y: 550, width: self.view.frame.width, height: 120)
             label.text = "Username can not be empty "
             label.textAlignment = .center
             label.textColor = UIColor.black

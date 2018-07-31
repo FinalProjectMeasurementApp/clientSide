@@ -76,8 +76,12 @@ class HomeController : UIViewController, UIScrollViewDelegate{
         semaphore.wait()
     }
     
+    @IBOutlet weak var wallPlannerButton: UIButton!
+    
+    @IBOutlet weak var floorPlannerButton: UIButton!
+    
     override func viewDidLoad() {
-
+        
         scrollView.delegate = self
 
         scrollView.alwaysBounceVertical = true
@@ -117,7 +121,7 @@ class HomeController : UIViewController, UIScrollViewDelegate{
             else{
                 label = UILabel()
                 button = UIButton()
-                button.frame = CGRect(x: 27, y: 0+80*(index-1), width: 150, height: 150)
+                button.frame = CGRect(x: 25, y: 0+80*(index-1), width: 150, height: 150)
                 button.setTitle("KALO Ganjil", for: .normal)
                 button.titleLabel?.text = "kalo ganjil"
                 button.titleLabel?.textAlignment = .center
