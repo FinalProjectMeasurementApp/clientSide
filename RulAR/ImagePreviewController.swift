@@ -16,8 +16,6 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var areaLabel: UILabel!
-    @IBOutlet weak var ImageView: UIImageView!
-    
     var coordinates : [SCNVector3] = []
     var lengths : [Float] = []
     var area : Float = 0
@@ -49,7 +47,6 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         self.view.drawHierarchy(in: CGRect(5,-107,view.bounds.size.width,view.bounds.size.height), afterScreenUpdates: true)
         image = UIGraphicsGetImageFromCurrentImageContext()!;
         UIGraphicsEndImageContext();
-        ImageView.image = image
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -151,28 +148,30 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     
     func submitModel(post: Model,completion:((Error?)-> Void)?){
         
-        let parameters = [
+        var parameters = [
             "username": "5b5e92473d3d555ef0a4a320",
-            "coordinates": coordinates,
             "name": "dasda",
-            "area": area,
-            "perimeter": 23,
-            "lengths": lengths,
-            "type": "Floor"
-            ] as [String : Any]
+            "area": "\(area)",
+            "perimeter": "23",
+            "type": "floor"
+            ]
+        
+        
+
+        print(parameters)
         
         let boundary = generateBoundary()
         
         guard let mediaImage = Media(withImage: image, forKey: "image") else { return }
         
-        guard let url = URL(string: "https://api.imgur.com/3/image") else { return }
+        guard let url = URL(string: "https://rular-server.mcang.ml/shape/add") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("Client-ID f65203f7020dddc", forHTTPHeaderField: "Authorization")
         
-        let dataBody = createDataBody(withParameters: parameters as! Parameters, media: [mediaImage], boundary: boundary)
+        let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
         request.httpBody = dataBody
         
         let session = URLSession.shared
@@ -260,8 +259,27 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
             }
         }
         
-        body.append("--\(boundary)--\(lineBreak)")
+        for (index, coordinate) in coordinates.enumerated() {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"coordinates[\(index)]\"\(lineBreak + lineBreak)")
+            body.append("\("\(coordinate.x)" + lineBreak)")
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"coordinates[\(index)]\"\(lineBreak + lineBreak)")
+            body.append("\("\(coordinate.y)" + lineBreak)")
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"coordinates[\(index)]\"\(lineBreak + lineBreak)")
+            body.append("\("\(coordinate.z)" + lineBreak)")
+        }
         
+        for length in lengths {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"lengths\"\(lineBreak + lineBreak)")
+            body.append("\("\(length)" + lineBreak)")
+        }
+        
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        print(body)
         return body
     }
 }
