@@ -36,14 +36,24 @@ var count = 0
 var area = 0
 
 
-class HomeController : UIViewController{
+class HomeController : UIViewController, UIScrollViewDelegate{
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var homeView: UIView!
+    
+    
     var shapeData: [Shape] = []
     
     func query(address: String) {
-        let url = URL(string:address)
         let semaphore = DispatchSemaphore(value: 0)
         
-        let task = URLSession.shared.dataTask(with: url!)  { (data, response, error) in
+        print("MUNCUL GA DISINI")
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        let jsonUrl = "https://rular-server.mcang.ml/shape/"
+        guard let url = URL(string: jsonUrl) else {
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url)  { (data, response, error) in
             guard let data = data else {
                 return
             }
@@ -64,24 +74,30 @@ class HomeController : UIViewController{
 
         task.resume()
         semaphore.wait()
-//        return result
     }
     
     override func viewDidLoad() {
-        print("MUNCUL GA DISINI")
-        super.viewDidLoad()
+
+        scrollView.delegate = self
+
+        scrollView.alwaysBounceVertical = true
+        scrollView.isScrollEnabled = true
+//        scrollView.contentSize = homeView.frame.size
+        
+        
+             super.viewDidLoad()
         let pref = query(address: "https://rular-server.mcang.ml/shape")
         print("SHAPE",shapeData)
         self.navigationItem.setHidesBackButton(true, animated: false)
+        scrollView.contentSize = CGSize(width: 200, height: 1000)
         for (index, data) in shapeData.enumerated(){
             print("DATAAA",data)
             count += 1
             print(count)
-            //kalo genap
             if index % 2 == 0{
                 button = UIButton()
                 label = UILabel()
-                button.frame = CGRect(x: 200, y: 230+80*index, width: 150, height: 150)
+                button.frame = CGRect(x: 200, y: 0+80*index, width: 150, height: 150)
                 button.setTitle("KALO GENAP", for: .normal)
                 button.titleLabel?.text = "kalo genap"
                 button.titleLabel?.textAlignment = .center
@@ -89,15 +105,19 @@ class HomeController : UIViewController{
                 button.backgroundColor = UIColor.darkGray
                 button.isUserInteractionEnabled = true
                 button.tag = index
+                button.layer.cornerRadius = 7
+                button.layer.borderWidth = 2
+                button.layer.borderColor = UIColor.black.cgColor
                 button.addTarget(self, action: #selector(previewShape(_:)), for: .touchUpInside)
                 print("DATA AREA", data.area)
-                self.view.addSubview(button)
+                
+                self.scrollView.addSubview(button)
             }
             //kalo ganjil
             else{
                 label = UILabel()
                 button = UIButton()
-                button.frame = CGRect(x: 30, y: 230+80*(index-1), width: 150, height: 150)
+                button.frame = CGRect(x: 27, y: 0+80*(index-1), width: 150, height: 150)
                 button.setTitle("KALO Ganjil", for: .normal)
                 button.titleLabel?.text = "kalo ganjil"
                 button.titleLabel?.textAlignment = .center
@@ -105,15 +125,23 @@ class HomeController : UIViewController{
                 button.backgroundColor = UIColor.red
                 button.isUserInteractionEnabled = true
                 button.tag = index
+                button.layer.cornerRadius = 7
+                button.layer.borderWidth = 2
+                button.layer.borderColor = UIColor.black.cgColor
                 button.addTarget(self, action: #selector(previewShape(_:)), for: .touchUpInside)
                 print("DATA AREA", data.area)
-                self.view.addSubview(button)
+                self.scrollView.addSubview(button)
             }
+            
+            self.homeView.frame.size.height += 80
+            scrollView.contentSize = homeView.frame.size
+            print("HOMEVIEW",homeView.frame.size)
+
 //            self.getPreview(button: button, coordinates: data.coordinates)
         }
         
     }
-    
+
     @IBAction func previewShape(_ sender:UIButton!) {
         print("COOL FUNC")
 //        let lol = shapeData[sender.tag].area
@@ -152,45 +180,22 @@ class HomeController : UIViewController{
 
     @IBAction func triggerNavigate(_ sender: Any) {
         let inputVc = self.storyboard?.instantiateViewController(withIdentifier: "inputModel") as! InputController
+        print("inputVc",inputVc)
         self.navigationController?.pushViewController(inputVc, animated: true)
     }
     
-    func getPreview (button: UIButton, coordinates: [SCNVector3]) {
-        let minX = coordinates.min { a, b in a.x < b.x }?.x
-        let minY = coordinates.min { a, b in a.z < b.z }?.z
-        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
-        let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
-        
-        button.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        
-        let shape = CAShapeLayer()
-        button.layer.addSublayer(shape)
-        shape.opacity = 0.5
-        shape.lineWidth = 2
-        shape.lineJoin = kCALineJoinMiter
-        shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
-        shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
-        
-        let path = UIBezierPath()
-        
-        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 150 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 150 / maxY).rounded())))
-        
-        for coordinate in coordinates {
-            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 150 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 150 / maxY).rounded()))))
-            
-        }
-        print("hoihoiho",coordinates)
-        if(coordinates.count > 1){
-            path.close()
-        }
-        
-        shape.path = path.cgPath
+    
+    @IBAction func floorButton(_ sender: Any) {
+        let toFloor = self.storyboard?.instantiateViewController(withIdentifier: "floorplan") as! FloorPlanController
+        self.navigationController?.pushViewController(toFloor, animated: true)
     }
     
-    func functionBaru(){
-        print("AAAAAA")
+    @IBAction func wallButton(_ sender: Any) {
+        let toWall = self.storyboard?.instantiateViewController(withIdentifier: "wallplan") as! WallPlanController
+        self.navigationController?.pushViewController(toWall, animated: true)
     }
     
     
+
 }
 

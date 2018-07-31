@@ -17,7 +17,11 @@ struct User: Codable {
 
 
 class InputController : UIViewController{
+     @IBOutlet weak var buttonEnterName: UIButton!
 
+    override func viewDidLoad() {
+        buttonEnterName.isHidden = true
+    }
     
     let postUser = User(username: "testing")
     
@@ -29,11 +33,20 @@ class InputController : UIViewController{
         print(sender.text!)
         textValue = sender.text!
         print("TEXT VALUE INPUT",textValue)
-    }
-
-    @IBAction func submitButton(_ sender: Any) {
+        if textValue == "" {
+            buttonEnterName.isHidden = true
+        }else{
+            buttonEnterName.isHidden = false
+        }
         
-        print("DAPET TEXT VALUENYA GA",textValue)
-        print("button di pencet")
     }
+    
+    
+    @IBAction func submitName(_ sender: Any) {
+        print("JANGAN ERROR"
+        )
+    }
+    
+       
+    
 }

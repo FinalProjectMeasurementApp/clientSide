@@ -11,7 +11,7 @@ import UIKit
 import SceneKit
 
 //let session = URLSession(configuration: .ephemeral)
-//let task = session.dataTask(with: URL(string: "http://localhost:8000/user/add")!)
+//let task = session.dataTask(with: URL(string: "https://rular-server.mcang.ml/user/add")!)
 //
 //var request = URLRequest(url: task)
 
@@ -76,7 +76,7 @@ class UserInputController : UIViewController{
     
     func submitPost(post: User,completion:((Error?) -> Void)?) {
 
-        guard let url = URL(string: "http://localhost:8000/user/add") else { fatalError("Could not create URL from components") }
+        guard let url = URL(string: "https://rular-server.mcang.ml/user/add") else { fatalError("Could not create URL from components") }
         print(url)
         
         var request = URLRequest(url: url)
