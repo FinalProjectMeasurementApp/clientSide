@@ -20,6 +20,7 @@ import SceneKit
 extension SCNVector3: Codable {
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
+        self.init()
         self.x = try container.decode(Float.self)
         self.y = try container.decode(Float.self)
         self.z = try container.decode(Float.self)

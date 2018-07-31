@@ -15,6 +15,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var areaLabel: UILabel!
+    @IBOutlet weak var ImageView: UIImageView!
     
     var coordinates : [SCNVector3] = []
     var lengths : [Float] = []
@@ -31,11 +32,19 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        drawPreview()
         areaLabel.text = "Area: \((area*10000).rounded()/10000)m2"
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 10.0
-        drawPreview()
+        scrollView.alwaysBounceVertical = true
+        scrollView.isScrollEnabled = true
+
+        UIGraphicsBeginImageContextWithOptions(CGSize(380,388), false, 0);
+        self.view.drawHierarchy(in: CGRect(5,-107,view.bounds.size.width,view.bounds.size.height), afterScreenUpdates: true)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        ImageView.image = image
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -43,7 +52,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func saveData(_ sender: UIButton) {
-        let usernameFromUserDefaults = UserDefaults.standard.string(forKey: "username")
+        _ = UserDefaults.standard.string(forKey: "username")
         let myModel = Model(username: "5b5e92473d3d555ef0a4a320", coordinates: coordinates, name: "dasda", area: area, perimeter: 23, lengths: lengths)
         
         submitModel(post: myModel){ (error) in
@@ -72,14 +81,14 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         
         let path = UIBezierPath()
         
-        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 333 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 333 / maxY).rounded())))
+        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 320 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 320 / maxY).rounded())))
         
         var centerCoor: CGPoint
         var centerXText: Float
         var centerYText: Float
         
-        centerXText = (((coordinates[0].x - minX!) + (coordinates[1].x - minX!))) * 333
-        centerYText = (((coordinates[0].z - minY!) + (coordinates[1].z - minY!))) * 333
+        centerXText = (((coordinates[0].x - minX!) + (coordinates[1].x - minX!))) * 320
+        centerYText = (((coordinates[0].z - minY!) + (coordinates[1].z - minY!))) * 320
         
         centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+8)/2)
         
@@ -95,17 +104,15 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         PreviewBoard.layer.addSublayer(myTextLayer)
         
         for (index, coordinate) in coordinates.enumerated() {
-            print("x: \((Int(((coordinate.x - minX!) * 333 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 333 / maxY).rounded())))")
-            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 333 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 333 / maxY).rounded()))))
+            print("x: \((Int(((coordinate.x - minX!) * 320 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 320 / maxY).rounded())))")
+            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 320 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 320 / maxY).rounded()))))
             
             if coordinates.count > 2 && index > 1 {
                 
-                centerXText = (((coordinate.x - minX!) + (coordinates[index-1].x - minX!))) * 333
-                centerYText = (((coordinate.z - minY!) + (coordinates[index-1].z - minY!))) * 333
+                centerXText = (((coordinate.x - minX!) + (coordinates[index-1].x - minX!))) * 320
+                centerYText = (((coordinate.z - minY!) + (coordinates[index-1].z - minY!))) * 320
                 
                 centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+8)/2)
-                
-                print("center", centerCoor)
                 
                 let myTextLayer = CATextLayer()
                 myTextLayer.string = "\((lengths[index-1]*100).rounded()/100)m"
@@ -117,11 +124,10 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
             }
             
             if index == coordinates.count-1 {
-                centerXText = (((coordinates[0].x - minX!) + (coordinates[coordinates.count-1].x - minX!))) * 333
-                centerYText = (((coordinates[0].z - minY!) + (coordinates[coordinates.count-1].z - minY!))) * 333
+                centerXText = (((coordinates[0].x - minX!) + (coordinates[coordinates.count-1].x - minX!))) * 320
+                centerYText = (((coordinates[0].z - minY!) + (coordinates[coordinates.count-1].z - minY!))) * 320
                 
                 centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+8)/2)
-                print("center",centerCoor)
                 let myTextLayer = CATextLayer()
                 myTextLayer.string = "\((lengths[index]*100).rounded()/100)m"
                 myTextLayer.foregroundColor = UIColor.black.cgColor
@@ -179,5 +185,22 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
             }
         }
         task.resume()
+    }
+}
+
+extension CGRect{
+    init(_ x:CGFloat,_ y:CGFloat,_ width:CGFloat,_ height:CGFloat) {
+        self.init(x:x,y:y,width:width,height:height)
+    }
+    
+}
+extension CGSize{
+    init(_ width:CGFloat,_ height:CGFloat) {
+        self.init(width:width,height:height)
+    }
+}
+extension CGPoint{
+    init(_ x:CGFloat,_ y:CGFloat) {
+        self.init(x:x,y:y)
     }
 }

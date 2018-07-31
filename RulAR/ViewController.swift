@@ -12,6 +12,10 @@ import ARKit
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     var isVertical = false
     
+    @IBOutlet weak var finishLabel: UILabel!
+    @IBOutlet weak var DuringMeasuringLabel: UILabel!
+    @IBOutlet weak var DuringMeasuringButton: UIButton!
+    @IBOutlet weak var ResetButton: UIButton!
     @IBOutlet weak var previewButton: UIButton!
     @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var previewButtonLabel: UILabel!
@@ -43,6 +47,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         super.viewDidLoad()
         previewButton.isHidden = true
         previewButtonLabel.isHidden = true
+        DuringMeasuringLabel.isHidden = true
+        DuringMeasuringButton.isHidden = true
+        ResetButton.isHidden = true
+        finishLabel.isHidden = true
         // setup scene
         self.setupScene()
     }
@@ -75,6 +83,12 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     //MARK: - Action
     @IBOutlet weak var areaText: UILabel!
     @IBAction func resetMeasure(_ sender: UIButton) {
+        previewButton.isHidden = true
+        previewButtonLabel.isHidden = true
+        DuringMeasuringLabel.isHidden = true
+        DuringMeasuringButton.isHidden = true
+        ResetButton.isHidden = true
+        finishLabel.isHidden = true
         startNode = nil
         endNode = nil
         beginningPoint = nil
@@ -111,8 +125,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         
         self.displayText(distance: result, position: centerPoint)
         self.lengths.append(result)
-//        print("here!", self.lengths)
-        // self.drawPreview()
     }
     @IBAction func onAddButtonClick(_ sender: UIButton) {
         let startPoint = startNode
@@ -127,6 +139,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 coordinates.append((startNode?.position)!)
                 
                 if secondNode == true{
+                    DuringMeasuringLabel.isHidden = false
+                    DuringMeasuringButton.isHidden = false
+                    ResetButton.isHidden = false
+                    finishLabel.isHidden = false
                     guard let currentPosition = endNode,
                         let start = startPoint else {
                             return
@@ -161,8 +177,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     self.lengths.append(length)
                     
                     
-                    //trying to make preview
-//                     self.drawPreview()
 
                     
                     // line-node
@@ -202,7 +216,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
         
         for coordinate in coordinates {
-            print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
             path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
             
         }
@@ -232,7 +245,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         path.move(to: CGPoint(x: Int(((coordinates[0].x - minX!) * 138 / maxX).rounded()), y: 128 - Int(((coordinates[0].y - minY!) * 128 / maxY).rounded())))
         
         for coordinate in coordinates {
-            print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.y - minY!) * 128 / maxY).rounded())))")
             path.addLine(to: CGPoint(x: Int(((coordinate.x - minX!) * 138 / maxX).rounded()), y: 128 - Int(((coordinate.y - minY!) * 128 / maxY).rounded())))
             
         }
@@ -251,7 +263,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             coordinateTwo = coordinate
         }
         
-        return abs(area * 100 / 2)
+        return abs(area / 2)
     }
     
     func calculateAreaVertical(_ coordinates: [SCNVector3]) -> Float {
@@ -264,7 +276,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             coordinateTwo = coordinate
         }
         
-        return abs(area * 100 / 2)
+        return abs(area / 2)
     }
     
     func doHitTestOnExistingPlanes() -> SCNVector3? {
@@ -415,91 +427,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         }
         
         self.sceneView.scene.rootNode.addChildNode(textNode)
-    }
-    
-    //creating preview
-    func drawPreview() {
-        let minX = coordinates.min { a, b in a.x < b.x }?.x
-        let minY = coordinates.min { a, b in a.z < b.z }?.z
-        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
-        let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
-        
-        PreviewBoard.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        
-        let shape = CAShapeLayer()
-        PreviewBoard.layer.addSublayer(shape)
-        shape.opacity = 0.5
-        shape.lineWidth = 2
-        shape.lineJoin = kCALineJoinMiter
-        shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
-        shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
-        
-        let path = UIBezierPath()
-        
-        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
-        
-        var centerCoor: CGPoint
-        var centerXText: Float
-        var centerYText: Float
-        
-        centerXText = (((coordinates[0].x - minX!) + (coordinates[1].x - minX!))) * 128
-        centerYText = (((coordinates[0].z - minY!) + (coordinates[1].z - minY!))) * 138
-        
-        centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+5)/2)
-
-        
-        let myTextLayer = CATextLayer()
-        myTextLayer.string = "\((lengths[0]*100).rounded()/100)m"
-        myTextLayer.foregroundColor = UIColor.cyan.cgColor
-        myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
-        myTextLayer.position = centerCoor
-        print(myTextLayer.frame)
-        myTextLayer.fontSize = 10.0
-        print(myTextLayer.position)
-        PreviewBoard.layer.addSublayer(myTextLayer)
-        
-        for (index, coordinate) in coordinates.enumerated() {
-            print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
-            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
-            
-            if coordinates.count > 2 && index > 1 {
-                
-                centerXText = (((coordinate.x - minX!) + (coordinates[index-1].x - minX!))) * 138
-                centerYText = (((coordinate.z - minY!) + (coordinates[index-1].z - minY!))) * 128
-                
-                centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+5)/2)
-                
-                print("center", centerCoor)
-                
-                let myTextLayer = CATextLayer()
-                myTextLayer.string = "\((lengths[index-1]*100).rounded()/100)m"
-                myTextLayer.foregroundColor = UIColor.cyan.cgColor
-                myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
-                myTextLayer.position = centerCoor
-                myTextLayer.fontSize = 10.0
-                PreviewBoard.layer.addSublayer(myTextLayer)
-            }
-            
-            if index == coordinates.count-1 && measuringMode == false {
-                centerXText = (((coordinates[0].x - minX!) + (coordinates[coordinates.count-1].x - minX!))) * 138
-                centerYText = (((coordinates[0].z - minY!) + (coordinates[coordinates.count-1].z - minY!))) * 128
-                    
-                centerCoor = CGPoint(x: Int((centerXText / maxX)+50)/2, y: Int((centerYText / maxY)+5)/2)
-                print("center",centerCoor)
-                let myTextLayer = CATextLayer()
-                myTextLayer.string = "\((lengths[index]*100).rounded()/100)m"
-                myTextLayer.foregroundColor = UIColor.cyan.cgColor
-                myTextLayer.frame = CGRect(x:0.0,y:0.0,width:100,height:10)
-                myTextLayer.position = centerCoor
-                myTextLayer.fontSize = 10.0
-                PreviewBoard.layer.addSublayer(myTextLayer)
-            }
-            
-            
-        }
-        path.close()
-        shape.path = path.cgPath
-
     }
     
     // draw line-node between two vectors

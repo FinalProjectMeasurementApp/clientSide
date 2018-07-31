@@ -120,8 +120,12 @@
                     <tabBarItem key="tabBarItem" title="Camera" id="E7D-se-6qV"/>
                     <navigationItem key="navigationItem" id="ZQH-E5-umo"/>
                     <connections>
+                        <outlet property="DuringMeasuringButton" destination="Qse-PZ-auz" id="cpz-Iw-8e9"/>
+                        <outlet property="DuringMeasuringLabel" destination="s2l-hk-Pc2" id="WAU-cV-IjB"/>
                         <outlet property="PreviewImage" destination="jCO-NK-nEl" id="fG7-cb-cLX"/>
+                        <outlet property="ResetButton" destination="yAV-c1-FvC" id="x6L-RZ-uc7"/>
                         <outlet property="areaText" destination="NhX-Wa-cRf" id="tFf-4f-fot"/>
+                        <outlet property="finishLabel" destination="nH6-Vl-JZf" id="AT1-89-go6"/>
                         <outlet property="previewButton" destination="DeM-cd-oAE" id="jqa-7h-fn0"/>
                         <outlet property="previewButtonLabel" destination="6pD-Aj-A9C" id="aYw-7D-dx3"/>
                         <outlet property="sceneView" destination="afN-AE-IvJ" id="C9I-fa-f5Q"/>
@@ -152,7 +156,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleAspectFit" misplaced="YES" id="RFe-TX-7aC">
-                                        <rect key="frame" x="19" y="23" width="343" height="343"/>
+                                        <rect key="frame" x="37" y="23" width="329" height="329"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -165,11 +169,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="yei-GV-Y7K">
+                                <rect key="frame" x="135" y="20" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" id="yul-qb-e3U"/>
                     <connections>
+                        <outlet property="ImageView" destination="yei-GV-Y7K" id="7Ob-iB-8xC"/>
                         <outlet property="PreviewBoard" destination="RFe-TX-7aC" id="ztR-lq-AwE"/>
                         <outlet property="areaLabel" destination="d8K-1E-Vqa" id="X0x-4D-d7t"/>
                         <outlet property="scrollView" destination="tJX-y8-osg" id="nGM-BE-0Yh"/>
