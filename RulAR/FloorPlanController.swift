@@ -10,8 +10,10 @@ import Foundation
 import UIKit
 
 class FloorPlanController : UIViewController{
+    var area = 0
     let button = UIButton()
     let label = UILabel()
+    let labelInfo = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,7 +23,7 @@ class FloorPlanController : UIViewController{
         button.isSelected = true
         
         if button.isSelected == true {
-            label.frame = CGRect(x: 22, y: 263, width: 100, height: 140)
+            label.frame = CGRect(x: 22, y: 253, width: 100, height: 140)
             label.text = ""
             label.textAlignment = .center
             label.textColor = UIColor.black
@@ -29,17 +31,25 @@ class FloorPlanController : UIViewController{
             label.layer.borderWidth = 1
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
+            labelInfo.text = "Size per block : 100 x 100 cm\nPrice per block : Rp. 150.000,00\nPrice by measurement : "
+            labelInfo.textColor = UIColor.black
+            labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            labelInfo.lineBreakMode = .byWordWrapping
+            labelInfo.numberOfLines = 4
+            self.view.addSubview(label)
+            self.view.addSubview((labelInfo))
             self.view.addSubview(label)
         }
         print(button.isSelected)
     }
-    
+
     
     @IBAction func tileButton(_ sender: Any) {
         
         button.isSelected = true
         if button.isSelected == true{
-            label.frame = CGRect(x: 253, y: 263, width: 100, height: 140)
+            label.frame = CGRect(x: 253, y: 253, width: 100, height: 140)
             label.text = ""
             label.textAlignment = .center
             label.textColor = UIColor.black
@@ -47,6 +57,14 @@ class FloorPlanController : UIViewController{
             label.layer.borderWidth = 1
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
+            labelInfo.text = "Size per block : 50 x 50 cm\nPrice per block : Rp. 70.000,00\nPrice by measurement : "
+            labelInfo.textColor = UIColor.black
+            labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            labelInfo.lineBreakMode = .byWordWrapping
+            labelInfo.numberOfLines = 4
+            
+            self.view.addSubview((labelInfo))
             self.view.addSubview(label)
             print("SELECTED tile button")
         }
@@ -55,9 +73,10 @@ class FloorPlanController : UIViewController{
     
     
     @IBAction func stoneButton(_ sender: Any) {
+        
         button.isSelected = true
         if button.isSelected == true{
-                label.frame = CGRect(x: 137, y: 263, width: 100, height: 140)
+                label.frame = CGRect(x: 137, y: 253, width: 100, height: 140)
                 label.text = ""
                 label.textAlignment = .center
                 label.textColor = UIColor.black
@@ -65,9 +84,24 @@ class FloorPlanController : UIViewController{
                 label.layer.borderWidth = 1
                 label.layer.borderColor = UIColor.black.cgColor
                 label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            
+                labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
+                labelInfo.text = "Size per block : 50 x 50 cm\nPrice per block : Rp. 150.000,00\nPrice by measurement : "
+                labelInfo.textColor = UIColor.black
+                labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
+                labelInfo.lineBreakMode = .byWordWrapping
+                labelInfo.numberOfLines = 4
                 self.view.addSubview(label)
+                self.view.addSubview((labelInfo))
             print("STONE BUTTON IS SELECTED")
         }
+    }
+    
+    
+    @IBAction func newMeasurement(_ sender: Any) {
+        let inputVc = self.storyboard?.instantiateViewController(withIdentifier: "inputModel") as! InputController
+        print("inputVc",inputVc)
+        self.navigationController?.pushViewController(inputVc, animated: true)
     }
     
 
