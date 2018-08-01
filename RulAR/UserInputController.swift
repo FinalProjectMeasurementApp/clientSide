@@ -44,7 +44,6 @@ var stringData = ""
 
 class UserInputController : UIViewController{
     
-    
     var usernameTextValue : String!
     var label = UILabel()
 
@@ -69,6 +68,20 @@ class UserInputController : UIViewController{
     
     @IBAction func userInputChange(_ sender: UITextField) {
         usernameTextValue = sender.text!
+        if usernameTextValue == nil || usernameTextValue == ""{
+            label.isHidden = false
+            label.frame = CGRect(x: 0, y: 340, width: self.view.frame.width, height: 120)
+            label.text = "Username can not be empty "
+            label.font = UIFont(name: "Cooperplate-Bold", size: 10)
+            label.textAlignment = .center
+            label.textColor = UIColor.black
+            //            label.backgroundColor = UIColor.darkGray
+            
+            self.view.addSubview(label)
+            
+        }else if sender.text != ""{
+            label.isHidden = true
+        }
     }
     
     struct User: Codable{
@@ -132,15 +145,14 @@ class UserInputController : UIViewController{
     
     @IBAction func submitUsername(_ sender: UIButton) {
     
-
-        
-        if usernameTextValue == nil{
-            label.frame = CGRect(x: 0, y: 550, width: self.view.frame.width, height: 120)
+        if usernameTextValue == nil || usernameTextValue == ""{
+            label.frame = CGRect(x: 0, y: 340, width: self.view.frame.width, height: 120)
             label.text = "Username can not be empty "
+            label.font = UIFont(name: "Cooperplate-Bold", size: 10)
             label.textAlignment = .center
             label.textColor = UIColor.black
 //            label.backgroundColor = UIColor.darkGray
-            label.font = UIFont(name: "Cooperplate-Bold", size: 22)
+            
             self.view.addSubview(label)
             
         }else{

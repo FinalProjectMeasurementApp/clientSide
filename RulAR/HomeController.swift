@@ -76,10 +76,15 @@ class HomeController : UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var floorPlannerButton: UIButton!
     
     override func viewDidLoad() {
+        
         scrollView.delegate = self
         scrollView.alwaysBounceVertical = true
         scrollView.isScrollEnabled = true
-    
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.8
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 2
         
         super.viewDidLoad()
         let pref = query(address: "https://rular-server.mcang.ml/shape")
