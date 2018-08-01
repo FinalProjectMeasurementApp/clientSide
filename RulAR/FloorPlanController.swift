@@ -32,7 +32,10 @@ class FloorPlanController : UIViewController{
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
-            labelInfo.text = "Size per block : 100 x 100 cm\nPrice per block : Rp. 150.000,00\nPrice by measurement : "
+            let areaNow = UserDefaults.standard.integer(forKey:"currentArea")
+            let totalPrice = Float(areaNow * 100 * 150000)
+            let totalPriceString = String(totalPrice)
+            labelInfo.text = "Size per block : 100 x 100 cm\nPrice per block : Rp. 150.000,00\nPrice by measurement : " + totalPriceString
             labelInfo.textColor = UIColor.black
             labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.lineBreakMode = .byWordWrapping
@@ -58,7 +61,10 @@ class FloorPlanController : UIViewController{
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
-            labelInfo.text = "Size per block : 50 x 50 cm\nPrice per block : Rp. 70.000,00\nPrice by measurement : "
+            let areaNow = UserDefaults.standard.integer(forKey:"currentArea")
+            let totalPrice = Float(areaNow * 25 * 70000)
+            let totalPriceString = String(totalPrice)
+            labelInfo.text = "Size per block : 50 x 50 cm\nPrice per block : Rp. 70.000,00\nPrice by measurement : " + totalPriceString
             labelInfo.textColor = UIColor.black
             labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.lineBreakMode = .byWordWrapping
@@ -84,9 +90,11 @@ class FloorPlanController : UIViewController{
                 label.layer.borderWidth = 1
                 label.layer.borderColor = UIColor.black.cgColor
                 label.font = UIFont(name: "Cooperplate-Bold", size: 22)
-            
+                let areaNow = UserDefaults.standard.integer(forKey:"currentArea")
+                let totalPrice = Float(areaNow * 25 * 150000)
+                let totalPriceString = String(totalPrice)
                 labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
-                labelInfo.text = "Size per block : 50 x 50 cm\nPrice per block : Rp. 150.000,00\nPrice by measurement : "
+                labelInfo.text = "Size per block : 50 x 50 cm\nPrice per block : Rp. 150.000,00\nPrice by measurement : " + totalPriceString
                 labelInfo.textColor = UIColor.black
                 labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
                 labelInfo.lineBreakMode = .byWordWrapping
@@ -98,13 +106,15 @@ class FloorPlanController : UIViewController{
     }
     
     
-    @IBAction func newMeasurement(_ sender: Any) {
+
+
+    @IBAction func floorMeasure(_ sender: Any) {
+        UserDefaults.standard.set("floor",forKey:"cameraType")
         let inputVc = self.storyboard?.instantiateViewController(withIdentifier: "inputModel") as! InputController
         print("inputVc",inputVc)
         self.navigationController?.pushViewController(inputVc, animated: true)
+        
     }
-    
-
     
     
 }

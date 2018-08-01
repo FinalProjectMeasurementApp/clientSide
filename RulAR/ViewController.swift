@@ -47,15 +47,15 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("USERDEFAULT FOR MODEL NAME",UserDefaults.standard.string(forKey: "modelName"))
         if UserDefaults.standard.string(forKey: "cameraType") == "floor"{
             isVertical = false
         }else if UserDefaults.standard.string(forKey: "cameraType") == "wall" {
             isVertical = true
         }
         
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
         previewButton.isHidden = true
         previewButtonLabel.isHidden = true
         DuringMeasuringLabel.isHidden = true
