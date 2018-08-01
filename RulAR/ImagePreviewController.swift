@@ -69,9 +69,10 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
                 fatalError(error.localizedDescription)
             }
             
-            let toHome = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
-            self.navigationController?.pushViewController(toHome, animated: true)
+
         }
+        let toHome = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
+        self.navigationController?.pushViewController(toHome, animated: true)
     }
     
     func drawPreviewVertical() {

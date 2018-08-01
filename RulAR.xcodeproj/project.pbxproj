@@ -32,6 +32,7 @@
 		A56C4602210B125A00252D1F /* UserInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C4601210B125A00252D1F /* UserInputController.swift */; };
 		A56C4606210C706200252D1F /* FloorPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56C4605210C706200252D1F /* FloorPlanController.swift */; };
 		A59E7C882109FE0C001C1D9E /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59E7C872109FE0C001C1D9E /* InputController.swift */; };
+		A5B54860211189D100A7C9E5 /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = A5B5485F211189CF00A7C9E5 /* apple.png */; };
 		A5C4BD742110627F006C4413 /* enterUsername.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD732110627D006C4413 /* enterUsername.png */; };
 		A5C4BD7621106798006C4413 /* inputUsername.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD7521106796006C4413 /* inputUsername.png */; };
 		A5C4BD7821106928006C4413 /* orangeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A5C4BD7721106924006C4413 /* orangeButton.png */; };
@@ -98,6 +99,7 @@
 		A56C4601210B125A00252D1F /* UserInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputController.swift; sourceTree = "<group>"; };
 		A56C4605210C706200252D1F /* FloorPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlanController.swift; sourceTree = "<group>"; };
 		A59E7C872109FE0C001C1D9E /* InputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
+		A5B5485F211189CF00A7C9E5 /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
 		A5C4BD732110627D006C4413 /* enterUsername.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enterUsername.png; sourceTree = "<group>"; };
 		A5C4BD7521106796006C4413 /* inputUsername.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inputUsername.png; sourceTree = "<group>"; };
 		A5C4BD7721106924006C4413 /* orangeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeButton.png; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				A5FD78892110F81D0099B9AE /* background.png */,
 				A5C4BD83211089CB006C4413 /* addWallPlan.png */,
 				A5FD788B2110F9270099B9AE /* saveModel.png */,
+				A5B5485F211189CF00A7C9E5 /* apple.png */,
 				A5C4BD7721106924006C4413 /* orangeButton.png */,
 				309CF88D2109B08E004DB6D3 /* ViewController.swift */,
 				A5C4BD732110627D006C4413 /* enterUsername.png */,
@@ -350,6 +353,7 @@
 				30483315210EB878009F0221 /* stone.png in Resources */,
 				309CF8932109B08F004DB6D3 /* Assets.xcassets in Resources */,
 				30483319210EB878009F0221 /* paint.png in Resources */,
+				A5B54860211189D100A7C9E5 /* apple.png in Resources */,
 				309CF8912109B08E004DB6D3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
