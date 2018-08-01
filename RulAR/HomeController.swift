@@ -77,6 +77,7 @@ class HomeController : UIViewController, UIScrollViewDelegate{
     
     @IBOutlet weak var floorPlannerButton: UIButton!
     override func viewDidLoad() {
+        print("APA NIHHHHHH")
         
         scrollView.delegate = self
         scrollView.alwaysBounceVertical = true

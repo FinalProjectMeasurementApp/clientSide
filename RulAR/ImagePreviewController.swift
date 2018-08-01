@@ -61,6 +61,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func saveData(_ sender: UIButton) {
+        
         print("cgff")
             let toHome = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
             self.navigationController?.pushViewController(toHome, animated: true)
@@ -277,6 +278,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         task.resume()
     }
     func submitModel(post: Model,completion:((Error?)-> Void)?){
+        let semaphore = DispatchSemaphore(value: 0)
         var modelName:String = ""
         modelName = UserDefaults.standard.string(forKey:"modelName")!
         print(modelName)
@@ -323,11 +325,13 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     print(json)
+                    semaphore.signal()
                 } catch {
                     print(error)
                 }
             }
             }.resume()
+        semaphore.wait()
 
 //        guard let url = URL(string: "https://rular-server.mcang.ml/shape/add") else{
 //            fatalError("Couldn't create URL from components")
