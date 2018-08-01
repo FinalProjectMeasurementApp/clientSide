@@ -8,23 +8,61 @@
 
 import UIKit
 import ARKit
+import Foundation
 
 class MyARCamera: UIViewController, ARSCNViewDelegate {
     
+    var isVertical = true
+    
+    @IBOutlet weak var finishLabel: UILabel!
+    @IBOutlet weak var DuringMeasuringLabel: UILabel!
+    @IBOutlet weak var DuringMeasuringButton: UIButton!
+    @IBOutlet weak var ResetButton: UIButton!
+    @IBOutlet weak var previewButton: UIButton!
+    @IBOutlet weak var previewButtonLabel: UILabel!
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        print("OOI",segue.destination)
+        if segue.destination is ImagePreviewController
+        {
+            let vc = segue.destination as? ImagePreviewController
+            vc?.coordinates = coordinates
+            vc?.lengths = lengths
+            vc?.area = areaValue
+            vc?.isVertical = isVertical
+        }
+    }
+    
     @IBOutlet weak var PreviewImage: UIImageView!
     @IBOutlet weak var sceneView: ARSCNView!
+    
     // planes
     var dictPlanes = [ARPlaneAnchor: Plane]()
     
     // distance label
-//    @IBOutlet weak var lblMeasurementDetails : UILabel!
     
     var coordinates: [SCNVector3] = []
     var areaValue: Float = 0
+    var lengths: [Float] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if UserDefaults.standard.string(forKey: "cameraType") == "floor"{
+            isVertical = false
+        }else if UserDefaults.standard.string(forKey: "cameraType") == "wall" {
+            isVertical = true
+        }
         
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        previewButton.isHidden = true
+        previewButtonLabel.isHidden = true
+        DuringMeasuringLabel.isHidden = true
+        DuringMeasuringButton.isHidden = true
+        ResetButton.isHidden = true
+        finishLabel.isHidden = true
         // setup scene
         self.setupScene()
     }
@@ -53,9 +91,16 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     var endNode: SCNVector3?
     var beginningPoint: SCNVector3?
     var measuringMode: Bool = true
+    
     //MARK: - Action
     @IBOutlet weak var areaText: UILabel!
     @IBAction func resetMeasure(_ sender: UIButton) {
+        previewButton.isHidden = true
+        previewButtonLabel.isHidden = true
+        DuringMeasuringLabel.isHidden = true
+        DuringMeasuringButton.isHidden = true
+        ResetButton.isHidden = true
+        finishLabel.isHidden = true
         startNode = nil
         endNode = nil
         beginningPoint = nil
@@ -63,9 +108,35 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
             node.removeFromParentNode() }
         measuringMode = true
+        coordinates = []
+        lengths = []
+        PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     @IBAction func FinishedMeasuring(_ sender: UIButton) {
+        previewButton.isHidden = false
+        previewButtonLabel.isHidden = false
         measuringMode = false
+        self.lineToEnd?.removeFromParentNode()
+        self.line_node?.removeFromParentNode()
+        guard let start = self.startNode,
+            let endingNode = self.beginningPoint else {
+                return
+        }
+        
+        self.line_node = self.getDrawnLineFrom(pos1: endingNode,
+                                               toPos2: start.position)
+        self.sceneView.scene.rootNode.addChildNode(self.line_node!)
+        let firstPointToPrev = start.position
+        let toBeMadePoint = endingNode
+        
+        let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
+        
+        let result = sqrt(position.x*position.x + position.z*position.z)
+        
+        let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+        
+        self.displayText(distance: result, position: centerPoint)
+        self.lengths.append(result)
     }
     @IBAction func onAddButtonClick(_ sender: UIButton) {
         let startPoint = startNode
@@ -78,42 +149,26 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 startNode = node
 
                 coordinates.append((startNode?.position)!)
-                print(coordinates)
                 
                 if secondNode == true{
+                    DuringMeasuringLabel.isHidden = false
+                    DuringMeasuringButton.isHidden = false
+                    ResetButton.isHidden = false
+                    finishLabel.isHidden = false
                     guard let currentPosition = endNode,
                         let start = startPoint else {
                             return
                     }
                     
-                    //trying to make preview
-                    let minX = coordinates.min { a, b in a.x < b.x }?.x
-                    let minY = coordinates.min { a, b in a.z < b.z }?.z
-                    let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
-                    let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
-                    
-                    PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-                    
-                    let shape = CAShapeLayer()
-                    PreviewImage.layer.addSublayer(shape)
-                    shape.opacity = 0.5
-                    shape.lineWidth = 2
-                    shape.lineJoin = kCALineJoinMiter
-                    shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
-                    shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
-                    
-                    let path = UIBezierPath()
-                    
-                    path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
-                    
-                    for coordinate in coordinates {
-                        print("x: \((Int(((coordinate.x - minX!) * 138 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
-                        path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
-                        
+                    if (isVertical) {
+                        createPreviewVertical()
+                        areaValue = calculateAreaVertical(coordinates)
+                    } else {
+                        createPreviewHorizontal()
+                        areaValue = calculateAreaHorizontal(coordinates)
                     }
-                    path.close()
-                    shape.path = path.cgPath
-
+                    
+                    areaText.text = "Area: \(((areaValue*10000).rounded())/10000)m2"
                     
                     // line-node
                     self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
@@ -126,15 +181,27 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                     
                     let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
                     
-                    let result = sqrt(position.x*position.x + position.z*position.z)
+                    let length: Float
                     
-                    let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
+                    if (isVertical) {
+                        length = sqrt(powf(position.x, 2.0) + powf(position.y, 2.0))
+                    } else {
+                        length = sqrt(powf(position.x, 2.0) + powf(position.z, 2.0))
+                    }
                     
-                    self.display(distance: result, position: centerPoint)
+                    let centerPoint = SCNVector3((firstPointToPrev.x + toBeMadePoint.x)/2,(firstPointToPrev.y + toBeMadePoint.y)/2,(firstPointToPrev.z + toBeMadePoint.z)/2)
+                    
+                    self.displayText(distance: length, position: centerPoint)
+                    self.lengths.append(length)
+                    
+                    
 
-                    areaValue = calculateArea(coordinates)
                     
-                    areaText.text = "Area: \(((areaValue*10000).rounded())/10000)m2"
+                    // line-node
+                    self.line_node = self.getDrawnLineFrom(pos1: currentPosition,
+                                                           toPos2: start.position)
+                    
+                    sceneView.scene.rootNode.addChildNode(self.line_node!)
                     
                 } else {
                     beginningPoint = startNode?.position
@@ -146,7 +213,65 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    func calculateArea(_ coordinates: [SCNVector3]) -> Float {
+    func createPreviewHorizontal() {
+        let minX = coordinates.min { a, b in a.x < b.x }?.x
+        let minY = coordinates.min { a, b in a.z < b.z }?.z
+        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+        let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
+        
+        PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        let shape = CAShapeLayer()
+        PreviewImage.layer.addSublayer(shape)
+        shape.opacity = 0.5
+        shape.lineWidth = 2
+        shape.lineJoin = kCALineJoinMiter
+        shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
+        shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
+        
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 138 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
+        
+        for coordinate in coordinates {
+            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 138 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
+            
+        }
+        
+        path.close()
+        shape.path = path.cgPath
+    }
+    
+    func createPreviewVertical() {
+        let minX = coordinates.min { a, b in a.x < b.x }?.x
+        let minY = coordinates.min { a, b in a.y < b.y }?.y
+        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+        let maxY = (coordinates.max { a, b in a.y < b.y }?.y)! - minY!
+        
+        PreviewImage.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        let shape = CAShapeLayer()
+        PreviewImage.layer.addSublayer(shape)
+        shape.opacity = 0.5
+        shape.lineWidth = 2
+        shape.lineJoin = kCALineJoinMiter
+        shape.strokeColor = UIColor(hue: 0.786, saturation: 0.79, brightness: 0.53, alpha: 1.0).cgColor
+        shape.fillColor = UIColor(hue: 0.786, saturation: 0.15, brightness: 0.89, alpha: 1.0).cgColor
+        
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: Int(((coordinates[0].x - minX!) * 138 / maxX).rounded()), y: 128 - Int(((coordinates[0].y - minY!) * 128 / maxY).rounded())))
+        
+        for coordinate in coordinates {
+            path.addLine(to: CGPoint(x: Int(((coordinate.x - minX!) * 138 / maxX).rounded()), y: 128 - Int(((coordinate.y - minY!) * 128 / maxY).rounded())))
+            
+        }
+        
+        path.close()
+        shape.path = path.cgPath
+    }
+    
+    func calculateAreaHorizontal(_ coordinates: [SCNVector3]) -> Float {
         var area: Float = 0
         var coordinateTwo: SCNVector3 = coordinates.last!
         
@@ -156,7 +281,20 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             coordinateTwo = coordinate
         }
         
-        return abs(area * 100 / 2)
+        return abs(area / 2)
+    }
+    
+    func calculateAreaVertical(_ coordinates: [SCNVector3]) -> Float {
+        var area: Float = 0
+        var coordinateTwo: SCNVector3 = coordinates.last!
+        
+        for coordinate in coordinates {
+            area += (coordinate.x * coordinateTwo.y)
+            area -= (coordinate.y * coordinateTwo.x)
+            coordinateTwo = coordinate
+        }
+        
+        return abs(area / 2)
     }
     
     func doHitTestOnExistingPlanes() -> SCNVector3? {
@@ -232,7 +370,12 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         let configuration = ARWorldTrackingConfiguration()
         
         // set to detect horizontal planes
-        configuration.planeDetection = [.vertical, .horizontal]
+        
+        if (isVertical) {
+            configuration.planeDetection = .vertical
+        } else {
+            configuration.planeDetection = .horizontal
+        }
         
         // run the configuration
         self.sceneView.session.run(configuration)
@@ -273,32 +416,10 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
                 self.sceneView.scene.rootNode.addChildNode(self.lineToEnd!)
                 
             }
-        } else {
-            self.lineToEnd?.removeFromParentNode()
-            self.line_node?.removeFromParentNode()
-            guard let start = self.startNode,
-                let endingNode = self.beginningPoint else {
-                    return
-            }
-            
-            self.line_node = self.getDrawnLineFrom(pos1: endingNode,
-                                                   toPos2: start.position)
-            self.sceneView.scene.rootNode.addChildNode(self.line_node!)
-            let firstPointToPrev = start.position
-            let toBeMadePoint = endingNode
-            
-            let position = SCNVector3Make(toBeMadePoint.x - firstPointToPrev.x, toBeMadePoint.y - firstPointToPrev.y, toBeMadePoint.z - firstPointToPrev.z)
-            
-            let result = sqrt(position.x*position.x + position.z*position.z)
-            
-            let centerPoint = SCNVector3((firstPointToPrev.x+toBeMadePoint.x)/2,(firstPointToPrev.y+toBeMadePoint.y)/2,(firstPointToPrev.z+toBeMadePoint.z)/2)
-            
-            self.display(distance: result, position: centerPoint)
-
         }
     }
     
-    private func display(distance: Float,position :SCNVector3) {
+    private func displayText(distance: Float,position :SCNVector3) {
         
         let roundedDist = ((distance*100).rounded())/100
         
@@ -306,9 +427,17 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         textGeo.firstMaterial?.diffuse.contents = UIColor.black
         
         let textNode = SCNNode(geometry: textGeo)
+        
         textNode.position = position
-        textNode.rotation = SCNVector4(1,0,0,Double.pi/(-2))
+        
+        if (isVertical) {
+            textNode.rotation = SCNVector4(0,0,0,Double.pi)
+        } else {
+            textNode.rotation = SCNVector4(1,0,0,-Double.pi/2)
+        }
+        
         textNode.scale = SCNVector3(0.002,0.002,0.002)
+        
         for material in (textNode.geometry?.materials)! {
             material.lightingModel = .constant
             material.diffuse.contents = UIColor.white
@@ -331,7 +460,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         }
         
         let lineInBetween1 = SCNNode(geometry: line)
-        
         return lineInBetween1
         
     }
@@ -472,4 +600,7 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
             self.dictPlanes.removeValue(forKey: planeAnchor)
         }
     }
+    
+
+    
 }
