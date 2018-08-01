@@ -19,6 +19,11 @@ class WallPlanController : UIViewController{
     }
     
     @IBAction func wallpaperButton(_ sender: Any) {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "id_ID")
+        
         button.isSelected = true
         if button.isSelected == true {
             label.frame = CGRect(x: 22, y: 253, width: 100, height: 140)
@@ -30,10 +35,12 @@ class WallPlanController : UIViewController{
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
-            let areaNow = UserDefaults.standard.integer(forKey:"currentArea")
-            let totalPrice = Float(areaNow * 1 * 100000)
-            let totalPriceString = String(totalPrice)
-            labelInfo.text = "Size per block : 1 x 1 m\nPrice per block : Rp. 100.000,00\nPrice by measurement : " + totalPriceString
+            let areaPerBlock = Float(1)
+            let pricePerBlock = Float(100000)
+            let areaNow = UserDefaults.standard.float(forKey:"shapeArea")
+            let totalPrice = areaNow / areaPerBlock * pricePerBlock as NSNumber
+            let totalPriceString = formatter.string(from: totalPrice)
+            labelInfo.text = "Size per block : 1 x 1 m\nPrice per block : Rp100.000,00\nTotal Price : " + totalPriceString! + ",00"
             labelInfo.textColor = UIColor.black
             labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.lineBreakMode = .byWordWrapping
@@ -46,6 +53,11 @@ class WallPlanController : UIViewController{
     }
     
     @IBAction func paintButton(_ sender: Any) {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "id_ID")
+        
         button.isSelected = true
         if button.isSelected == true{
             label.frame = CGRect(x: 137, y: 253, width: 100, height: 140)
@@ -57,10 +69,12 @@ class WallPlanController : UIViewController{
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
-            let areaNow = UserDefaults.standard.integer(forKey:"currentArea")
-            let totalPrice = Float(areaNow * 25 * 30000)
-            let totalPriceString = String(totalPrice)
-            labelInfo.text = "Size per block : 1 x 1 m\nPrice per block : Rp. 30.000,00\nPrice by measurement : " + totalPriceString
+            let areaPerBlock = Float(1)
+            let pricePerBlock = Float(30000)
+            let areaNow = UserDefaults.standard.float(forKey:"shapeArea")
+            let totalPrice = areaNow / areaPerBlock * pricePerBlock as NSNumber
+            let totalPriceString = formatter.string(from: totalPrice)
+            labelInfo.text = "Size per block : 1 x 1 m\nPrice per block : Rp30.000,00\nTotal Price : " + totalPriceString! + ",00"
             labelInfo.textColor = UIColor.black
             labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.lineBreakMode = .byWordWrapping
@@ -72,6 +86,11 @@ class WallPlanController : UIViewController{
     }
     
     @IBAction func brickButton(_ sender: Any) {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "id_ID")
+        
         button.isSelected = true
         if button.isSelected == true{
             label.frame = CGRect(x: 253, y: 253, width: 100, height: 140)
@@ -83,10 +102,12 @@ class WallPlanController : UIViewController{
             label.layer.borderColor = UIColor.black.cgColor
             label.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.frame = CGRect(x: 50, y: 300, width: 400, height: 400)
-            let areaNow = UserDefaults.standard.integer(forKey:"currentArea")
-            let totalPrice = Float(areaNow * 1 * 200000)
-            let totalPriceString = String(totalPrice)
-            labelInfo.text = "Size per block : 1 x 1 m\nPrice per block : Rp. 200.000,00\nPrice by measurement : " + totalPriceString
+            let areaPerBlock = Float(1)
+            let pricePerBlock = Float(200000)
+            let areaNow = UserDefaults.standard.float(forKey:"shapeArea")
+            let totalPrice = areaNow / areaPerBlock * pricePerBlock as NSNumber
+            let totalPriceString = formatter.string(from: totalPrice)
+            labelInfo.text = "Size per block : 1 x 1 m\nPrice per block : Rp200.000,00\nTotal Price : " + totalPriceString! + ",00"
             labelInfo.textColor = UIColor.black
             labelInfo.font = UIFont(name: "Cooperplate-Bold", size: 22)
             labelInfo.lineBreakMode = .byWordWrapping

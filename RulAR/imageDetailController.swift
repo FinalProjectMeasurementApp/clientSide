@@ -32,7 +32,7 @@ class imageDetailController : UIViewController{
         }
         
         detailLabel.frame = CGRect(x: 50, y: 270, width: 400, height: 400)
-        detailLabel.text = " Model Name : " + shapeName! + "\n Model Area : " + shapeArea! + "\n Model Type : " + shapeType!
+        detailLabel.text = " Model Name : " + shapeName! + "\n Model Area : " + shapeArea! + " m²\n Model Type : " + shapeType!
         detailLabel.textColor = UIColor.black
         detailLabel.font = UIFont(name: "Copperplate", size: 20)!
         detailLabel.lineBreakMode = .byWordWrapping
