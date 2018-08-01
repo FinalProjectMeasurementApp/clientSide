@@ -48,7 +48,6 @@ class InputController : UIViewController{
         UserDefaults.standard.set(textValue,forKey:"modelName")
         let toCamera = self.storyboard?.instantiateViewController(withIdentifier: "Camera") as! MyARCamera
         self.navigationController?.pushViewController(toCamera, animated: true)
-        UserDefaults.standard.set(textValue,forKey: "modelName")
         
     }
     

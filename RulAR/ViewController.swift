@@ -19,17 +19,18 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var DuringMeasuringButton: UIButton!
     @IBOutlet weak var ResetButton: UIButton!
     @IBOutlet weak var previewButton: UIButton!
-    @IBOutlet weak var PreviewBoard: UIView!
     @IBOutlet weak var previewButtonLabel: UILabel!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
+        print("OOI",segue.destination)
         if segue.destination is ImagePreviewController
         {
             let vc = segue.destination as? ImagePreviewController
             vc?.coordinates = coordinates
             vc?.lengths = lengths
             vc?.area = areaValue
+            vc?.isVertical = isVertical
         }
     }
     
@@ -600,5 +601,6 @@ class MyARCamera: UIViewController, ARSCNViewDelegate {
         }
     }
     
+
     
 }

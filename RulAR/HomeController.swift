@@ -19,6 +19,7 @@ struct Shape: Decodable{
     let createdAt: String
     let updatedAt: String
     let type: String
+    let coordinates: [SCNVector3]
 }
 
 
@@ -38,6 +39,7 @@ class HomeController : UIViewController, UIScrollViewDelegate{
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var homeView: UIView!
+    var coordinates: [SCNVector3]!
     
     
     var shapeData: [Shape] = []
@@ -74,17 +76,25 @@ class HomeController : UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var wallPlannerButton: UIButton!
     
     @IBOutlet weak var floorPlannerButton: UIButton!
-    
     override func viewDidLoad() {
+        
         scrollView.delegate = self
         scrollView.alwaysBounceVertical = true
         scrollView.isScrollEnabled = true
-    
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.8
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        self.navigationController?.navigationBar.layer.shadowRadius = 2
         
+        let logo = UIImage(named: "apple.png")
+        let imageView = UIImageView(image:logo)
+        self.navigationItem.titleView = imageView
         super.viewDidLoad()
+        
         let pref = query(address: "https://rular-server.mcang.ml/shape")
         self.navigationItem.setHidesBackButton(true, animated: false)
-        scrollView.contentSize = CGSize(width: 200, height: 1000)
+        scrollView.contentSize = CGSize(width: 200, height: 0)
         for (index, data) in shapeData.enumerated(){
             if index % 2 == 0{
                 button = subclassedUIButton()
@@ -160,19 +170,29 @@ class HomeController : UIViewController, UIScrollViewDelegate{
 
             }
             
-            self.homeView.frame.size.height += 80
+            self.homeView.frame.size.height += 95
             scrollView.contentSize = homeView.frame.size
 
         }
         
     }
+    
 
     @IBAction func previewShape(_ sender:subclassedUIButton!) {
         UserDefaults.standard.set(sender.shapeArea,forKey:"shapeArea")
         UserDefaults.standard.set(sender.shapeType, forKey:"shapeType")
         UserDefaults.standard.set(sender.shapeName, forKey:"shapeName")
         UserDefaults.standard.set(sender.shapeUrl, forKey:"shapeUrl")
-
+        
+        let addCoordinates = shapeData[sender.tag].coordinates
+        var getAllCoordinates:Array<Any>
+        getAllCoordinates = []
+        for coordinate in addCoordinates {
+            getAllCoordinates.append([coordinate.x,coordinate.y,coordinate.z])
+        }
+        
+        UserDefaults.standard.set(getAllCoordinates, forKey: "coordinates")
+        
         let toDetail = self.storyboard?.instantiateViewController(withIdentifier: "imageDetail") as! imageDetailController
         
         self.navigationController?.pushViewController(toDetail, animated: true)

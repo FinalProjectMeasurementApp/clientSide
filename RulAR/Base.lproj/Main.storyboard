@@ -117,7 +117,6 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Camera" id="E7D-se-6qV"/>
                     <navigationItem key="navigationItem" id="ZQH-E5-umo"/>
                     <connections>
                         <outlet property="DuringMeasuringButton" destination="Qse-PZ-auz" id="cpz-Iw-8e9"/>
@@ -133,7 +132,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="909.5" y="338.5"/>
+            <point key="canvasLocation" x="982" y="339"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="P1H-0I-ptR">
+            <objects>
+                <navigationController id="Ybj-Kq-BfC" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FzY-on-2MT">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Gil-QZ-IEL" kind="relationship" relationship="rootViewController" id="xci-7R-993"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C8I-qv-8wJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="416" y="-772"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="uqK-I4-LGC">
+            <objects>
+                <navigationController id="55q-i6-mw6" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JI3-Ck-4CJ">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="DOE-2j-NbA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GhK-sW-bQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="882" y="-728"/>
         </scene>
         <!--Image Preview Controller-->
         <scene sceneID="Lwh-Gn-E2b">
@@ -158,9 +189,6 @@
                                 <rect key="frame" x="22" y="48" width="34" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Back"/>
-                                <connections>
-                                    <segue destination="BYZ-38-t0r" kind="modal" id="mmA-a6-BPQ"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Cc-9d-lJ6">
                                 <rect key="frame" x="0.0" y="519" width="375" height="21"/>
@@ -189,7 +217,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="euA-5b-q4p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1411.5" y="338.5"/>
+            <point key="canvasLocation" x="1533" y="339"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="acR-na-huz">
@@ -216,13 +244,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="inputUsername.png" id="c9z-Jp-twc">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="-1" width="375" height="668"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="justified" minimumFontSize="19" clearButtonMode="whileEditing" id="XqU-iF-RpK">
-                                <rect key="frame" x="77" y="435" width="221" height="53"/>
+                                <rect key="frame" x="81" y="282" width="221" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.95686274509803926" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -230,14 +258,14 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enter Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O5W-CB-KJB">
-                                <rect key="frame" x="76" y="395" width="124" height="35"/>
+                                <rect key="frame" x="76" y="227" width="124" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5RD-RZ-hJa">
-                                <rect key="frame" x="71" y="494" width="232" height="93"/>
+                                <rect key="frame" x="69" y="333" width="248" height="66"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Submit" image="orangeButton.png">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -247,7 +275,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Submit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tzo-1c-tow">
-                                <rect key="frame" x="156" y="530" width="55" height="21"/>
+                                <rect key="frame" x="160" y="356" width="55" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -269,9 +297,8 @@
         <!--Navigation Controller-->
         <scene sceneID="6uK-e8-JLk">
             <objects>
-                <navigationController id="u6g-n5-xMv" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="u6g-n5-xMv" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PC3-am-q5N">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -356,7 +383,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DfA-rk-dFU">
-                                <rect key="frame" x="63" y="104" width="250" height="75"/>
+                                <rect key="frame" x="60" y="559" width="250" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="button2.png"/>
                                 <connections>
@@ -365,16 +392,30 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="New Floor Measurement" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SIT-mP-TUa">
-                                <rect key="frame" x="100" y="74" width="187" height="33"/>
+                                <rect key="frame" x="94" y="529" width="187" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" id="D9Y-qM-TMz">
+                                <rect key="frame" x="31" y="54" width="306" height="162"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" misplaced="YES" id="nW1-ku-glh">
+                                        <rect key="frame" x="89" y="17" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </view>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" title="Floor Plan" id="2jh-ZH-nAE"/>
+                    <connections>
+                        <outlet property="PreviewBoard" destination="nW1-ku-glh" id="kfn-pk-HRk"/>
+                        <outlet property="PreviewScroll" destination="D9Y-qM-TMz" id="bbc-CS-ArS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPk-kG-pEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -429,7 +470,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="background.png" id="yig-nn-yii">
-                                <rect key="frame" x="-10" y="26" width="385" height="641"/>
+                                <rect key="frame" x="-10" y="0.0" width="385" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Wall Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vUO-aX-yky">
@@ -492,14 +533,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="New Wall Measurement" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="E9f-e8-2xX">
-                                <rect key="frame" x="97" y="74" width="181" height="33"/>
+                                <rect key="frame" x="94" y="529" width="181" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ziJ-Xe-4So">
-                                <rect key="frame" x="63" y="104" width="250" height="75"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ziJ-Xe-4So">
+                                <rect key="frame" x="60" y="559" width="250" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="button2.png"/>
                                 <connections>
@@ -507,10 +548,24 @@
                                     <action selector="triggerNavigate:" destination="pPe-Og-cG2" eventType="touchUpInside" id="Iof-6P-bc8"/>
                                 </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" id="aAI-Ha-7q9">
+                                <rect key="frame" x="31" y="54" width="306" height="162"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" misplaced="YES" id="kOZ-iO-bKr">
+                                        <rect key="frame" x="89" y="17" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </view>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" title="Wall Plan" id="Un2-1H-uXr"/>
+                    <connections>
+                        <outlet property="PreviewBoard" destination="kOZ-iO-bKr" id="AiD-KU-pBh"/>
+                        <outlet property="PreviewScroll" destination="aAI-Ha-7q9" id="pHF-en-9tW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eyG-7W-Z9r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -529,13 +584,13 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <navigationItem title="Measure" id="Fow-jx-kMP"/>
+                                    <navigationItem id="FY7-sI-Us7"/>
                                 </items>
                             </navigationBar>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="c5a-c6-ped">
                                 <rect key="frame" x="18" y="69" width="162" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <size key="titleShadowOffset" width="3" height="0.0"/>
                                 <state key="normal" title="+ New Wall Plan" image="addWallPlan.png">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -547,7 +602,7 @@
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ugn-a6-QHG">
                                 <rect key="frame" x="195" y="69" width="162" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <size key="titleShadowOffset" width="3" height="0.0"/>
                                 <state key="normal" image="addFloorPlan.png">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -563,12 +618,13 @@
                                     <view contentMode="scaleToFill" misplaced="YES" id="mdo-ZI-201">
                                         <rect key="frame" x="4" y="2" width="367" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" red="1" green="0.95686274510000002" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="1" green="0.95686274510000002" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" id="jq8-h5-dZQ"/>
                     <navigationItem key="navigationItem" title="Home" id="3e7-MI-SLm"/>
@@ -630,7 +686,6 @@
                                 <rect key="frame" x="160" y="381" width="55" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logotext.png" id="6Lp-vU-X3v">
@@ -648,7 +703,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfa-rr-e1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="415.5" y="338.5"/>
+            <point key="canvasLocation" x="525" y="339"/>
         </scene>
     </scenes>
     <resources>
@@ -656,7 +711,7 @@
         <image name="addFloorPlan.png" width="491" height="271"/>
         <image name="addWallPlan.png" width="491" height="271"/>
         <image name="background.png" width="1242" height="2208"/>
-        <image name="brick.png" width="100" height="100"/>
+        <image name="brick.png" width="200" height="200"/>
         <image name="button2.png" width="600" height="161"/>
         <image name="floorPlanner.png" width="491" height="271"/>
         <image name="focus_square.png" width="1070" height="1952"/>
@@ -665,15 +720,12 @@
         <image name="inputUsername.png" width="1242" height="2208"/>
         <image name="logotext.png" width="370" height="164"/>
         <image name="orangeButton.png" width="817" height="283"/>
-        <image name="paint.png" width="100" height="100"/>
+        <image name="paint.png" width="200" height="200"/>
         <image name="saveModel.png" width="491" height="271"/>
-        <image name="stone.png" width="100" height="100"/>
-        <image name="tile.png" width="100" height="100"/>
+        <image name="stone.png" width="250" height="250"/>
+        <image name="tile.png" width="894" height="894"/>
         <image name="wallPlanner.png" width="491" height="271"/>
-        <image name="wallpaper.png" width="100" height="100"/>
-        <image name="wood.png" width="100" height="100"/>
+        <image name="wallpaper.png" width="200" height="200"/>
+        <image name="wood.png" width="200" height="200"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="mmA-a6-BPQ"/>
-    </inferredMetricsTieBreakers>
 </document>

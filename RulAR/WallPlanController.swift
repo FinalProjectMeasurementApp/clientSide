@@ -8,14 +8,79 @@
 
 import Foundation
 import UIKit
+import SceneKit
 
-class WallPlanController : UIViewController{
+class WallPlanController : UIViewController, UIScrollViewDelegate{
+    var shape : CAShapeLayer!
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(newWidth, newHeight))
+        image.draw(in: CGRect(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
     let button = UIButton()
     let label = UILabel()
     let labelInfo = UILabel()
+    var coordinatesonArray = UserDefaults.standard.array(forKey: "coordinates") as? [Array<Any>]
+    var coordinates : [SCNVector3]!
+    @IBOutlet weak var PreviewScroll: UIScrollView!
+    
+    @IBOutlet weak var PreviewBoard: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        PreviewScroll.delegate = self
+        PreviewScroll.minimumZoomScale = 1.0
+        PreviewScroll.maximumZoomScale = 10.0
+        PreviewScroll.alwaysBounceVertical = true
+        PreviewScroll.isScrollEnabled = true
+        coordinates = []
+        for coordinate in coordinatesonArray! {
+            coordinates.append(SCNVector3Make(coordinate[0] as! Float,coordinate[1] as! Float,coordinate[2] as! Float))
+        }
+        drawPreview()
+    }
+    
+    func drawPreview(){
+        let minX = coordinates.min { a, b in a.x < b.x }?.x
+        let minY = coordinates.min { a, b in a.y < b.y }?.y
+        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+        let maxY = (coordinates.max { a, b in a.y < b.y }?.y)! - minY!
         
+        PreviewBoard.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        shape = CAShapeLayer()
+        PreviewBoard.layer.addSublayer(shape)
+        shape.opacity = 0.5
+        shape.lineWidth = 4
+        shape.lineJoin = kCALineJoinMiter
+        shape.strokeColor = UIColor.gray.cgColor
+        shape.fillColor = UIColor(hue: 0, saturation: 0, brightness: 0.7, alpha: 1).cgColor
+        
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 128 / maxX).rounded())), y: Int(((coordinates[0].y - minY!) * 128 / maxY).rounded())))
+        
+        
+        
+        for coordinate in coordinates {
+            print("x: \((Int(((coordinate.x - minX!) * 128 / maxX).rounded()))), y: \((Int(((coordinate.y - minY!) * 128 / maxY).rounded())))")
+            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 128 / maxX).rounded())), y: (Int(((coordinate.y - minY!) * 128 / maxY).rounded()))))
+            
+        }
+        path.close()
+        shape.path = path.cgPath
+        
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return PreviewBoard
     }
     
     @IBAction func wallpaperButton(_ sender: Any) {
@@ -47,6 +112,8 @@ class WallPlanController : UIViewController{
             labelInfo.numberOfLines = 4
             self.view.addSubview(labelInfo)
             self.view.addSubview(label)
+            let image = self.resizeImage(image: UIImage(named: "wallpaper.png")!, newWidth: 10)
+            self.shape.fillColor = UIColor(patternImage: image).cgColor
             print("SELECTED tile button")
         }
         print(button.isSelected)
@@ -81,6 +148,8 @@ class WallPlanController : UIViewController{
             labelInfo.numberOfLines = 4
             self.view.addSubview(labelInfo)
             self.view.addSubview(label)
+            let image = self.resizeImage(image: UIImage(named: "paint.png")!, newWidth: 10)
+            self.shape.fillColor = UIColor(patternImage: image).cgColor
             print("STONE BUTTON IS SELECTED")
         }
     }
@@ -114,6 +183,8 @@ class WallPlanController : UIViewController{
             labelInfo.numberOfLines = 4
             self.view.addSubview(labelInfo)
             self.view.addSubview(label)
+            let image = self.resizeImage(image: UIImage(named: "brick.png")!, newWidth: 10)
+            self.shape.fillColor = UIColor(patternImage: image).cgColor
             print("SELECTED tile button")
         }
     }

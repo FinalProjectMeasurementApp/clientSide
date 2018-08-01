@@ -69,9 +69,10 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
                 fatalError(error.localizedDescription)
             }
             
-            let toHome = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
-            self.navigationController?.pushViewController(toHome, animated: true)
+
         }
+        let toHome = self.storyboard?.instantiateViewController(withIdentifier: "HomeId") as! HomeController
+        self.navigationController?.pushViewController(toHome, animated: true)
     }
     
     func drawPreviewVertical() {
@@ -273,9 +274,14 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         task.resume()
     }
     func submitModel(post: Model,completion:((Error?)-> Void)?){
-        let modelName = UserDefaults.standard.string(forKey:"modelName")
-        let cameraType = UserDefaults.standard.string(forKey: "cameraType")
-        let currentUser = UserDefaults.standard.string(forKey : "currentUserId")
+        var modelName:String = ""
+        modelName = UserDefaults.standard.string(forKey:"modelName")!
+        print(modelName)
+        var cameraType:String = ""
+        cameraType = UserDefaults.standard.string(forKey: "cameraType")!
+        var currentUser:String = ""
+        print(cameraType)
+        currentUser = UserDefaults.standard.string(forKey : "currentUserId")!
         print(modelName)
         
         
@@ -301,7 +307,7 @@ class ImagePreviewController : UIViewController, UIScrollViewDelegate {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("Client-ID f65203f7020dddc", forHTTPHeaderField: "Authorization")
         
-        let dataBody = createDataBody(withParameters: parameters as! Parameters, media: [mediaImage], boundary: boundary)
+        let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
         request.httpBody = dataBody
         
         let session = URLSession.shared
