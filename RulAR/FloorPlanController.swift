@@ -8,19 +8,88 @@
 
 import Foundation
 import UIKit
+import SceneKit
 
-class FloorPlanController : UIViewController{
+
+class FloorPlanController : UIViewController, UIScrollViewDelegate{
+    var shape : CAShapeLayer!
+    
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(newWidth, newHeight))
+        image.draw(in: CGRect(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
     var area = 0
     let button = UIButton()
     let label = UILabel()
     let labelInfo = UILabel()
+    var coordinatesonArray = UserDefaults.standard.array(forKey: "coordinates") as? [Array<Any>]
+    var coordinates : [SCNVector3]!
+    
+    @IBOutlet weak var PreviewScroll: UIScrollView!
+    
+    @IBOutlet weak var PreviewBoard: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        PreviewScroll.delegate = self
+        PreviewScroll.minimumZoomScale = 1.0
+        PreviewScroll.maximumZoomScale = 10.0
+        PreviewScroll.alwaysBounceVertical = true
+        PreviewScroll.isScrollEnabled = true
+        coordinates = []
+        for coordinate in coordinatesonArray! {
+            coordinates.append(SCNVector3Make(coordinate[0] as! Float,coordinate[1] as! Float,coordinate[2] as! Float))
+        }
+        drawPreview()
+    }
+    
+    func drawPreview(){
+        let minX = coordinates.min { a, b in a.x < b.x }?.x
+        let minY = coordinates.min { a, b in a.z < b.z }?.z
+        let maxX = (coordinates.max { a, b in a.x < b.x }?.x)! - minX!
+        let maxY = (coordinates.max { a, b in a.z < b.z }?.z)! - minY!
         
+        PreviewBoard.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        
+        shape = CAShapeLayer()
+        PreviewBoard.layer.addSublayer(shape)
+        shape.opacity = 0.5
+        shape.lineWidth = 4
+        shape.lineJoin = kCALineJoinMiter
+        shape.strokeColor = UIColor.gray.cgColor
+        shape.fillColor = UIColor(hue: 0, saturation: 0, brightness: 0.7, alpha: 1).cgColor
+        
+        let path = UIBezierPath()
+        
+        path.move(to: CGPoint(x: (Int(((coordinates[0].x - minX!) * 128 / maxX).rounded())), y: Int(((coordinates[0].z - minY!) * 128 / maxY).rounded())))
+
+        
+        
+        for coordinate in coordinates {
+            print("x: \((Int(((coordinate.x - minX!) * 128 / maxX).rounded()))), y: \((Int(((coordinate.z - minY!) * 128 / maxY).rounded())))")
+            path.addLine(to: CGPoint(x: (Int(((coordinate.x - minX!) * 128 / maxX).rounded())), y: (Int(((coordinate.z - minY!) * 128 / maxY).rounded()))))
+            
+        }
+        path.close()
+        shape.path = path.cgPath
+        
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return PreviewBoard
     }
     
     @IBAction func woodButton(_ sender: Any) {
         button.isSelected = true
+        
         
         if button.isSelected == true {
             label.frame = CGRect(x: 22, y: 253, width: 100, height: 140)
@@ -43,6 +112,8 @@ class FloorPlanController : UIViewController{
             self.view.addSubview(label)
             self.view.addSubview((labelInfo))
             self.view.addSubview(label)
+            let image = self.resizeImage(image: UIImage(named: "wood.png")!, newWidth: 10)
+            self.shape.fillColor = UIColor(patternImage: image).cgColor
         }
         print(button.isSelected)
     }
@@ -72,6 +143,8 @@ class FloorPlanController : UIViewController{
             
             self.view.addSubview((labelInfo))
             self.view.addSubview(label)
+            let image = self.resizeImage(image: UIImage(named: "tile.png")!, newWidth: 10)
+            self.shape.fillColor = UIColor(patternImage: image).cgColor
             print("SELECTED tile button")
         }
     }
@@ -101,6 +174,8 @@ class FloorPlanController : UIViewController{
                 labelInfo.numberOfLines = 4
                 self.view.addSubview(label)
                 self.view.addSubview((labelInfo))
+            let image = self.resizeImage(image: UIImage(named: "stone.png")!, newWidth: 10)
+            self.shape.fillColor = UIColor(patternImage: image).cgColor
             print("STONE BUTTON IS SELECTED")
         }
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SceneKit
 let detailLabel = UILabel()
 
 
@@ -18,11 +19,14 @@ class imageDetailController : UIViewController{
     
     @IBOutlet weak var floorButton: UIButton!
     
+    var coordinates = UserDefaults.standard.array(forKey: "coordinates") as? [Array<Any>]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let shapeArea = UserDefaults.standard.string(forKey: "shapeArea")
         let shapeName = UserDefaults.standard.string(forKey: "shapeName")
         let shapeType = UserDefaults.standard.string(forKey: "shapeType")
+        print(coordinates!)
         
         if shapeType == "floor"{
             wallButton.isHidden = true
