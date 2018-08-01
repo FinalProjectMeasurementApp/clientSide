@@ -19,6 +19,7 @@ struct Shape: Decodable{
     let createdAt: String
     let updatedAt: String
     let type: String
+    let coordinates: [SCNVector3]
 }
 
 
@@ -38,6 +39,7 @@ class HomeController : UIViewController, UIScrollViewDelegate{
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var homeView: UIView!
+    var coordinates: [SCNVector3]!
     
     
     var shapeData: [Shape] = []
@@ -74,7 +76,6 @@ class HomeController : UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var wallPlannerButton: UIButton!
     
     @IBOutlet weak var floorPlannerButton: UIButton!
-    
     override func viewDidLoad() {
         scrollView.delegate = self
         scrollView.alwaysBounceVertical = true
@@ -166,13 +167,23 @@ class HomeController : UIViewController, UIScrollViewDelegate{
         }
         
     }
+    
 
     @IBAction func previewShape(_ sender:subclassedUIButton!) {
         UserDefaults.standard.set(sender.shapeArea,forKey:"shapeArea")
         UserDefaults.standard.set(sender.shapeType, forKey:"shapeType")
         UserDefaults.standard.set(sender.shapeName, forKey:"shapeName")
         UserDefaults.standard.set(sender.shapeUrl, forKey:"shapeUrl")
-
+        
+        let addCoordinates = shapeData[sender.tag].coordinates
+        var getAllCoordinates:Array<Any>
+        getAllCoordinates = []
+        for coordinate in addCoordinates {
+            getAllCoordinates.append([coordinate.x,coordinate.y,coordinate.z])
+        }
+        
+        UserDefaults.standard.set(getAllCoordinates, forKey: "coordinates")
+        
         let toDetail = self.storyboard?.instantiateViewController(withIdentifier: "imageDetail") as! imageDetailController
         
         self.navigationController?.pushViewController(toDetail, animated: true)
