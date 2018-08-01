@@ -626,7 +626,6 @@
                                 <rect key="frame" x="160" y="381" width="55" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logotext.png" id="6Lp-vU-X3v">
@@ -652,7 +651,7 @@
         <image name="addFloorPlan.png" width="491" height="271"/>
         <image name="addWallPlan.png" width="491" height="271"/>
         <image name="background.png" width="1242" height="2208"/>
-        <image name="brick.png" width="100" height="100"/>
+        <image name="brick.png" width="200" height="200"/>
         <image name="button2.png" width="600" height="161"/>
         <image name="floorPlanner.png" width="491" height="271"/>
         <image name="focus_square.png" width="1070" height="1952"/>
@@ -661,12 +660,12 @@
         <image name="inputUsername.png" width="1242" height="2208"/>
         <image name="logotext.png" width="370" height="164"/>
         <image name="orangeButton.png" width="817" height="283"/>
-        <image name="paint.png" width="100" height="100"/>
+        <image name="paint.png" width="200" height="200"/>
         <image name="saveModel.png" width="491" height="271"/>
-        <image name="stone.png" width="100" height="100"/>
-        <image name="tile.png" width="100" height="100"/>
+        <image name="stone.png" width="250" height="250"/>
+        <image name="tile.png" width="894" height="894"/>
         <image name="wallPlanner.png" width="491" height="271"/>
-        <image name="wallpaper.png" width="100" height="100"/>
-        <image name="wood.png" width="100" height="100"/>
+        <image name="wallpaper.png" width="200" height="200"/>
+        <image name="wood.png" width="200" height="200"/>
     </resources>
 </document>
